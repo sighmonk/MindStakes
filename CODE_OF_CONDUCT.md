@@ -24,6 +24,6 @@ This code of conduct applies in all project spaces: issues, pull requests, discu
 
 ## Reporting and enforcement
 
-Report unacceptable behaviour privately to the maintainer through the contact options on [github.com/6ajmon](https://github.com/6ajmon). Reports are reviewed promptly and handled confidentially. Maintainers may edit or remove comments, commits, issues and pull requests, and may temporarily or permanently ban contributors whose behaviour they consider inappropriate, threatening or harmful.
+Report unacceptable behaviour privately to the maintainer through the contact options on [github.com/sighmonk](https://github.com/sighmonk). Reports are reviewed promptly and handled confidentially. Maintainers may edit or remove comments, commits, issues and pull requests, and may temporarily or permanently ban contributors whose behaviour they consider inappropriate, threatening or harmful.
 
 This document is inspired by the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.1.
