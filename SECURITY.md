@@ -8,7 +8,7 @@ Only the latest release and the current `main` branch are supported. Fixes are n
 
 Please **do not** open a public issue for security problems.
 
-Use GitHub's private vulnerability reporting: <https://github.com/6ajmon/MindStakes/security/advisories/new>. Include:
+Use GitHub's private vulnerability reporting: <https://github.com/sighmonk/MindStakes/security/advisories/new>. Include:
 
 - the affected version or commit,
 - steps to reproduce,

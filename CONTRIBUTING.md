@@ -14,7 +14,7 @@ Assets (images, audio) are stored with Git LFS, so install LFS **before** clonin
 
 ```powershell
 git lfs install
-git clone https://github.com/6ajmon/MindStakes.git
+git clone https://github.com/sighmonk/MindStakes.git
 ```
 
 ## Build and run

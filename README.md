@@ -2,8 +2,8 @@
 
 # MindStakes
 
-[![CI](https://github.com/6ajmon/MindStakes/actions/workflows/ci.yml/badge.svg)](https://github.com/6ajmon/MindStakes/actions/workflows/ci.yml)
-[![Godot export](https://github.com/6ajmon/MindStakes/actions/workflows/godot-export.yml/badge.svg)](https://github.com/6ajmon/MindStakes/actions/workflows/godot-export.yml)
+[![CI](https://github.com/sighmonk/MindStakes/actions/workflows/ci.yml/badge.svg)](https://github.com/sighmonk/MindStakes/actions/workflows/ci.yml)
+[![Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml/badge.svg)](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Godot 4.6.1 .NET](https://img.shields.io/badge/Godot-4.6.1%20.NET-478cbf?logo=godotengine&logoColor=white)](https://godotengine.org)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512bd4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
@@ -159,7 +159,7 @@ What I want to add:
 
 # Download
 
-Every tagged release ships prebuilt Windows and Linux builds. Each push to `main` also produces downloadable build artifacts in the [Godot export](https://github.com/6ajmon/MindStakes/actions/workflows/godot-export.yml) workflow.
+Every tagged release ships prebuilt Windows and Linux builds. Each push to `main` also produces downloadable build artifacts in the [Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml) workflow.
 
 # Building from source
 
@@ -171,7 +171,7 @@ Requirements:
 
 ```powershell
 git lfs install
-git clone https://github.com/6ajmon/MindStakes.git
+git clone https://github.com/sighmonk/MindStakes.git
 cd MindStakes
 dotnet build MindStakes.sln
 ```
