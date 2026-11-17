@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://b13r4pchtbgtn"]
+
+[ext_resource type="Theme" uid="uid://befyp5hugoswj" path="res://Assets/Themes/MainTheme.tres" id="1_so841"]
+[ext_resource type="PackedScene" uid="uid://gvqucvlox5kx" path="res://Source/Components/ShaderedBackground/ShaderedBackground.tscn" id="2_kju2x"]
+[ext_resource type="Shader" uid="uid://b285ljrn3wrt7" path="res://Source/Shaders/Perspective.gdshader" id="3_c2qje"]
+[ext_resource type="Script" uid="uid://cyjgfwlnulaod" path="res://Source/Shaders/PerspectiveShader.cs" id="4_jjbmj"]
+[ext_resource type="PackedScene" uid="uid://bhv0mk0v5xf3p" path="res://Source/Components/TeamCard/TeamCard.tscn" id="5_kju2x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jf3j"]
+bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.7607843)
+border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uofdg"]
+shader = ExtResource("3_c2qje")
+shader_parameter/max_skew = 0.008
+shader_parameter/hover_intensity = 0.6
+shader_parameter/idle_wobble_speed = 0.8
+shader_parameter/idle_wobble_amount = 0.004
+shader_parameter/scale_on_hover = 1.10000000475
+shader_parameter/mouse_pos = Vector2(0.5, 0.5)
+shader_parameter/is_hovered = false
+shader_parameter/time = 0.0
+
+[node name="PosterScreen" type="Control" unique_id=596475220]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_so841")
+
+[node name="Panel2" parent="." unique_id=945064536 instance=ExtResource("2_kju2x")]
+layout_mode = 1
+
+[node name="Panel" type="Panel" parent="." unique_id=1310670942]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_so841")
+theme_override_styles/panel = SubResource("StyleBoxFlat_3jf3j")
+
+[node name="PanelContainer" type="MarginContainer" parent="Panel" unique_id=638341755]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_so841")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer" unique_id=1239650069]
+layout_mode = 2
+theme = ExtResource("1_so841")
+
+[node name="PanelContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=357408953]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_so841")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2" unique_id=1251804853]
+layout_mode = 2
+theme = ExtResource("1_so841")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer" unique_id=1827020884]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer" unique_id=1658735269]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Zapraszam was na
+Teleturniej"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer" unique_id=1848699270]
+material = SubResource("ShaderMaterial_uofdg")
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("1_so841")
+theme_type_variation = &"Heading"
+theme_override_font_sizes/font_size = 256
+text = "MIND STAKES"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+script = ExtResource("4_jjbmj")
+
+[node name="ButtonsContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=2015740711]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_so841")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer" unique_id=381564810]
+layout_mode = 2
+theme = ExtResource("1_so841")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=651253145]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="GridContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer" unique_id=61341537]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = ExtResource("1_so841")
+
+[node name="TeamCard" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer" unique_id=1019438172 instance=ExtResource("5_kju2x")]
+layout_mode = 2
+script = null
+
+[node name="TeamNameLineEdit" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(1019438172, 2042228522) index="0" unique_id=230259208]
+text = "TEAM 1"
+
+[node name="PictureFrame" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard/VBoxContainer/Panel/MarginContainer" parent_id_path=PackedInt32Array(1019438172, 119939761) index="0" unique_id=1694836712]
+self_modulate = Color(0, 1, 0, 1)
+
+[node name="TeamCard2" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer" unique_id=1194357782 instance=ExtResource("5_kju2x")]
+layout_mode = 2
+script = null
+
+[node name="TeamNameLineEdit" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard2/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(1194357782, 2042228522) index="0" unique_id=230259208]
+text = "TEAM 2"
+
+[node name="PictureFrame" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard2/VBoxContainer/Panel/MarginContainer" parent_id_path=PackedInt32Array(1194357782, 119939761) index="0" unique_id=1694836712]
+self_modulate = Color(1, 1, 0, 1)
+
+[node name="HBoxContainer3" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=1327922382]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_so841")
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 32
+
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/HBoxContainer3" unique_id=1846792202]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 72
+text = "Drugi w kolejności teleturniej
+Aula, start o 22:30
+4 drużyny po 4 osoby*
+Zapisy na discordzie"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=332483646]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="GridContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2" unique_id=1780106945]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = ExtResource("1_so841")
+
+[node name="TeamCard2" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer" unique_id=1550737288 instance=ExtResource("5_kju2x")]
+layout_mode = 2
+script = null
+
+[node name="TeamNameLineEdit" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard2/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(1550737288, 2042228522) index="0" unique_id=230259208]
+text = "TEAM 3"
+
+[node name="PictureFrame" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard2/VBoxContainer/Panel/MarginContainer" parent_id_path=PackedInt32Array(1550737288, 119939761) index="0" unique_id=1694836712]
+self_modulate = Color(1, 0, 0, 1)
+
+[node name="TeamCard3" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer" unique_id=1416223556 instance=ExtResource("5_kju2x")]
+layout_mode = 2
+script = null
+
+[node name="TeamNameLineEdit" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard3/VBoxContainer/MarginContainer" parent_id_path=PackedInt32Array(1416223556, 2042228522) index="0" unique_id=230259208]
+text = "TEAM 4"
+
+[node name="PictureFrame" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard3/VBoxContainer/Panel/MarginContainer" parent_id_path=PackedInt32Array(1416223556, 119939761) index="0" unique_id=1694836712]
+self_modulate = Color(0, 0, 1, 1)
+
+[editable path="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard"]
+[editable path="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer/TeamCard2"]
+[editable path="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard2"]
+[editable path="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/HBoxContainer/TeamCard3"]

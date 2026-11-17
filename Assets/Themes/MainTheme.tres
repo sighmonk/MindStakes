@@ -1,7 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://befyp5hugoswj"]
 
 [ext_resource type="StyleBox" uid="uid://chvmgr1l7vgew" path="res://Assets/Themes/ButtonTheme.tres" id="1_dgwre"]
-[ext_resource type="FontFile" uid="uid://bqvbys0l5g1y3" path="res://Assets/Fonts/font.tres" id="1_uuho2"]
+[ext_resource type="FontFile" uid="uid://djci2kcb3p0ck" path="res://Assets/Fonts/YesevaOne/YesevaOne-Regular.ttf" id="1_yeseva"]
+[ext_resource type="FontFile" uid="uid://cuic01ffv5x58" path="res://Assets/Fonts/CormorantUnicase/CormorantUnicase-Bold.ttf" id="3_ctiby"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tls6f"]
 bg_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
@@ -132,7 +133,7 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [resource]
-default_font = ExtResource("1_uuho2")
+default_font = ExtResource("3_ctiby")
 default_font_size = 32
 Button/styles/hover = SubResource("StyleBoxFlat_tls6f")
 Button/styles/normal = ExtResource("1_dgwre")
@@ -151,6 +152,10 @@ ColorPickerButton/styles/focus = SubResource("StyleBoxFlat_ctiby")
 ColorPickerButton/styles/hover = SubResource("StyleBoxFlat_7lden")
 ColorPickerButton/styles/normal = SubResource("StyleBoxFlat_5hqvo")
 ColorPickerButton/styles/pressed = SubResource("StyleBoxFlat_lvlbj")
+Heading/base_type = &"Label"
+Heading/fonts/font = ExtResource("1_yeseva")
+HeadingButton/base_type = &"Button"
+HeadingButton/fonts/font = ExtResource("1_yeseva")
 Panel/styles/panel = SubResource("StyleBoxFlat_1of73")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_uuho2")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_05uw2")

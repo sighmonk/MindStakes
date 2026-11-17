@@ -5,4 +5,3 @@
 [node name="GameManager" type="Node" unique_id=2062692477]
 script = ExtResource("1_itnt6")
 MaxRounds = 28
-IsShaderedBackgroundEnabled = false

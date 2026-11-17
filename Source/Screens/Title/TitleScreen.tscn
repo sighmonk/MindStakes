@@ -102,6 +102,7 @@ material = SubResource("ShaderMaterial_uofdg")
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_3h2fp")
+theme_type_variation = &"Heading"
 theme_override_font_sizes/font_size = 256
 text = "MIND STAKES"
 horizontal_alignment = 1
