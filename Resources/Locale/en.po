@@ -256,3 +256,61 @@ msgstr "Could not import the configuration."
 
 msgid "CONFIG_EXPORT_FAILED"
 msgstr "Could not write the configuration archive."
+
+# Question filters (creator)
+msgid "FILTER_SEARCH"
+msgstr "Search question text"
+
+msgid "FILTER_RESET"
+msgstr "Clear filters"
+
+msgid "FILTER_ALL_CATEGORIES"
+msgstr "All categories"
+
+msgid "FILTER_ALL_DIFFICULTIES"
+msgstr "All difficulties"
+
+msgid "FILTER_ALL_TYPES"
+msgstr "All types"
+
+msgid "FILTER_ALL_MODES"
+msgstr "All modes"
+
+msgid "FILTER_CATEGORY"
+msgstr "Category"
+
+msgid "FILTER_DIFFICULTY"
+msgstr "Difficulty"
+
+msgid "FILTER_TYPE"
+msgstr "Type"
+
+msgid "FILTER_MODE"
+msgstr "Mode"
+
+# Creator media and dialogs
+msgid "Video"
+msgstr "Video"
+
+msgid "MEDIA"
+msgstr "Media"
+
+# Question screen timer
+msgid "TIMER_RESET"
+msgstr "START / RESET"
+
+# Team screens
+msgid "[b]TEAM SCORES[/b]"
+msgstr "[b]TEAM SCORES[/b]"
+
+msgid "TEAM EDIT"
+msgstr "TEAM EDIT"
+
+msgid "TEAM 2"
+msgstr "TEAM 2"
+
+msgid "TEAM 3"
+msgstr "TEAM 3"
+
+msgid "TEAM 4"
+msgstr "TEAM 4"

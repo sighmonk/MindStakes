@@ -22,6 +22,7 @@ public partial class CreatorScreen : Control
     [Export] public Button NewButton { get; set; }
     [Export] public PackedScene MusicPlayerScene { get; set; }
     [Export] public Tree QuestionsExplorerTree { get; set; }
+    [Export] public QuestionFilterPanel FilterPanel { get; set; }
     [Export] public QuestionMetadataPanel MetadataPanel { get; set; }
     [Export] public FileDialog ImageFileDialog { get; set; }
     [Export] public FileDialog AudioFileDialog { get; set; }
@@ -40,6 +41,7 @@ public partial class CreatorScreen : Control
     private bool _isQuestionsExplorerSplitResizeConnected;
     private ItemList _questionsFolderItemList;
     private readonly List<string> _currentFolderQuestionPaths = new();
+    private readonly Dictionary<string, Question> _questionCache = new();
     private string _openedFolderPath;
     private string _selectedQuestionPath;
 
@@ -50,8 +52,32 @@ public partial class CreatorScreen : Control
         BindFileDialogs();
         BindUiEvents();
         SetupQuestionsExplorer();
+        BindFilterPanel();
         RefreshQuestionsExplorer();
         ResetForm();
+    }
+
+    private void BindFilterPanel()
+    {
+        if (FilterPanel != null)
+        {
+            FilterPanel.FiltersChanged += OnFiltersChanged;
+        }
+
+        if (MetadataPanel != null)
+        {
+            MetadataPanel.MetadataChanged += OnMetadataChanged;
+        }
+    }
+
+    private void OnFiltersChanged()
+    {
+        RefreshQuestionsExplorer();
+    }
+
+    private void OnMetadataChanged()
+    {
+        FilterPanel?.RefreshOptions();
     }
 
     private void LoadExistingCategories()
@@ -95,6 +121,11 @@ public partial class CreatorScreen : Control
         if (VideoFileDialog != null)
         {
             VideoFileDialog.FileSelected += OnVideoFileSelected;
+        }
+
+        if (MediaErrorDialog != null)
+        {
+            MediaErrorDialog.Title = Tr("MEDIA");
         }
     }
 
@@ -241,34 +272,27 @@ public partial class CreatorScreen : Control
             entry = rootDir.GetNext();
         }
 
+        var filterActive = FilterPanel != null && FilterPanel.HasActiveFilter;
+
         foreach (var poolDirectory in poolDirectories.OrderBy(GetPoolNumberFromName))
         {
-            var poolItem = QuestionsExplorerTree.CreateItem(root);
-            poolItem.SetText(0, poolDirectory);
-
             var poolPath = $"{questionsRootPath}/{poolDirectory}";
-            poolItem.SetMetadata(0, poolPath);
-            poolItem.Collapsed = poolPath != preservedFolderPath;
+            var questionFiles = GetQuestionFiles(poolPath)
+                .Where(file => MatchesFilters($"{poolPath}/{file}"))
+                .OrderBy(GetQuestionFileNumber)
+                .ToList();
 
-            var poolDir = DirAccess.Open(poolPath);
-            if (poolDir == null)
+            if (filterActive && questionFiles.Count == 0)
             {
                 continue;
             }
 
-            var questionFiles = new List<string>();
-            poolDir.ListDirBegin();
-            var poolEntry = poolDir.GetNext();
-            while (!string.IsNullOrEmpty(poolEntry))
-            {
-                if (!poolDir.CurrentIsDir() && poolEntry.EndsWith(".tres") && !poolEntry.EndsWith(".import"))
-                {
-                    questionFiles.Add(poolEntry);
-                }
-                poolEntry = poolDir.GetNext();
-            }
+            var poolItem = QuestionsExplorerTree.CreateItem(root);
+            poolItem.SetText(0, poolDirectory);
+            poolItem.SetMetadata(0, poolPath);
+            poolItem.Collapsed = !filterActive && poolPath != preservedFolderPath;
 
-            foreach (var questionFile in questionFiles.OrderBy(GetQuestionFileNumber))
+            foreach (var questionFile in questionFiles)
             {
                 var questionItem = QuestionsExplorerTree.CreateItem(poolItem);
                 questionItem.SetText(0, questionFile);
@@ -410,13 +434,29 @@ public partial class CreatorScreen : Control
         _questionsFolderItemList.Clear();
         _currentFolderQuestionPaths.Clear();
 
+        var filterActive = FilterPanel != null && FilterPanel.HasActiveFilter;
+
+        foreach (var questionFile in GetQuestionFiles(folderPath)
+                     .Where(file => MatchesFilters($"{folderPath}/{file}"))
+                     .OrderBy(GetQuestionFileNumber))
+        {
+            var questionPath = $"{folderPath}/{questionFile}";
+            _questionsFolderItemList.AddItem(filterActive
+                ? $"{questionFile} · {LoadQuestionFromDisk(questionPath)?.QuestionText ?? string.Empty}"
+                : questionFile);
+            _currentFolderQuestionPaths.Add(questionPath);
+        }
+    }
+
+    private static List<string> GetQuestionFiles(string folderPath)
+    {
+        var questionFiles = new List<string>();
         var dir = DirAccess.Open(folderPath);
         if (dir == null)
         {
-            return;
+            return questionFiles;
         }
 
-        var questionFiles = new List<string>();
         dir.ListDirBegin();
         var entry = dir.GetNext();
         while (!string.IsNullOrEmpty(entry))
@@ -428,11 +468,33 @@ public partial class CreatorScreen : Control
             entry = dir.GetNext();
         }
 
-        foreach (var questionFile in questionFiles.OrderBy(GetQuestionFileNumber))
+        return questionFiles;
+    }
+
+    private bool MatchesFilters(string questionPath)
+    {
+        if (FilterPanel == null || !FilterPanel.HasActiveFilter)
         {
-            _questionsFolderItemList.AddItem(questionFile);
-            _currentFolderQuestionPaths.Add($"{folderPath}/{questionFile}");
+            return true;
         }
+
+        return FilterPanel.Matches(LoadQuestionFromDisk(questionPath));
+    }
+
+    private Question LoadQuestionFromDisk(string questionPath)
+    {
+        if (_questionCache.TryGetValue(questionPath, out var cached))
+        {
+            return cached;
+        }
+
+        var question = ResourceLoader.Load(questionPath, string.Empty, ResourceLoader.CacheMode.Reuse) as Question;
+        if (question != null)
+        {
+            _questionCache[questionPath] = question;
+        }
+
+        return question;
     }
 
     private void OnFolderListItemActivated(long index)
@@ -475,6 +537,7 @@ public partial class CreatorScreen : Control
         _selectedQuestionPath = questionPath;
         _editingQuestionPath = questionPath;
         _editingQuestionId = question.EnsureStableId();
+        _questionCache[questionPath] = question;
         SaveButton.Text = Tr("UPDATE");
 
         QuestionLineEdit.Text = question.QuestionText ?? string.Empty;
@@ -756,6 +819,7 @@ public partial class CreatorScreen : Control
 
         _openedFolderPath = poolPath;
         _selectedQuestionPath = savePath;
+        _questionCache[savePath] = question;
 
         GD.Print($"Question saved to {savePath}");
         RefreshQuestionsExplorer();

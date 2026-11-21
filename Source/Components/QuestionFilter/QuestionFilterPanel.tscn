@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cudre0s35dbta"]
+
+[ext_resource type="Script" uid="uid://b8mi1uetyggi7" path="res://Source/Components/QuestionFilter/QuestionFilterPanel.cs" id="1_p5el0"]
+
+[node name="QuestionFilterPanel" type="VBoxContainer" unique_id=1719277574 node_paths=PackedStringArray("SearchEdit", "ResetButton", "CategoryOption", "DifficultyOption", "TypeOption", "ModeOption")]
+theme_override_constants/separation = 12
+script = ExtResource("1_p5el0")
+SearchEdit = NodePath("SearchRow/SearchEdit")
+ResetButton = NodePath("SearchRow/ResetButton")
+CategoryOption = NodePath("OptionsRow/CategoryOption")
+DifficultyOption = NodePath("OptionsRow/DifficultyOption")
+TypeOption = NodePath("OptionsRow/TypeOption")
+ModeOption = NodePath("OptionsRow/ModeOption")
+
+[node name="SearchRow" type="HBoxContainer" parent="." unique_id=334741908]
+layout_mode = 2
+
+[node name="SearchEdit" type="LineEdit" parent="SearchRow" unique_id=1790700867]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+placeholder_text = "Search question text"
+
+[node name="ResetButton" type="Button" parent="SearchRow" unique_id=620440029]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Clear filters"
+
+[node name="OptionsRow" type="HFlowContainer" parent="." unique_id=1496386593]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+
+[node name="CategoryOption" type="OptionButton" parent="OptionsRow" unique_id=141927063]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+
+[node name="DifficultyOption" type="OptionButton" parent="OptionsRow" unique_id=1236743512]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+
+[node name="TypeOption" type="OptionButton" parent="OptionsRow" unique_id=1346267707]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+
+[node name="ModeOption" type="OptionButton" parent="OptionsRow" unique_id=289342075]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
