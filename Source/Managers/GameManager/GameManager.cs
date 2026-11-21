@@ -41,6 +41,21 @@ public partial class GameManager : Node
         TeamsManager.Instance.InitialTeam = TeamsManager.Instance.Teams[0];
     }
 
+    public void StartNewSession()
+    {
+        RoundCount = 0;
+        RerollCount = InitialRerollCount;
+        TeamsManager.Instance.ResetScores();
+        QuestionsManager.Instance.ResetUsedQuestions();
+        CategoriesManager.Instance.SetUpCategories();
+
+        if (TeamsManager.Instance.Teams.Count > 0)
+        {
+            TeamsManager.Instance.CurrentTeam = TeamsManager.Instance.Teams[0];
+            TeamsManager.Instance.InitialTeam = TeamsManager.Instance.Teams[0];
+        }
+    }
+
     public void NextRound()
     {
         RoundCount++;

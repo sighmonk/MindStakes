@@ -127,6 +127,15 @@ public partial class TeamsManager : Node
             team.CurrentBet = 0;
         }
     }
+
+    public void ResetScores()
+    {
+        foreach (var team in Teams)
+        {
+            team.Score = GameManager.Instance.StartingScore;
+            team.CurrentBet = 0;
+        }
+    }
     public void CycleToNextTeam()
     {
         if (Teams.Count == 0) return;

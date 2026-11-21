@@ -28,6 +28,7 @@ public partial class CreatorScreen : Control
     private Texture2D _selectedImage;
     private AudioStream _selectedAudio;
     private string _editingQuestionPath;
+    private string _editingQuestionId;
     private HSplitContainer _questionsExplorerSplit;
     private bool _isQuestionsExplorerSplitResizeConnected;
     private ItemList _questionsFolderItemList;
@@ -481,6 +482,7 @@ public partial class CreatorScreen : Control
 
         _selectedQuestionPath = questionPath;
         _editingQuestionPath = questionPath;
+        _editingQuestionId = question.EnsureStableId();
         SaveButton.Text = Tr("UPDATE");
 
         QuestionLineEdit.Text = question.QuestionText ?? string.Empty;
@@ -642,6 +644,7 @@ public partial class CreatorScreen : Control
 
         var question = new Question
         {
+            Id = _editingQuestionId ?? Question.CreateNewId(),
             QuestionText = QuestionLineEdit.Text.Trim(),
             AnswersText = BuildAnswers(),
             IsClosedQuestion = true,
@@ -831,6 +834,7 @@ public partial class CreatorScreen : Control
         Answer4LineEdit.Text = string.Empty;
         FunFactLineEdit.Text = string.Empty;
         _editingQuestionPath = null;
+        _editingQuestionId = null;
         SaveButton.Text = Tr("SAVE");
 
         _selectedImage = null;

@@ -91,7 +91,7 @@ A client-side game has to know the correct answer in order to reveal it, so anyo
 
 One game session consumes as many questions as `MaxRounds` (28 by default in `Source/Managers/GameManager/GameManager.tscn`), which is about 30 minutes per mode at the default answer time.
 
-The pool is reloaded from disk every time the game-mode screen is opened. Questions can therefore repeat across modes when one pool is shared by all of them. To play all three modes for 30 minutes each without repeats, use one pool per mode and select it in the game-mode screen:
+The pool is reloaded from disk every time the game-mode screen is opened, but questions already consumed in the current game session are skipped. Switching modes therefore does not repeat them; the consumed-question list is cleared only when a new game starts from the title screen. To play all three modes for 30 minutes each, use one pool per mode and select it in the game-mode screen:
 
 | Pool | Mode | Questions |
 |------|------|-----------|

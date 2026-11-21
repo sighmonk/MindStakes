@@ -19,6 +19,8 @@ public partial class CategoriesManager : Node
     }
     private void LoadCategories()
     {
+        Categories.Clear();
+
         var dir = DirAccess.Open("res://Resources/Categories");
         if (dir != null)
         {

@@ -40,6 +40,7 @@ public static class QuestionStorage
                 var question = GD.Load<Question>(filePath);
                 if (question != null)
                 {
+                    question.EnsureStableId();
                     files.Add((filePath, question));
                 }
             }
