@@ -10,7 +10,7 @@
 bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.73333335)
 border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 
-[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree")]
+[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree", "ImageFileDialog", "AudioFileDialog", "MediaErrorDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,6 +35,9 @@ SaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxC
 NewButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer3/NewButton")
 MusicPlayerScene = ExtResource("3_whnrv")
 QuestionsExplorerTree = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ScrollContainer/MarginContainer/Tree")
+ImageFileDialog = NodePath("ImageFileDialog")
+AudioFileDialog = NodePath("AudioFileDialog")
+MediaErrorDialog = NodePath("MediaErrorDialog")
 
 [node name="Panel2" parent="." unique_id=1689220254 instance=ExtResource("3_nfyey")]
 layout_mode = 1
@@ -391,3 +394,20 @@ theme = ExtResource("1_kk2el")
 [node name="NewButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer3" unique_id=1597814932]
 layout_mode = 2
 text = "NEW"
+
+[node name="ImageFileDialog" type="FileDialog" parent="." unique_id=1270025449]
+title = "Select image"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png ; PNG", "*.jpg, *.jpeg ; JPG/JPEG", "*.webp ; WEBP")
+use_native_dialog = true
+
+[node name="AudioFileDialog" type="FileDialog" parent="." unique_id=1633032733]
+title = "Select audio"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mp3 ; MP3", "*.wav ; WAV", "*.ogg ; OGG")
+use_native_dialog = true
+
+[node name="MediaErrorDialog" type="AcceptDialog" parent="." unique_id=2144034010]
+title = "Media"

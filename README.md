@@ -126,7 +126,11 @@ Media used by questions and the default team picture stay local, because they ar
 - `Assets/Media/Questions/Audio/` - audio attached to questions.
 - `Assets/Images/` - local default team picture (`kawal.jpg`) referenced by the team card scene.
 
-The Question Creator opens its file pickers in `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio`, so media picked there never lands in Git. Both folders are ignored. Question media still has to be a `res://` path so Godot can import it, which means it is packed into an exported build when it is present on the machine that exports the game.
+The Question Creator uses the operating system file picker, so a picture or a clip can come from anywhere on the disk. Selected files are copied into `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` when the project folder is writable (the editor or a source checkout); otherwise they go to `user://question_media`. Both locations are local-only and never land in Git.
+
+A question stores the copied media in `PhotoPath` and `AudioPath`. The game loads those paths from `res://`, `user://` or an absolute path, and falls back to the embedded `Photo`/`Audio` of older questions, so nothing has to be migrated.
+
+The creator scene owns the dialogs: `ImageFileDialog` and `AudioFileDialog` (`Access = Filesystem`, `UseNativeDialog = true`, `FileMode = Open File`, filters for PNG/JPG/WEBP and MP3/WAV/OGG) and `MediaErrorDialog` (`AcceptDialog`) for error messages. Assign them to the matching exports on `CreatorScreen` in the Inspector.
 
 # Question data
 Question sets are **not** part of this repository. Only the examples under `Resources/Examples/` are tracked:
