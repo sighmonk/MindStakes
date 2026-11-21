@@ -215,3 +215,15 @@ msgstr "Usuń"
 
 msgid "QUESTION_DIFFICULTY_NONE"
 msgstr "—"
+
+msgid "QUESTION_TYPE"
+msgstr "Typ pytania"
+
+msgid "QUESTION_TYPE_MULTIPLE_CHOICE"
+msgstr "Wielokrotny wybór"
+
+msgid "QUESTION_TYPE_TRUE_FALSE"
+msgstr "Prawda / fałsz"
+
+msgid "QUESTION_TYPE_OPEN_ENDED"
+msgstr "Otwarte"

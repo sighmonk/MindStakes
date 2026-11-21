@@ -10,6 +10,8 @@ public partial class QuestionMetadataPanel : VBoxContainer
     [Signal]
     public delegate void MetadataChangedEventHandler();
 
+    [Export] public Label TypeLabel { get; set; }
+    [Export] public OptionButton TypeOption { get; set; }
     [Export] public Label DifficultyLabel { get; set; }
     [Export] public OptionButton DifficultyOption { get; set; }
     [Export] public LineEdit NewLevelEdit { get; set; }
@@ -23,20 +25,35 @@ public partial class QuestionMetadataPanel : VBoxContainer
 
     public override void _Ready()
     {
+        TypeLabel.Text = Tr("QUESTION_TYPE");
         DifficultyLabel.Text = Tr("QUESTION_DIFFICULTY");
         ModesLabel.Text = Tr("QUESTION_MODES");
         NewLevelEdit.PlaceholderText = Tr("QUESTION_NEW_LEVEL");
         AddLevelButton.Text = Tr("QUESTION_ADD_LEVEL");
         RemoveLevelButton.Text = Tr("QUESTION_REMOVE_LEVEL");
 
+        BuildTypeOptions();
         ReloadLevels();
         BuildModeChecks();
 
+        TypeOption.ItemSelected += _ => EmitSignal(SignalName.MetadataChanged);
         DifficultyOption.ItemSelected += _ => EmitSignal(SignalName.MetadataChanged);
         AddLevelButton.Pressed += OnAddLevelPressed;
         RemoveLevelButton.Pressed += OnRemoveLevelPressed;
         NewLevelEdit.TextSubmitted += _ => OnAddLevelPressed();
     }
+
+    private void BuildTypeOptions()
+    {
+        TypeOption.Clear();
+        TypeOption.AddItem(Tr("QUESTION_TYPE_MULTIPLE_CHOICE"));
+        TypeOption.AddItem(Tr("QUESTION_TYPE_TRUE_FALSE"));
+        TypeOption.AddItem(Tr("QUESTION_TYPE_OPEN_ENDED"));
+        TypeOption.Select((int)Question.QuestionType.MultipleChoice);
+    }
+
+    public Question.QuestionType GetSelectedType() =>
+        (Question.QuestionType)TypeOption.Selected;
 
     private void BuildModeChecks()
     {
@@ -124,6 +141,8 @@ public partial class QuestionMetadataPanel : VBoxContainer
 
     public void LoadQuestion(Question question)
     {
+        TypeOption.Select((int)(question?.Type ?? Question.QuestionType.MultipleChoice));
+
         var difficulty = question?.Difficulty ?? string.Empty;
         if (!string.IsNullOrEmpty(difficulty) && !levels.Contains(difficulty))
         {
@@ -140,6 +159,7 @@ public partial class QuestionMetadataPanel : VBoxContainer
 
     public void ApplyTo(Question question)
     {
+        question.Type = GetSelectedType();
         question.Difficulty = GetSelectedDifficulty();
 
         foreach (var pair in modeChecks)

@@ -138,6 +138,18 @@ Every question can carry a difficulty label and the game modes it is meant for. 
 - Saving keeps `IsBettingGameQuestion`, `IsSabotageGameQuestion` and `IsFraudGameQuestion` in sync with the selected modes, so older builds and hand-written `.tres` files still read the question the same way. Questions saved before the metadata existed have an empty mode list and load unchanged.
 - `QuestionsManager` only offers questions the active mode accepts, and the validator warns about an unknown difficulty label or an unknown mode id.
 
+### Question types
+
+`Question.Type` selects how a question is asked and validated.
+
+| Type | Answers | Validation |
+|------|---------|------------|
+| `MultipleChoice` (default) | 4 | four answers, the first one is correct, no empty or duplicate text |
+| `TrueFalse` | 2 | exactly two answers, the first one is correct |
+| `OpenEnded` | 1 or more | the first answer is the reference answer, the rest are accepted answers |
+
+Questions saved before this field existed have no type and keep loading as `MultipleChoice`. The creator switches the type with the `Question type` option and only requires as many answer fields as the type needs. In the game the answer grid is hidden for open-ended questions until the host reveals the answers, so players never see the reference answer up front. The importer takes an optional `type` field (`multiple`, `truefalse`, `openended`).
+
 # Question data
 Question sets are **not** part of this repository. Only the examples under `Resources/Examples/` are tracked:
 
@@ -226,7 +238,7 @@ JSON is an array of objects with the same field names (camelCase works too):
 
 `category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths; keep those files under `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` so they stay out of Git. `fun_fact`, `image` and `audio` are optional.
 
-`difficulty` and `modes` are optional too. `modes` is a pipe-separated list of mode ids (`betting|sabotage|fraud`); an empty value means the question belongs to every mode, and the importer keeps the legacy per-mode flags in sync.
+`difficulty` and `modes` are optional too. `modes` is a pipe-separated list of mode ids (`betting|sabotage|fraud`); an empty value means the question belongs to every mode, and the importer keeps the legacy per-mode flags in sync. `type` accepts `multiple`, `truefalse` or `openended` and defaults to multiple choice.
 
 ## Validating pools
 

@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bm54k281ku6ew" path="res://Source/Components/QuestionMetadata/QuestionMetadataPanel.cs" id="1_bpj2f"]
 
-[node name="QuestionMetadataPanel" type="VBoxContainer" unique_id=1431749280 node_paths=PackedStringArray("DifficultyLabel", "DifficultyOption", "NewLevelEdit", "AddLevelButton", "RemoveLevelButton", "ModesLabel", "ModesContainer")]
+[node name="QuestionMetadataPanel" type="VBoxContainer" unique_id=1431749280 node_paths=PackedStringArray("TypeLabel", "TypeOption", "DifficultyLabel", "DifficultyOption", "NewLevelEdit", "AddLevelButton", "RemoveLevelButton", "ModesLabel", "ModesContainer")]
 script = ExtResource("1_bpj2f")
+TypeLabel = NodePath("TypeRow/TypeLabel")
+TypeOption = NodePath("TypeRow/TypeOption")
 DifficultyLabel = NodePath("DifficultyRow/DifficultyLabel")
 DifficultyOption = NodePath("DifficultyRow/DifficultyOption")
 NewLevelEdit = NodePath("LevelsRow/NewLevelEdit")
@@ -11,6 +13,17 @@ AddLevelButton = NodePath("LevelsRow/AddLevelButton")
 RemoveLevelButton = NodePath("LevelsRow/RemoveLevelButton")
 ModesLabel = NodePath("ModesRow/ModesLabel")
 ModesContainer = NodePath("ModesRow/ModesContainer")
+
+[node name="TypeRow" type="HBoxContainer" parent="." unique_id=1361261013]
+layout_mode = 2
+
+[node name="TypeLabel" type="Label" parent="TypeRow" unique_id=505624445]
+layout_mode = 2
+text = "Question type"
+
+[node name="TypeOption" type="OptionButton" parent="TypeRow" unique_id=1596729572]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="DifficultyRow" type="HBoxContainer" parent="." unique_id=1352787408]
 layout_mode = 2
