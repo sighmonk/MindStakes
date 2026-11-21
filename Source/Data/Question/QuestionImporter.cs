@@ -229,17 +229,14 @@ public static class QuestionImporter
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            yield break;
+            return Array.Empty<string>();
         }
 
-        foreach (var part in value.Split(new[] { '|', ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
-        {
-            var modeId = part.Trim().ToLowerInvariant();
-            if (GameModeRegistry.All.Any(mode => mode.Id == modeId))
-            {
-                yield return modeId;
-            }
-        }
+        return value
+            .Split(new[] { '|', ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(part => part.Trim().ToLowerInvariant())
+            .Where(modeId => GameModeRegistry.All.Any(mode => mode.Id == modeId))
+            .ToList();
     }
 
     private static void AddAnswer(Godot.Collections.Array<string> answers, string value)

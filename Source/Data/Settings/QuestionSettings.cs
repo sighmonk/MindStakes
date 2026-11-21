@@ -22,15 +22,11 @@ public static class QuestionSettings
         }
 
         var stored = config.GetValue(Section, LevelsKey, new string[0]).AsStringArray();
-        var levels = new List<string>();
-        foreach (var level in stored)
-        {
-            var trimmed = level?.Trim();
-            if (!string.IsNullOrEmpty(trimmed) && !levels.Contains(trimmed))
-            {
-                levels.Add(trimmed);
-            }
-        }
+        var levels = stored
+            .Select(level => level?.Trim())
+            .Where(level => !string.IsNullOrEmpty(level))
+            .Distinct()
+            .ToList();
 
         return levels.Count > 0 ? levels : new List<string>(DefaultDifficultyLevels);
     }
