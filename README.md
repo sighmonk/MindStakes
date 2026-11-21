@@ -91,7 +91,7 @@ godot --path "C:\Github\MindStakes"
 
 Start Godot (or the exported game) from that shell. The Question Creator writes new questions to the same folder, so nothing lands in `Resources/Questions` while it is set.
 
-If an external folder is not provided, the exported game seeds the examples into `user://`. If you keep data on `res://`, the files present on disk are packed into the exported game; either keep the data outside the project or add the folder to the export preset's *exclude filter*.
+If an external folder is not provided, the exported game seeds the examples into `user://`. The export presets already exclude `Resources/Questions/*` and `Resources/Categories/*`, so legacy local data is not packed into the game. If you keep data in another `res://` folder, add that folder to the export preset's *exclude filter*.
 
 A client-side game has to know the correct answer in order to reveal it, so anyone with full access to the machine running the game can recover the data. Keeping it out of the repository and out of the exported `.pck` is what prevents accidental disclosure.
 
