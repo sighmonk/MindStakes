@@ -5,6 +5,10 @@
 [ext_resource type="FontFile" uid="uid://cuic01ffv5x58" path="res://Assets/Fonts/CormorantUnicase/CormorantUnicase-Bold.ttf" id="3_ctiby"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tls6f"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 bg_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 border_width_left = 16
 border_width_top = 16
@@ -18,6 +22,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qgxi7"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 bg_color = Color(0.2188282, 0.2646619, 0.45866776, 1)
 border_width_left = 16
 border_width_top = 16
@@ -35,6 +43,10 @@ _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\">
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dgwre"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 bg_color = Color(0.55831474, 0.6120914, 0.6227807, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctiby"]
@@ -134,7 +146,13 @@ corner_radius_bottom_left = 16
 
 [resource]
 default_font = ExtResource("3_ctiby")
-default_font_size = 32
+default_font_size = 40
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 0.5)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 4
+Button/font_sizes/font_size = 40
 Button/styles/hover = SubResource("StyleBoxFlat_tls6f")
 Button/styles/normal = ExtResource("1_dgwre")
 Button/styles/pressed = SubResource("StyleBoxFlat_qgxi7")
@@ -152,6 +170,24 @@ ColorPickerButton/styles/focus = SubResource("StyleBoxFlat_ctiby")
 ColorPickerButton/styles/hover = SubResource("StyleBoxFlat_7lden")
 ColorPickerButton/styles/normal = SubResource("StyleBoxFlat_5hqvo")
 ColorPickerButton/styles/pressed = SubResource("StyleBoxFlat_lvlbj")
+CheckBox/font_sizes/font_size = 40
+CheckButton/font_sizes/font_size = 40
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 4
+Label/font_sizes/font_size = 40
+LineEdit/colors/font_color = Color(1, 1, 1, 1)
+LineEdit/colors/font_placeholder_color = Color(0.8, 0.8, 0.8, 0.7)
+LineEdit/font_sizes/font_size = 40
+OptionButton/font_sizes/font_size = 40
+PopupMenu/font_sizes/font_size = 36
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/bold_font_size = 44
+RichTextLabel/constants/normal_font_size = 40
+RichTextLabel/constants/outline_size = 4
+Tree/colors/font_color = Color(1, 1, 1, 1)
+Tree/font_sizes/font_size = 36
 Heading/base_type = &"Label"
 Heading/fonts/font = ExtResource("1_yeseva")
 HeadingButton/base_type = &"Button"
