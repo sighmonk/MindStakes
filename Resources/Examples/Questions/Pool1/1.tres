@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Question" load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://Resources/Examples/Categories/YouTubeEssay.tres" id="1"]
+[ext_resource type="Script" path="res://Source/Data/Question/Question.cs" id="2"]
+
+[resource]
+script = ExtResource("2")
+Id = "example-youtube-essay-mothman"
+QuestionText = "Jak nazywa się latająca kryptyda przypominająca dużego czarnego ptaka z czerwonymi oczami?"
+AnswersText = Array[String](["Mothman", "Blackbird", "Redeyes", "Black falcon"])
+Category = ExtResource("1")
+FunFact = "Mothman to zagadkowe stworzenie, które według relacji świadków miało pojawiać się w Wirginii Zachodniej, szczególnie w Point Pleasant, jesienią 1966 i na początku 1967 roku."

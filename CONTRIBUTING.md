@@ -40,12 +40,12 @@ The macOS build is produced on a macOS runner in CI. Building from Linux or Wind
 1. Open an issue (or pick an existing one) describing the change. Bug reports should include the Godot version, the OS, and steps to reproduce.
 2. Create a branch from `main` named `<type>/<short-description>`, for example `fix/score-reset` or `feature/category-importer`.
 3. Make the change, keep commits focused, and reference the issue in the pull request body (`Closes #12`).
-4. Open the pull request. CI must pass before it can be merged: the solution has to build and both Godot exports have to succeed.
+4. Open the pull request. CI must pass before it can be merged: the solution has to build and the Windows, Linux and macOS exports have to succeed.
 5. Do not push directly to `main`.
 
 ## Question data
 
-Questions are **not** part of the repository. Only the two-question sample pool (`Resources/Questions/Pool1/1.tres` and `2.tres`) is tracked, and CI fails if anything else under `Resources/Questions/Pool*` is committed. See [README.md](./README.md) for how to point the game at an external questions folder.
+Questions and categories are **not** part of the repository. Only the examples under `Resources/Examples/` are tracked, and CI fails if anything under `Resources/Questions/` or `Resources/Categories/` is committed. At runtime the game seeds those examples into `user://questions` and `user://categories`, or uses the folders from `--questions-dir` / `--categories-dir` and `MINDSTAKES_QUESTIONS_DIR` / `MINDSTAKES_CATEGORIES_DIR`. See [README.md](./README.md) for details.
 
 ## Scenes
 
@@ -63,7 +63,7 @@ If you contribute with an AI coding agent, note that [AGENTS.md](./AGENTS.md) fo
 
 - [ ] `dotnet build MindStakes.sln` passes.
 - [ ] The change is linked to an issue.
-- [ ] No question data (`.tres` under `Resources/Questions/Pool*`) is added to the repository.
+- [ ] No question or category data under `Resources/Questions/` or `Resources/Categories/` is added to the repository.
 - [ ] Documentation (`README.md`, this file) is updated when behaviour or setup changes.
 - [ ] Scenes, if any, were changed through the Godot editor.
 

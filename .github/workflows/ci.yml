@@ -42,15 +42,22 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Fail when question data is committed
+      - name: Fail when real question or category data is committed
         run: |
-          unexpected="$(git ls-files 'Resources/Questions/Pool*' | grep -v -E '^Resources/Questions/Pool1/(1|2)\.tres$' || true)"
+          unexpected="$(git ls-files 'Resources/Questions' 'Resources/Categories' || true)"
           if [ -n "$unexpected" ]; then
-            echo "::error::Question data must stay outside the repository. See README.md -> Question data."
+            echo "::error::Question and category data must stay outside the repository. See README.md -> Question data."
             printf '%s\n' "$unexpected"
             exit 1
           fi
-          echo "Only the sample pool is tracked."
+
+          examples="$(git ls-files 'Resources/Examples' || true)"
+          if [ -z "$examples" ]; then
+            echo "::error::Example questions and categories are missing from Resources/Examples."
+            exit 1
+          fi
+
+          echo "Only Resources/Examples is tracked."
 
   version-guard:
     name: Godot version guard

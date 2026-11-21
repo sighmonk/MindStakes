@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Question" load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://Resources/Examples/Categories/Anime.tres" id="1"]
+[ext_resource type="Script" path="res://Source/Data/Question/Question.cs" id="2"]
+
+[resource]
+script = ExtResource("2")
+Id = "example-anime-avdol"
+QuestionText = "Kim jest Muhammad Avdol?"
+AnswersText = Array[String](["Postacią z JoJo", "Postacią z One Piece", "Postacią z Naruto", "Postacią z Bleach"])
+Category = ExtResource("1")
+FunFact = "Muhammad Avdol jest jednym z sojuszników Jotaro w trzeciej części JoJo's Bizarre Adventure."
