@@ -198,6 +198,7 @@ public static class QuestionImporter
 
         return new Question
         {
+            Id = Question.CreateNewId(),
             QuestionText = row.QuestionText?.Trim(),
             AnswersText = answers,
             IsClosedQuestion = true,

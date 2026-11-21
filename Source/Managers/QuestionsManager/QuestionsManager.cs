@@ -9,6 +9,7 @@ public partial class QuestionsManager : Node
 
     public List<Question> Questions { get; private set; } = new();
     public Question RandomQuestion { get; private set; }
+    public HashSet<string> UsedQuestionIds { get; } = new(StringComparer.Ordinal);
 
     public override void _Ready()
     {
@@ -30,7 +31,17 @@ public partial class QuestionsManager : Node
 
     public bool HasQuestionsForCategory(Category category)
     {
-        return Questions.Any(q => q.Category == category);
+        return Questions.Any(q => q.Category == category && !IsQuestionUsed(q));
+    }
+
+    public bool IsQuestionUsed(Question question)
+    {
+        return question != null && UsedQuestionIds.Contains(question.EnsureStableId());
+    }
+
+    public void ResetUsedQuestions()
+    {
+        UsedQuestionIds.Clear();
     }
 
     public void SetRandomQuestion()
@@ -42,7 +53,9 @@ public partial class QuestionsManager : Node
             return;
         }
 
-        var availableQuestions = Questions.Where(q => q.Category == currentCategory).ToList();
+        var availableQuestions = Questions
+            .Where(q => q.Category == currentCategory && !IsQuestionUsed(q))
+            .ToList();
 
         if (availableQuestions.Count == 0)
         {
@@ -58,6 +71,7 @@ public partial class QuestionsManager : Node
     {
         if (RandomQuestion != null)
         {
+            UsedQuestionIds.Add(RandomQuestion.EnsureStableId());
             Questions.Remove(RandomQuestion);
             RandomQuestion = null;
         }
@@ -104,12 +118,21 @@ public partial class QuestionsManager : Node
             return;
         }
 
+        var skippedUsedCount = 0;
         foreach (var file in files)
         {
+            if (IsQuestionUsed(file.Question))
+            {
+                skippedUsedCount++;
+                continue;
+            }
+
             Questions.Add(file.Question);
         }
 
-        GD.Print($"Loaded {Questions.Count} question(s) from '{poolPath}'.");
+        GD.Print(
+            $"Loaded {Questions.Count} question(s) from '{poolPath}' " +
+            $"(skipped {skippedUsedCount} already used).");
         QuestionValidator.ValidateAndReport($"Pool{poolNumber}", files);
     }
 }
