@@ -12,7 +12,7 @@
 bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.73333335)
 border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 
-[sub_resource type="Animation" id="Animation_iyapl"]
+[sub_resource type="Animation" id="Animation_vm8vi"]
 length = 1.35
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -21,27 +21,15 @@ tracks/0/path = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/Mar
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.18, 0.55, 1.35),
-"transitions": PackedFloat32Array(1, 7, 7, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.32, 0.46, 0.62, 0.82, 1.02, 1.18, 1.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [50.0, 10.0, -270.0, -550.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
+"values": [-670.0, -700.0, -700.0, -650.0, -520.0, -340.0, -150.0, -10.0, 42.0, 50.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vm8vi"]
 _data = {
-&"spin": SubResource("Animation_iyapl")
+&"spin": SubResource("Animation_vm8vi")
 }
 
 [node name="CategoryPickScreen" type="Control" unique_id=429485952 node_paths=PackedStringArray("TeamCardContainer", "CategoryButtonContainer", "RerollButton", "RerollAnimation", "ReelArea", "ReelStrip")]
@@ -221,6 +209,20 @@ custom_minimum_size = Vector2(520, 120)
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Filmy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot7" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=1075430840]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot8" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=1664214094]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 vertical_alignment = 1
 
