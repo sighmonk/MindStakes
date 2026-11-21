@@ -65,6 +65,7 @@ locale/fallback="pl"
 [mindstakes]
 
 questions_dir=""
+categories_dir=""
 
 [rendering]
 

@@ -20,6 +20,13 @@ Exports/
 # Image assets are local-only.
 Assets/Images/*
 
+# Question and category data are user data, not repository content.
+Resources/Questions/
+Resources/Categories/
+
+# Media copied from the system file picker for questions.
+Assets/Media/Questions/
+
 # IDE/Editor
 .vs/
 .vscode/

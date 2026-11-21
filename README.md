@@ -63,7 +63,12 @@ Questions are separate data and are not part of the interface localization.
 The first answer field is always the correct answer; the game shuffles the answers when it displays them. All four answers are required, and two answers with the same text are rejected, because the correct answer is matched by its text.
 
 # Question data
-Question sets are **not** part of this repository. Only a two-question sample pool (`Resources/Questions/Pool1/1.tres` and `2.tres`) is tracked; every other file under `Resources/Questions/Pool*` is ignored by Git.
+Question sets are **not** part of this repository. Only the examples under `Resources/Examples/` are tracked:
+
+- `Resources/Examples/Questions/Pool1/` - four example questions.
+- `Resources/Examples/Categories/` - four example categories.
+
+On first run the examples are copied into the user data folder (`user://questions` and `user://categories`). If the legacy local folders `Resources/Questions` or `Resources/Categories` still exist, their contents are migrated instead, so existing local quiz data is preserved. After that, the game and the Question Creator work on the user copies, not on the repository files.
 
 The question folder is resolved at startup, in this order:
 
@@ -71,19 +76,22 @@ The question folder is resolved at startup, in this order:
 2. `MINDSTAKES_QUESTIONS_DIR` environment variable.
 3. `mindstakes/questions_dir` project setting (Project Settings → Mindstakes → Questions Dir).
 4. `<folder of the executable>/questions`, in exported builds, when the folder exists.
-5. `user://questions`, when it exists.
-6. `res://Resources/Questions` (fallback).
+5. `user://questions`, seeded from `Resources/Examples/Questions` on first run.
+6. `res://Resources/Examples/Questions` (read-only fallback).
+
+Categories use the same order with `--categories-dir`, `MINDSTAKES_CATEGORIES_DIR`, `mindstakes/categories_dir`, `<folder of the executable>/categories`, `user://categories` and `res://Resources/Examples/Categories`.
 
 Options 1–3 accept any folder, including one outside the project. To keep answers out of the repository *and* out of exported builds, point them at a folder outside the project:
 
 ```powershell
 $env:MINDSTAKES_QUESTIONS_DIR = "C:\MindStakes-data\questions"
+$env:MINDSTAKES_CATEGORIES_DIR = "C:\MindStakes-data\categories"
 godot --path "C:\Github\MindStakes"
 ```
 
 Start Godot (or the exported game) from that shell. The Question Creator writes new questions to the same folder, so nothing lands in `Resources/Questions` while it is set.
 
-If the folder stays on `res://`, the files present on disk are packed into the exported game. Either keep the data outside the project or add `Resources/Questions/*` to the export preset's *exclude filter*.
+If an external folder is not provided, the exported game seeds the examples into `user://`. If you keep data on `res://`, the files present on disk are packed into the exported game; either keep the data outside the project or add the folder to the export preset's *exclude filter*.
 
 A client-side game has to know the correct answer in order to reveal it, so anyone with full access to the machine running the game can recover the data. Keeping it out of the repository and out of the exported `.pck` is what prevents accidental disclosure.
 
@@ -140,7 +148,7 @@ JSON is an array of objects with the same field names (camelCase works too):
 ]
 ```
 
-`category` is either a name from `Resources/Categories` or a `res://` path. `image` and `audio` must be `res://` paths. `fun_fact`, `image` and `audio` are optional.
+`category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths. `fun_fact`, `image` and `audio` are optional.
 
 ## Validating pools
 

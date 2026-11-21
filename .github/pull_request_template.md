@@ -14,6 +14,6 @@ Closes #
 ## Checklist
 
 - [ ] The change is focused on the linked issue and contains no unrelated refactors.
-- [ ] No question data (`.tres` files under `Resources/Questions/Pool*`) is added.
+- [ ] No question or category data under `Resources/Questions/` or `Resources/Categories/` is added.
 - [ ] Scenes (`.tscn`) were changed through the Godot editor, not by hand.
 - [ ] Documentation is updated when behaviour or setup changes.

@@ -40,8 +40,10 @@ Przykladowa struktura:
 - Nie zmieniaj zachowania publicznego, jesli nie wymaga tego zadanie.
 
 ## Dane i Zasoby
-- Pytania sa przechowywane w `Resources/Questions/Pool[n]/`.
-- Kategorie sa przechowywane w `Resources/Categories/`.
+- Przykladowe pytania sa przechowywane w `Resources/Examples/Questions/Pool[n]/`.
+- Przykladowe kategorie sa przechowywane w `Resources/Examples/Categories/`.
+- Dane uzytkownika trafiaja do `user://questions` i `user://categories` albo do folderow wskazanych przez `--questions-dir` / `--categories-dir` lub `MINDSTAKES_QUESTIONS_DIR` / `MINDSTAKES_CATEGORIES_DIR`.
+- Nie commituj `Resources/Questions/`, `Resources/Categories/` ani skopiowanych mediow pytan.
 - Zachowuj konwencje plikow `.tres` uzywane w repozytorium.
 
 ## Walidacja

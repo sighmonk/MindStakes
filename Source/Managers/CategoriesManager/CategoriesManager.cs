@@ -1,6 +1,8 @@
 using Godot;
 using System;
-using System.Collections.Generic;using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
+
 public partial class CategoriesManager : Node
 {
     public static CategoriesManager Instance => ((SceneTree)Engine.GetMainLoop()).Root.GetNode<CategoriesManager>("CategoriesManager");
@@ -20,34 +22,8 @@ public partial class CategoriesManager : Node
     private void LoadCategories()
     {
         Categories.Clear();
-
-        var dir = DirAccess.Open("res://Resources/Categories");
-        if (dir != null)
-        {
-            dir.ListDirBegin();
-            string fileName = dir.GetNext();
-            while (fileName != "")
-            {
-                if (!dir.CurrentIsDir())
-                {
-                    // Check for resource files (usually .tres or .res in Godot)
-                    // Also avoiding .import files
-                    if ((fileName.EndsWith(".tres") || fileName.EndsWith(".res")) && !fileName.EndsWith(".import"))
-                    {
-                        var category = GD.Load<Category>($"res://Resources/Categories/{fileName}");
-                        if (category != null)
-                        {
-                            Categories.Add(category);
-                        }
-                    }
-                }
-                fileName = dir.GetNext();
-            }
-        }
-        else
-        {
-            GD.PrintErr("Failed to open Resources/Categories directory.");
-        }
+        Categories.AddRange(CategoryStorage.LoadCategories());
+        GD.Print($"Loaded {Categories.Count} category(ies) from '{CategoryStorage.RootPath}'.");
     }
 
     public void SetRandomCategory()

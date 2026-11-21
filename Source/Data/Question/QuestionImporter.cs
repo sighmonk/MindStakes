@@ -225,9 +225,12 @@ public static class QuestionImporter
             return null;
         }
 
-        var path = row.Category.StartsWith("res://", StringComparison.Ordinal)
-            ? row.Category
-            : $"res://Resources/Categories/{row.Category}.tres";
+        var path = CategoryStorage.FindCategoryPath(row.Category);
+        if (string.IsNullOrEmpty(path))
+        {
+            errors.Add($"{row.Source}: category '{row.Category}' not found in '{CategoryStorage.RootPath}'");
+            return null;
+        }
 
         if (!ResourceLoader.Exists(path))
         {

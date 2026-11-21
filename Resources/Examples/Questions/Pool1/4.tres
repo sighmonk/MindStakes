@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Question" load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://Resources/Examples/Categories/Minecraft.tres" id="1"]
+[ext_resource type="Script" path="res://Source/Data/Question/Question.cs" id="2"]
+
+[resource]
+script = ExtResource("2")
+Id = "example-minecraft-end"
+QuestionText = "W jakim wymiarze Minecrafta znajduje się Smok Kresu?"
+AnswersText = Array[String](["End", "Nether", "Overworld", "Aether"])
+Category = ExtResource("1")
+FunFact = "Smok Kresu pilnuje Endu i jest ostatnim przeciwnikiem w standardowym przejściu gry."

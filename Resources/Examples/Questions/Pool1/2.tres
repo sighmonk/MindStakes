@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Question" load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://Resources/Examples/Categories/Jedzenie.tres" id="1"]
+[ext_resource type="Script" path="res://Source/Data/Question/Question.cs" id="2"]
+
+[resource]
+script = ExtResource("2")
+Id = "example-jedzenie-kisiel"
+QuestionText = "Co to kisiel owsiany?"
+AnswersText = Array[String](["fermentowany deser z mąki lub płatków owsianych", "owsianka z bardzo drobno zmielonej mąki owsianej", "woda, która zostaje po namoczeniu płatków owsianych", "owsianka zrobiona na zsiadłym mleku"])
+Category = ExtResource("1")
+FunFact = "Klasyczny kisiel owsiany powstaje przez namoczenie płatków, mąki lub ziaren owsa w wodzie z dodatkiem zakwasu chlebowego, chleba żytniego, drożdży lub kefiru i odstawienie na kilkanaście do kilkudziesięciu godzin."
