@@ -66,6 +66,34 @@ A new mode (for example Jeopardy) needs:
 
 No C# switch has to change: the name and the scene path come from the registry and the question filter comes from the definition.
 
+# Host debug tools
+Live shows need to recover from a bad question or a wrong team without restarting, so the host gets a small panel that is hidden during normal play.
+
+- Toggle: <kbd>F10</kbd> (input action `host_debug`, Project Settings → Input Map).
+- Scene: `Source/Components/HostDebug/HostDebugPanel.tscn`, registered as an autoload after the managers, so it is present in every screen.
+- `Reroll question` replaces the question on screen with another unused question from the same category and marks the discarded one as used, so it never comes back. The round, bets and scores stay unchanged; the current question scene is reloaded to render the new question.
+- `Next answering team` switches `TeamsManager.CurrentTeam` and emits `SignalManager.AnsweringTeamChanged`. While the answering team is still the team that picked the category, both move together. The score screen, the category pick screen and the Sabotage/Fraud screens listen to that signal and refresh their team cards.
+- `Close` (or <kbd>F10</kbd> again) hides the panel. The panel is not part of the normal player flow: it starts hidden, ignores the mouse outside its own box and is the only node on layer `100`.
+
+Node tree and exports of `HostDebugPanel.tscn`:
+
+| Node | Type | Notes |
+|------|------|-------|
+| `HostDebugPanel` | `CanvasLayer` | `layer = 100`, script `HostDebugPanel.cs` |
+| `PanelContent` | `Control` | full rect, `mouse_filter = ignore`, `theme = MainTheme.tres` |
+| `PanelContent/Panel` | `PanelContainer` | 640 px wide, placed at `(24, 24)` |
+| `.../Panel/Margins` | `MarginContainer` | margins 16 |
+| `.../Margins/VBox` | `VBoxContainer` | separation 12 |
+| `.../VBox/Title` | `Label` | font size 32 |
+| `.../VBox/RerollQuestionButton` | `Button` | 600 px wide |
+| `.../VBox/NextTeamButton` | `Button` | 600 px wide |
+| `.../VBox/StatusLabel` | `Label` | font size 26, word wrap |
+| `.../VBox/CloseButton` | `Button` | 600 px wide |
+
+The script exports bind `PanelContent`, `TitleLabel`, `RerollQuestionButton`, `NextTeamButton`, `StatusLabel` and `CloseButton`. The panel texts are `HOST_DEBUG_*` and `CLOSE` keys from the `.po` catalogs, so both languages work and are applied every time the panel opens.
+
+To rebuild the scene by hand in the editor: create a `CanvasLayer` with the script attached, set `Layer` to `100`, add a full-rect `Control` named `PanelContent` with `Mouse Filter = Ignore` and `MainTheme.tres` as its theme, then add the `PanelContainer` → `MarginContainer` → `VBoxContainer` chain with the labels and buttons above, and assign the six exported nodes to the script in the Inspector.
+
 # Language
 The interface ships in Polish (the default) and English. The `LanguageSwitcher` component ([Source/Components/LanguageSwitcher](./Source/Components/LanguageSwitcher/)) renders the **PL** / **EN** buttons and is instanced in the main menu. The choice is saved to `user://settings.cfg` and applied on the next start.
 

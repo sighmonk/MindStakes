@@ -7,5 +7,6 @@ public partial class SignalManager : Node
 
     [Signal] public delegate void CategorySelectedEventHandler(Category category);
     [Signal] public delegate void TeamsCreatedEventHandler();
+    [Signal] public delegate void AnsweringTeamChangedEventHandler();
 
 }

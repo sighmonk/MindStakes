@@ -10,13 +10,7 @@ public partial class CategoryPickScreen : Control
     [Export] Button RerollButton;
     public override void _Ready()
     {
-        if (TeamCardContainer != null)
-        {
-            TeamCard teamCard = TeamCardScene.Instantiate<TeamCard>();
-            teamCard.TeamData = TeamsManager.Instance.InitialTeam;
-            TeamCardContainer.AddChild(teamCard);
-            teamCard.TeamNameLineEdit.Editable = false;
-        }
+        LoadTeamCard();
         if (CategoryButtonContainer != null)
         {
             CategoryButton categoryButton = CategoryButtonScene.Instantiate<CategoryButton>();
@@ -27,6 +21,27 @@ public partial class CategoryPickScreen : Control
         {
             RerollButton.Text = LocalizationManager.Format("REROLL_BUTTON", GameManager.Instance.RerollCount);
         }
+
+        SignalManager.Instance.AnsweringTeamChanged += LoadTeamCard;
+    }
+
+    private void LoadTeamCard()
+    {
+        if (TeamCardContainer == null)
+        {
+            return;
+        }
+
+        foreach (var child in TeamCardContainer.GetChildren())
+        {
+            TeamCardContainer.RemoveChild(child);
+            child.QueueFree();
+        }
+
+        TeamCard teamCard = TeamCardScene.Instantiate<TeamCard>();
+        teamCard.TeamData = TeamsManager.Instance.InitialTeam;
+        TeamCardContainer.AddChild(teamCard);
+        teamCard.TeamNameLineEdit.Editable = false;
     }
 
     public override void _Process(double delta)

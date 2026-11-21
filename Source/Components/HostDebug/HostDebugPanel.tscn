@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cf6ablpui3qug"]
+
+[ext_resource type="Script" uid="uid://dxdldqkwulkq6" path="res://Source/Components/HostDebug/HostDebugPanel.cs" id="1_yy545"]
+[ext_resource type="Theme" uid="uid://befyp5hugoswj" path="res://Assets/Themes/MainTheme.tres" id="2_ebb0p"]
+
+[node name="HostDebugPanel" type="CanvasLayer" unique_id=81969306 node_paths=PackedStringArray("PanelContent", "TitleLabel", "RerollQuestionButton", "NextTeamButton", "StatusLabel", "CloseButton")]
+layer = 100
+script = ExtResource("1_yy545")
+PanelContent = NodePath("PanelContent")
+TitleLabel = NodePath("PanelContent/Panel/Margins/VBox/Title")
+RerollQuestionButton = NodePath("PanelContent/Panel/Margins/VBox/RerollQuestionButton")
+NextTeamButton = NodePath("PanelContent/Panel/Margins/VBox/NextTeamButton")
+StatusLabel = NodePath("PanelContent/Panel/Margins/VBox/StatusLabel")
+CloseButton = NodePath("PanelContent/Panel/Margins/VBox/CloseButton")
+
+[node name="PanelContent" type="Control" parent="." unique_id=1241638408]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_ebb0p")
+
+[node name="Panel" type="PanelContainer" parent="PanelContent" unique_id=275829925]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 688.0
+offset_bottom = 428.0
+
+[node name="Margins" type="MarginContainer" parent="PanelContent/Panel" unique_id=1497837298]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="PanelContent/Panel/Margins" unique_id=2129008064]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="PanelContent/Panel/Margins/VBox" unique_id=150912896]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "HOST DEBUG"
+horizontal_alignment = 1
+
+[node name="RerollQuestionButton" type="Button" parent="PanelContent/Panel/Margins/VBox" unique_id=775573710]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+text = "Reroll question"
+
+[node name="NextTeamButton" type="Button" parent="PanelContent/Panel/Margins/VBox" unique_id=1693985719]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+text = "Next answering team"
+
+[node name="StatusLabel" type="Label" parent="PanelContent/Panel/Margins/VBox" unique_id=830891392]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+
+[node name="CloseButton" type="Button" parent="PanelContent/Panel/Margins/VBox" unique_id=1404853082]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+text = "Close"

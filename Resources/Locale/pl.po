@@ -166,3 +166,22 @@ msgstr "ODTWÓRZ"
 
 msgid "STOP"
 msgstr "ZATRZYMAJ"
+
+# Host debug panel
+msgid "HOST_DEBUG_TITLE"
+msgstr "PANEL PROWADZĄCEGO"
+
+msgid "HOST_DEBUG_REROLL_QUESTION"
+msgstr "Wymień pytanie"
+
+msgid "HOST_DEBUG_NEXT_TEAM"
+msgstr "Następna drużyna"
+
+msgid "HOST_DEBUG_ONLY_IN_QUESTION"
+msgstr "Dostępne tylko na ekranie pytania."
+
+msgid "HOST_DEBUG_NO_REPLACEMENT"
+msgstr "Brak innego pytania w tej kategorii."
+
+msgid "HOST_DEBUG_ANSWERING"
+msgstr "Odpowiada: {0}"

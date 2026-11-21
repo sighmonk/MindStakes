@@ -166,3 +166,22 @@ msgstr "PLAY"
 
 msgid "STOP"
 msgstr "STOP"
+
+# Host debug panel
+msgid "HOST_DEBUG_TITLE"
+msgstr "HOST PANEL"
+
+msgid "HOST_DEBUG_REROLL_QUESTION"
+msgstr "Reroll question"
+
+msgid "HOST_DEBUG_NEXT_TEAM"
+msgstr "Next answering team"
+
+msgid "HOST_DEBUG_ONLY_IN_QUESTION"
+msgstr "Only available on a question screen."
+
+msgid "HOST_DEBUG_NO_REPLACEMENT"
+msgstr "No other question in this category."
+
+msgid "HOST_DEBUG_ANSWERING"
+msgstr "Answering: {0}"
