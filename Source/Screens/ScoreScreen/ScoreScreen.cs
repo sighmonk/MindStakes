@@ -7,11 +7,26 @@ public partial class ScoreScreen : Control
     [Export] public PackedScene ScoreTeamCardScene;
     [Export] public HBoxContainer TeamCardsContainer;
     [Export] public NextButton ReadyButton;
+    [Export] public Label CategoryLabel;
     public override void _Ready()
     {
         LoadTeamCards();
+        UpdateCategoryLabel();
         CheckGameEnd();
         SignalManager.Instance.AnsweringTeamChanged += OnAnsweringTeamChanged;
+    }
+
+    private void UpdateCategoryLabel()
+    {
+        if (CategoryLabel == null)
+        {
+            return;
+        }
+
+        var categoryName = CategoriesManager.Instance.RandomCategory?.CategoryName;
+        CategoryLabel.Text = string.IsNullOrEmpty(categoryName)
+            ? string.Empty
+            : Tr("CATEGORY_PREFIX") + categoryName;
     }
 
     private void OnAnsweringTeamChanged()
