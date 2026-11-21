@@ -36,13 +36,13 @@ theme = ExtResource("1_3h2fp")
 script = ExtResource("2_uofdg")
 TitleLabel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/TitleLabel")
 AnimationsButton = NodePath("Panel/PanelContainer/VBoxContainer/HBoxContainer/AnimationsMargin/AnimationsButton")
-LoadSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/LoadSaveButton")
-ExportSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ExportSaveButton")
+LoadSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions/LoadSaveButton")
+ExportSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions/ExportSaveButton")
 LoadSaveDialog = NodePath("LoadSaveDialog")
 ExportSaveDialog = NodePath("ExportSaveDialog")
 SaveErrorDialog = NodePath("SaveErrorDialog")
-ImportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ImportConfigButton")
-ExportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ExportConfigButton")
+ImportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions/ImportConfigButton")
+ExportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions/ExportConfigButton")
 ImportConfigDialog = NodePath("ImportConfigDialog")
 ExportConfigDialog = NodePath("ExportConfigDialog")
 
@@ -182,20 +182,35 @@ theme = ExtResource("1_3h2fp")
 text = "QUESTIONS"
 ScenePath = "uid://5ond514sfknq"
 
-[node name="LoadSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=1050382044]
+[node name="DataActions" type="GridContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=803240405]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="LoadSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions" unique_id=1050382044]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
 text = "LOAD SAVE"
 
-[node name="ExportSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=633621767]
+[node name="ExportSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions" unique_id=633621767]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
 text = "EXPORT SAVE"
 
-[node name="ImportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=644945836]
+[node name="ImportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions" unique_id=644945836]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
 text = "IMPORT CONFIG"
 
-[node name="ExportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=788687019]
+[node name="ExportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/DataActions" unique_id=788687019]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
 text = "EXPORT CONFIG"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=1722594413]
@@ -219,7 +234,7 @@ use_native_dialog = true
 title = "Save"
 
 [node name="ImportConfigDialog" type="FileDialog" parent="." unique_id=747767482]
-title = "Import configuration"
+title = "Open a File"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.mstakes ; MindStakes configuration")
