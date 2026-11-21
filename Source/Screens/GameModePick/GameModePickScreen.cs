@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class GameModePickScreen : Control
 {
@@ -23,6 +24,22 @@ public partial class GameModePickScreen : Control
 		RerollCountSpinBox.ValueChanged += OnRerollCountSpinBoxValueChanged;
 		QuestionTimeSpinBox.ValueChanged += OnQuestionTimeSpinBoxValueChanged;
 		PoolNumberSpinBox.ValueChanged += OnPoolNumberSpinBoxValueChanged;
+
+		ValidateGameModeCards();
+	}
+
+	private void ValidateGameModeCards()
+	{
+		GD.Print($"Registered game modes: {string.Join(", ", GameModeRegistry.All.Select(mode => mode.Id))}.");
+
+		foreach (var node in FindChildren("*", "", true, false))
+		{
+			if (node is GameModeCard card && !GameModeRegistry.IsRegistered(card.GameModeType))
+			{
+				GD.PushWarning(
+					$"Game mode card '{card.GetPath()}' uses unregistered mode index '{(int)card.GameModeType}'.");
+			}
+		}
 	}
 
 	public override void _ExitTree()

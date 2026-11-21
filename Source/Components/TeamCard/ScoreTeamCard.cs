@@ -38,9 +38,10 @@ public partial class ScoreTeamCard : TeamCard
     private void UpdateLabels()
     {
         TeamTypeLabel.Visible = true;
-        bool isFraudMode = GameManager.Instance.CurrentGameModeIndex == (int)GameManager.GameModeEnum.Fraud;
-        if (GameManager.Instance.CurrentGameModeIndex != (int)GameManager.GameModeEnum.Fraud &&
-            GameManager.Instance.CurrentGameModeIndex != (int)GameManager.GameModeEnum.Sabotage)
+        var gameModeId = GameManager.Instance.CurrentGameMode?.Id;
+        bool isFraudMode = gameModeId == GameModeRegistry.FraudId;
+        if (gameModeId != GameModeRegistry.FraudId &&
+            gameModeId != GameModeRegistry.SabotageId)
         {
             TeamTypeLabel.Visible = false;
             return;

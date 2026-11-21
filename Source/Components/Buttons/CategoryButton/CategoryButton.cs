@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class CategoryButton : Button
 {
@@ -12,10 +13,18 @@ public partial class CategoryButton : Button
     public string SabotageScenePath { get; set; }
     [Export(PropertyHint.File, "*.tscn")]
     public string FraudScenePath { get; set; }
+    private readonly Dictionary<string, string> scenePathOverrides = new();
     public override void _Ready()
     {
+        CacheScenePathOverrides();
         Pressed += OnPressed;
         UpdateButton();
+    }
+    private void CacheScenePathOverrides()
+    {
+        scenePathOverrides[GameModeRegistry.BettingId] = BettingScenePath;
+        scenePathOverrides[GameModeRegistry.SabotageId] = SabotageScenePath;
+        scenePathOverrides[GameModeRegistry.FraudId] = FraudScenePath;
     }
     public void UpdateButton()
     {
@@ -33,24 +42,31 @@ public partial class CategoryButton : Button
 
     public void ChangeScene()
     {
-        if (QuestionScenePath is null || BettingScenePath is null)
+        var gameMode = GameManager.Instance.CurrentGameMode;
+        if (gameMode is null)
         {
+            GD.PrintErr($"Unknown Game Mode Index {GameManager.Instance.CurrentGameModeIndex}");
             return;
         }
-        switch (GameManager.Instance.CurrentGameModeIndex)
+
+        var scenePath = GetScenePath(gameMode);
+        if (string.IsNullOrEmpty(scenePath))
         {
-            case (int)GameManager.GameModeEnum.Betting:
-                SceneManager.Instance.ReplaceWithNewScene(BettingScenePath);
-                break;
-            case (int)GameManager.GameModeEnum.Sabotage:
-                SceneManager.Instance.ReplaceWithNewScene(SabotageScenePath);
-                break;
-            case (int)GameManager.GameModeEnum.Fraud:
-                SceneManager.Instance.ReplaceWithNewScene(FraudScenePath);
-                break;
-            default:
-                GD.PrintErr("Unknown Game Mode Index");
-                break;
+            GD.PrintErr($"No scene configured for game mode '{gameMode.Id}'");
+            return;
         }
+
+        SceneManager.Instance.ReplaceWithNewScene(scenePath);
+    }
+
+    private string GetScenePath(GameModeDefinition gameMode)
+    {
+        if (scenePathOverrides.TryGetValue(gameMode.Id, out var scenePathOverride) &&
+            !string.IsNullOrEmpty(scenePathOverride))
+        {
+            return scenePathOverride;
+        }
+
+        return gameMode.ScenePath;
     }
 }
