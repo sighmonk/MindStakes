@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgfhb2eeni3rs"]
+[gd_scene format=3 uid="uid://dgfhb2eeni3rs"]
 
 [ext_resource type="PackedScene" uid="uid://bhv0mk0v5xf3p" path="res://Source/Components/TeamCard/TeamCard.tscn" id="1_5xaqw"]
 [ext_resource type="Theme" uid="uid://befyp5hugoswj" path="res://Assets/Themes/MainTheme.tres" id="1_8yhwj"]
@@ -11,7 +11,27 @@
 bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.73333335)
 border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 
-[node name="CategoryPickScreen" type="Control" node_paths=PackedStringArray("TeamCardContainer", "CategoryButtonContainer", "RerollButton")]
+[sub_resource type="Animation" id="Animation_lmft0"]
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.4),
+"transitions": PackedFloat32Array(1, 7, 7),
+"update": 0,
+"values": [0.0, -180.0, -600.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vm8vi"]
+_data = {
+&"spin": SubResource("Animation_lmft0")
+}
+
+[node name="CategoryPickScreen" type="Control" unique_id=429485952 node_paths=PackedStringArray("TeamCardContainer", "CategoryButtonContainer", "RerollButton", "RerollAnimation", "ReelArea", "ReelStrip")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,11 +45,14 @@ TeamCardScene = ExtResource("1_5xaqw")
 CategoryButtonContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer")
 CategoryButtonScene = ExtResource("2_ly0pc")
 RerollButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer2/RerollButton")
+RerollAnimation = NodePath("RerollAnimation")
+ReelArea = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea")
+ReelStrip = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip")
 
-[node name="Panel2" parent="." instance=ExtResource("5_lmft0")]
+[node name="Panel2" parent="." unique_id=1305030040 instance=ExtResource("5_lmft0")]
 layout_mode = 1
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1208335103]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_vm8vi")
 
-[node name="PanelContainer" type="MarginContainer" parent="Panel"]
+[node name="PanelContainer" type="MarginContainer" parent="Panel" unique_id=818751482]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,26 +73,26 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer" unique_id=739347211]
 layout_mode = 2
 
-[node name="PanelContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer"]
+[node name="PanelContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=805796132]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer" unique_id=108899523]
 layout_mode = 2
 
-[node name="VBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1548245374]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TeamCardContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="TeamCardContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=880943082]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Title" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=902171970]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
@@ -78,51 +101,116 @@ text = "PICK CATEGORY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RoundCountLabel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_1qknh")]
+[node name="RoundCountLabel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=434152672 instance=ExtResource("5_1qknh")]
 layout_mode = 2
 
-[node name="PanelContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer"]
+[node name="PanelContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=1588513070]
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2" unique_id=2000472885]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer" unique_id=1245255397]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="MarginContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=901638117]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CategoryButtonContainer" type="Panel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="CategoryButtonContainer" type="Panel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=533665893]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="ReelArea" type="Control" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer" unique_id=1878472750]
+visible = false
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ReelMask" type="Control" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea" unique_id=1448544030]
+clip_contents = true
+anchors_preset = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -60.0
+offset_right = 260.0
+offset_bottom = 60.0
+
+[node name="ReelStrip" type="VBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask" unique_id=691964294]
+layout_mode = 0
+theme_override_constants/separation = 0
+
+[node name="Slot1" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=226894845]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot2" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=2115970938]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot3" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=912018083]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot4" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=1544896947]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot5" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=677100682]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot6" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/CategoryButtonContainer/ReelArea/ReelMask/ReelStrip" unique_id=1996952711]
+custom_minimum_size = Vector2(520, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=1489103529]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ButtonsContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer"]
+[node name="ButtonsContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=94079723]
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer" unique_id=1187434990]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=339677645]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=443239536]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 64
@@ -130,19 +218,23 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer" unique_id=288797133]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 64
 
-[node name="RerollButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer2"]
+[node name="RerollButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer2" unique_id=864864849]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 64
 text = "REROLL"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=106039720]
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="RerollAnimation" type="AnimationPlayer" parent="." unique_id=184847643]
+libraries/ = SubResource("AnimationLibrary_vm8vi")
+
 [connection signal="pressed" from="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/HBoxContainer2/RerollButton" to="." method="OnRerollButtonPressed"]
+[connection signal="animation_finished" from="RerollAnimation" to="." method="OnRerollAnimationFinished"]
