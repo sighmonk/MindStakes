@@ -62,11 +62,12 @@ public partial class CategoryPickScreen : Control
         if (GameManager.Instance.RerollCount <= 0)
             return;
 
+        var previousCategoryName = CategoriesManager.Instance.RandomCategory?.CategoryName;
         CategoriesManager.Instance.SetRandomCategory();
         GameManager.Instance.RerollCount--;
 
         if (CanPlayRerollAnimation())
-            PlayRerollAnimation();
+            PlayRerollAnimation(previousCategoryName);
         else
             RefreshCategoryButton();
 
@@ -84,33 +85,55 @@ public partial class CategoryPickScreen : Control
             && UiSettings.AnimationsEnabled;
     }
 
-    private void PlayRerollAnimation()
+    private void PlayRerollAnimation(string previousCategoryName)
     {
-        FillReelSlots();
+        FillReelSlots(previousCategoryName);
         HideCategoryButton();
         ReelArea.Visible = true;
         RerollAnimation.Play(SpinAnimation);
     }
 
-    private void FillReelSlots()
+    private void FillReelSlots(string previousCategoryName)
     {
         var slots = ReelStrip.GetChildren();
         var categories = CategoriesManager.Instance.Categories;
-        var finalCategory = CategoriesManager.Instance.RandomCategory;
+        var finalName = CategoriesManager.Instance.RandomCategory?.CategoryName ?? string.Empty;
+        var avoidName = string.IsNullOrEmpty(previousCategoryName) ? finalName : previousCategoryName;
 
-        for (var i = 0; i < slots.Count - 1 && categories.Count > 0; i++)
+        if (slots.Count > 0 && slots[0] is Label firstSlot)
         {
-            var randomCategory = categories[(int)(GD.Randi() % (uint)categories.Count)];
-            if (slots[i] is Label slot)
-            {
-                slot.Text = randomCategory.CategoryName;
-            }
+            firstSlot.Text = string.IsNullOrEmpty(previousCategoryName) ? finalName : previousCategoryName;
+        }
+
+        for (var i = 1; i < slots.Count - 1 && slots[i] is Label slot; i++)
+        {
+            slot.Text = PickReelName(categories, finalName, avoidName);
+            avoidName = slot.Text;
         }
 
         if (slots.Count > 0 && slots[^1] is Label lastSlot)
         {
-            lastSlot.Text = finalCategory != null ? finalCategory.CategoryName : string.Empty;
+            lastSlot.Text = finalName;
         }
+    }
+
+    private static string PickReelName(System.Collections.Generic.IReadOnlyList<Category> categories, string finalName, string avoidName)
+    {
+        if (categories.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        for (var attempt = 0; attempt < 12; attempt++)
+        {
+            var candidate = categories[(int)(GD.Randi() % (uint)categories.Count)].CategoryName;
+            if (candidate != finalName && candidate != avoidName)
+            {
+                return candidate;
+            }
+        }
+
+        return string.Empty;
     }
 
     public void OnRerollAnimationFinished(StringName animationName)
