@@ -23,7 +23,7 @@ shader_parameter/mouse_pos = Vector2(0.5, 0.5)
 shader_parameter/is_hovered = false
 shader_parameter/time = 0.0
 
-[node name="TitleScreen" type="Control" unique_id=596475220 node_paths=PackedStringArray("TitleLabel", "AnimationsButton")]
+[node name="TitleScreen" type="Control" unique_id=596475220 node_paths=PackedStringArray("TitleLabel", "AnimationsButton", "LoadSaveButton", "ExportSaveButton", "LoadSaveDialog", "ExportSaveDialog", "SaveErrorDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,6 +36,11 @@ theme = ExtResource("1_3h2fp")
 script = ExtResource("2_uofdg")
 TitleLabel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/TitleLabel")
 AnimationsButton = NodePath("Panel/PanelContainer/VBoxContainer/HBoxContainer/AnimationsMargin/AnimationsButton")
+LoadSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/LoadSaveButton")
+ExportSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ExportSaveButton")
+LoadSaveDialog = NodePath("LoadSaveDialog")
+ExportSaveDialog = NodePath("ExportSaveDialog")
+SaveErrorDialog = NodePath("SaveErrorDialog")
 
 [node name="Panel2" parent="." unique_id=945064536 instance=ExtResource("3_3jf3j")]
 layout_mode = 1
@@ -173,7 +178,30 @@ theme = ExtResource("1_3h2fp")
 text = "QUESTIONS"
 ScenePath = "uid://5ond514sfknq"
 
+[node name="LoadSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=1050382044]
+layout_mode = 2
+text = "LOAD SAVE"
+
+[node name="ExportSaveButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=633621767]
+layout_mode = 2
+text = "EXPORT SAVE"
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=1722594413]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_3h2fp")
+
+[node name="LoadSaveDialog" type="FileDialog" parent="." unique_id=477202479]
+title = "Load save"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mssave ; MindStakes save", "*.json ; JSON")
+use_native_dialog = true
+
+[node name="ExportSaveDialog" type="FileDialog" parent="." unique_id=423884484]
+access = 2
+filters = PackedStringArray("*.mssave ; MindStakes save")
+use_native_dialog = true
+
+[node name="SaveErrorDialog" type="AcceptDialog" parent="." unique_id=1324030515]
+title = "Save"

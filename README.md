@@ -94,6 +94,15 @@ The script exports bind `PanelContent`, `TitleLabel`, `RerollQuestionButton`, `N
 
 To rebuild the scene by hand in the editor: create a `CanvasLayer` with the script attached, set `Layer` to `100`, add a full-rect `Control` named `PanelContent` with `Mouse Filter = Ignore` and `MainTheme.tres` as its theme, then add the `PanelContainer` → `MarginContainer` → `VBoxContainer` chain with the labels and buttons above, and assign the six exported nodes to the script in the Inspector.
 
+# Save games
+
+- The score screen calls `SaveManager.SaveCurrentGame()` after every round, which writes `user://saves/autosave.mssave`.
+- `Load save` on the title screen opens the system file picker and restores a save, then goes to the game-mode screen, so a round is never restored in the middle of a question.
+- `Export save` writes the same archive wherever the host points the native save dialog.
+- The archive is a ZIP with `manifest.json` and the team pictures under `teams/`. It stores the team names, colours, scores and bets, the team pictures, the round and rounds limit, the reroll counters, the question time, the selected pool, the active game mode and the consumed question ids. Importing it on another machine copies the pictures to `user://team_images`.
+- New Game is the title screen itself: entering it starts a fresh session, so scores and the consumed-question list reset.
+- The manifest carries a `version`. A save with an unknown version is rejected with a translated error instead of being loaded partially.
+
 # Language
 The interface ships in Polish (the default) and English. The `LanguageSwitcher` component ([Source/Components/LanguageSwitcher](./Source/Components/LanguageSwitcher/)) renders the **PL** / **EN** buttons and is instanced in the main menu. The choice is saved to `user://settings.cfg` and applied on the next start.
 

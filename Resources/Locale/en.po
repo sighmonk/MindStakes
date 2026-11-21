@@ -227,3 +227,16 @@ msgstr "True / false"
 
 msgid "QUESTION_TYPE_OPEN_ENDED"
 msgstr "Open-ended"
+
+# Saves
+msgid "SAVE_LOAD"
+msgstr "Load save"
+
+msgid "SAVE_EXPORT"
+msgstr "Export save"
+
+msgid "SAVE_LOAD_FAILED"
+msgstr "Could not load the save."
+
+msgid "SAVE_EXPORT_FAILED"
+msgstr "Could not write the save archive."

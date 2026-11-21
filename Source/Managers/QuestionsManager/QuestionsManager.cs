@@ -52,6 +52,23 @@ public partial class QuestionsManager : Node
         UsedQuestionIds.Clear();
     }
 
+    public void RestoreUsedQuestions(IEnumerable<string> questionIds)
+    {
+        UsedQuestionIds.Clear();
+        if (questionIds == null)
+        {
+            return;
+        }
+
+        foreach (var id in questionIds)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                UsedQuestionIds.Add(id);
+            }
+        }
+    }
+
     public void SetRandomQuestion()
     {
         var currentCategory = CategoriesManager.Instance.RandomCategory;

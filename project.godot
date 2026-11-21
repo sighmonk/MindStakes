@@ -30,6 +30,7 @@ TeamsManager="*res://Source/Managers/TeamsManager/TeamsManager.tscn"
 CategoriesManager="*res://Source/Managers/CategoriesManager/CategoriesManager.tscn"
 QuestionsManager="*res://Source/Managers/QuestionsManager/QuestionsManager.tscn"
 HostDebugPanel="*res://Source/Components/HostDebug/HostDebugPanel.tscn"
+SaveManager="*res://Source/Managers/SaveManager/SaveManager.cs"
 
 [display]
 
