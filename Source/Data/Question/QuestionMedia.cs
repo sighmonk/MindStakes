@@ -123,7 +123,7 @@ public static class QuestionMedia
     {
         if (!string.IsNullOrWhiteSpace(path))
         {
-            var image = new Image();
+            using var image = new Image();
             if (image.Load(path) == Error.Ok)
             {
                 return ImageTexture.CreateFromImage(image);
