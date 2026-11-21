@@ -23,6 +23,7 @@ public static class QuestionImporter
     private static readonly string[] FunFactAliases = { "funfact", "funfacttext", "ciekawostka" };
     private static readonly string[] ImageAliases = { "image", "photo", "imagepath", "obraz" };
     private static readonly string[] AudioAliases = { "audio", "audiopath", "sound", "dzwiek" };
+    private static readonly string[] VideoAliases = { "video", "videopath", "wideo" };
     private static readonly string[] DifficultyAliases = { "difficulty", "level", "poziom", "trudnosc" };
     private static readonly string[] ModesAliases = { "modes", "gamemodes", "tryby" };
     private static readonly string[] TypeAliases = { "type", "questiontype", "typ" };
@@ -42,6 +43,7 @@ public static class QuestionImporter
         public string FunFact;
         public string ImagePath;
         public string AudioPath;
+        public string VideoPath;
         public string Difficulty;
         public string Modes;
         public string Type;
@@ -216,7 +218,8 @@ public static class QuestionImporter
             FunFact = string.IsNullOrWhiteSpace(row.FunFact) ? null : row.FunFact.Trim(),
             Difficulty = string.IsNullOrWhiteSpace(row.Difficulty) ? null : row.Difficulty.Trim(),
             Photo = LoadAsset<Texture2D>(row.ImagePath, "image", row, errors),
-            Audio = LoadAsset<AudioStream>(row.AudioPath, "audio", row, errors)
+            Audio = LoadAsset<AudioStream>(row.AudioPath, "audio", row, errors),
+            VideoPath = string.IsNullOrWhiteSpace(row.VideoPath) ? null : row.VideoPath.Trim()
         };
 
         foreach (var modeId in ParseModeIds(row.Modes))
@@ -394,6 +397,7 @@ public static class QuestionImporter
         var funFactIndex = FindColumn(FunFactAliases);
         var imageIndex = FindColumn(ImageAliases);
         var audioIndex = FindColumn(AudioAliases);
+        var videoIndex = FindColumn(VideoAliases);
         var difficultyIndex = FindColumn(DifficultyAliases);
         var modesIndex = FindColumn(ModesAliases);
         var typeIndex = FindColumn(TypeAliases);
@@ -428,6 +432,7 @@ public static class QuestionImporter
                 FunFact = GetCell(record, funFactIndex),
                 ImagePath = GetCell(record, imageIndex),
                 AudioPath = GetCell(record, audioIndex),
+                VideoPath = GetCell(record, videoIndex),
                 Difficulty = GetCell(record, difficultyIndex),
                 Modes = GetCell(record, modesIndex),
                 Type = GetCell(record, typeIndex)
@@ -475,6 +480,7 @@ public static class QuestionImporter
                 FunFact = GetDictionaryValue(dictionary, FunFactAliases),
                 ImagePath = GetDictionaryValue(dictionary, ImageAliases),
                 AudioPath = GetDictionaryValue(dictionary, AudioAliases),
+                VideoPath = GetDictionaryValue(dictionary, VideoAliases),
                 Difficulty = GetDictionaryValue(dictionary, DifficultyAliases),
                 Modes = GetDictionaryValue(dictionary, ModesAliases),
                 Type = GetDictionaryValue(dictionary, TypeAliases)

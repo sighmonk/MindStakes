@@ -6,7 +6,8 @@ using FileAccess = Godot.FileAccess;
 public enum QuestionMediaKind
 {
     Image,
-    Audio
+    Audio,
+    Video
 }
 
 /// <summary>
@@ -22,11 +23,19 @@ public static class QuestionMedia
 
     private static bool? projectWritable;
 
-    public static string GetFolder(QuestionMediaKind kind) =>
-        kind == QuestionMediaKind.Image ? ProjectRoot + "/Images" : ProjectRoot + "/Audio";
+    public static string GetFolder(QuestionMediaKind kind) => kind switch
+    {
+        QuestionMediaKind.Image => ProjectRoot + "/Images",
+        QuestionMediaKind.Audio => ProjectRoot + "/Audio",
+        _ => ProjectRoot + "/Video"
+    };
 
-    public static string GetUserFolder(QuestionMediaKind kind) =>
-        kind == QuestionMediaKind.Image ? UserRoot + "/Images" : UserRoot + "/Audio";
+    public static string GetUserFolder(QuestionMediaKind kind) => kind switch
+    {
+        QuestionMediaKind.Image => UserRoot + "/Images",
+        QuestionMediaKind.Audio => UserRoot + "/Audio",
+        _ => UserRoot + "/Video"
+    };
 
     /// <summary>
     /// Returns the folder new media is copied into: the project folder when it is writable,
@@ -158,6 +167,25 @@ public static class QuestionMedia
             }
 
             GD.PushWarning($"Failed to load question audio from '{path}'.");
+        }
+
+        return embeddedFallback;
+    }
+
+    public static VideoStream LoadVideo(string path, VideoStream embeddedFallback = null)
+    {
+        if (!string.IsNullOrWhiteSpace(path) && FileAccess.FileExists(path))
+        {
+            if (path.StartsWith("res://", StringComparison.Ordinal))
+            {
+                var resource = ResourceLoader.Load<VideoStream>(path);
+                if (resource != null)
+                {
+                    return resource;
+                }
+            }
+
+            return new VideoStreamTheora { File = path };
         }
 
         return embeddedFallback;

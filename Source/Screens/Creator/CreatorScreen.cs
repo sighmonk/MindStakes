@@ -11,6 +11,7 @@ public partial class CreatorScreen : Control
     [Export] public PanelContainer ImageFilePreviewContainer { get; set; }
     [Export] public Button AudioFileSelectButton { get; set; }
     [Export] public PanelContainer AudioFilePreviewContainer { get; set; }
+    [Export] public Button VideoFileSelectButton { get; set; }
     [Export] public LineEdit CorrectAnswerLineEdit { get; set; }
     [Export] public LineEdit Answer2LineEdit { get; set; }
     [Export] public LineEdit Answer3LineEdit { get; set; }
@@ -24,6 +25,7 @@ public partial class CreatorScreen : Control
     [Export] public QuestionMetadataPanel MetadataPanel { get; set; }
     [Export] public FileDialog ImageFileDialog { get; set; }
     [Export] public FileDialog AudioFileDialog { get; set; }
+    [Export] public FileDialog VideoFileDialog { get; set; }
     [Export] public AcceptDialog MediaErrorDialog { get; set; }
 
     private readonly List<Category> _categories = new();
@@ -31,6 +33,7 @@ public partial class CreatorScreen : Control
     private AudioStream _selectedAudio;
     private string _selectedImagePath;
     private string _selectedAudioPath;
+    private string _selectedVideoPath;
     private string _editingQuestionPath;
     private string _editingQuestionId;
     private HSplitContainer _questionsExplorerSplit;
@@ -89,12 +92,20 @@ public partial class CreatorScreen : Control
 
         ImageFileDialog.FileSelected += OnImageFileSelected;
         AudioFileDialog.FileSelected += OnAudioFileSelected;
+        if (VideoFileDialog != null)
+        {
+            VideoFileDialog.FileSelected += OnVideoFileSelected;
+        }
     }
 
     private void BindUiEvents()
     {
         ImageFileSelectButton.Pressed += OnImageSelectPressed;
         AudioFileSelectButton.Pressed += OnAudioSelectPressed;
+        if (VideoFileSelectButton != null)
+        {
+            VideoFileSelectButton.Pressed += OnVideoSelectPressed;
+        }
         SaveButton.Pressed += OnSavePressed;
         NewButton.Pressed += OnNewPressed;
 
@@ -486,6 +497,9 @@ public partial class CreatorScreen : Control
         _selectedAudio = QuestionMedia.LoadAudio(question.AudioPath, question.Audio);
         ShowAudioPreview(_selectedAudio);
 
+        _selectedVideoPath = string.IsNullOrWhiteSpace(question.VideoPath) ? null : question.VideoPath;
+        UpdateFileButtonsState();
+
         MetadataPanel?.LoadQuestion(question);
 
         UpdateFileButtonsState();
@@ -608,6 +622,32 @@ public partial class CreatorScreen : Control
         UpdateFileButtonsState();
     }
 
+    private void OnVideoSelectPressed()
+    {
+        if (_selectedVideoPath != null)
+        {
+            ClearSelectedVideo();
+            return;
+        }
+
+        VideoFileDialog.Title = Tr("SELECT_VIDEO");
+        VideoFileDialog.CurrentDir = GetDialogFolder(QuestionMediaKind.Video);
+        VideoFileDialog.PopupCenteredRatio(0.65f);
+    }
+
+    private void OnVideoFileSelected(string path)
+    {
+        var storedPath = QuestionMedia.Import(path, QuestionMediaKind.Video, out var error);
+        if (storedPath == null)
+        {
+            ShowMediaError(error);
+            return;
+        }
+
+        _selectedVideoPath = storedPath;
+        UpdateFileButtonsState();
+    }
+
     private void ShowMediaError(string message)
     {
         GD.PushWarning(message);
@@ -636,6 +676,12 @@ public partial class CreatorScreen : Control
         UpdateFileButtonsState();
     }
 
+    private void ClearSelectedVideo()
+    {
+        _selectedVideoPath = null;
+        UpdateFileButtonsState();
+    }
+
     private void UpdateFileButtonsState()
     {
         if (ImageFileSelectButton != null)
@@ -646,6 +692,11 @@ public partial class CreatorScreen : Control
         if (AudioFileSelectButton != null)
         {
             AudioFileSelectButton.Text = _selectedAudio == null ? Tr("SELECT") : Tr("CLEAR");
+        }
+
+        if (VideoFileSelectButton != null)
+        {
+            VideoFileSelectButton.Text = _selectedVideoPath == null ? Tr("SELECT") : Tr("CLEAR");
         }
     }
 
@@ -683,7 +734,8 @@ public partial class CreatorScreen : Control
             Photo = _selectedImagePath == null ? _selectedImage : null,
             Audio = _selectedAudioPath == null ? _selectedAudio : null,
             PhotoPath = _selectedImagePath,
-            AudioPath = _selectedAudioPath
+            AudioPath = _selectedAudioPath,
+            VideoPath = _selectedVideoPath
         };
 
         MetadataPanel?.ApplyTo(question);
@@ -885,7 +937,10 @@ public partial class CreatorScreen : Control
         MetadataPanel?.LoadQuestion(null);
 
         _selectedImage = null;
+        _selectedImagePath = null;
         _selectedAudio = null;
+        _selectedAudioPath = null;
+        _selectedVideoPath = null;
 
         SetImagePreviewTexture(null);
         ClearAudioPreview();

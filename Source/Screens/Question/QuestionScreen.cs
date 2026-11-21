@@ -16,6 +16,7 @@ public partial class QuestionScreen : Control
     [Export] public PackedScene AnswerBoxScene { get; set; }
     [Export] public Button CheckButton { get; set; }
     [Export] public Button ResetTimerButton { get; set; }
+    [Export] public VideoStreamPlayer VideoPlayer { get; set; }
     [Export] public float TotalTime { get; set; } = 25.0f;
     [Export] public bool AutostartTimer { get; set; } = false;
     
@@ -42,6 +43,7 @@ public partial class QuestionScreen : Control
 
         UpdateQuestionData();
         LoadQuestionAudio();
+        LoadQuestionVideo();
         
         CheckButton.Pressed += OnCheckButtonPressed;
         ResetTimerButton.Pressed += OnResetTimerButtonPressed;
@@ -176,6 +178,26 @@ public partial class QuestionScreen : Control
         else
         {
             QuestionImageContainer.SizeFlagsStretchRatio = 0;
+        }
+    }
+
+    private void LoadQuestionVideo()
+    {
+        var question = QuestionsManager.Instance.RandomQuestion;
+        var video = question == null ? null : QuestionMedia.LoadVideo(question.VideoPath);
+
+        if (VideoPlayer != null)
+        {
+            VideoPlayer.Visible = video != null;
+            if (video != null)
+            {
+                VideoPlayer.Stream = video;
+                VideoPlayer.Play();
+            }
+            else
+            {
+                VideoPlayer.Stream = null;
+            }
         }
     }
 

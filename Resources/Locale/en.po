@@ -240,3 +240,6 @@ msgstr "Could not load the save."
 
 msgid "SAVE_EXPORT_FAILED"
 msgstr "Could not write the save archive."
+
+msgid "SELECT_VIDEO"
+msgstr "Select video"
