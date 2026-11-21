@@ -191,5 +191,8 @@ msgid "MEDIA_ERROR"
 msgstr "Could not add the file: {0}"
 
 # Settings
-msgid "SETTINGS_ANIMATIONS"
-msgstr "Animations"
+msgid "SETTINGS_ANIMATIONS_ON"
+msgstr "Animations: ON"
+
+msgid "SETTINGS_ANIMATIONS_OFF"
+msgstr "Animations: OFF"
