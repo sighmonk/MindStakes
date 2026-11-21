@@ -15,7 +15,7 @@ permissions:
 
 env:
   # Keep in sync with MindStakes.csproj (Godot.NET.Sdk) and project.godot (config/features).
-  GODOT_VERSION: 4.6.1-stable
+  GODOT_VERSION: 4.7.2-stable
 
 jobs:
   export:

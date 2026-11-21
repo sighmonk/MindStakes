@@ -5,7 +5,7 @@
 [![CI](https://github.com/sighmonk/MindStakes/actions/workflows/ci.yml/badge.svg)](https://github.com/sighmonk/MindStakes/actions/workflows/ci.yml)
 [![Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml/badge.svg)](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Godot 4.6.1 .NET](https://img.shields.io/badge/Godot-4.6.1%20.NET-478cbf?logo=godotengine&logoColor=white)](https://godotengine.org)
+[![Godot 4.7.2 .NET](https://img.shields.io/badge/Godot-4.7.2%20.NET-478cbf?logo=godotengine&logoColor=white)](https://godotengine.org)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512bd4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
 
 MindStakes is a tool for quiz show hosts, made in Godot.
@@ -165,7 +165,7 @@ Every tagged release ships prebuilt Windows and Linux builds. Each push to `main
 
 Requirements:
 
-- [Godot 4.6.1 **.NET**](https://godotengine.org/download) (the standard build cannot run C#),
+- [Godot 4.7.2 **.NET**](https://godotengine.org/download) (the standard build cannot run C#),
 - [.NET 8 SDK](https://dotnet.microsoft.com/download),
 - Git LFS, because images and audio are stored with LFS.
 

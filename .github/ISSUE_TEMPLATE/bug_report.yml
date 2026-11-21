@@ -67,7 +67,7 @@ body:
     id: environment
     attributes:
       label: Operating system and Godot version
-      placeholder: Windows 11, exported build / Ubuntu 24.04, Godot 4.6.1 .NET
+      placeholder: Windows 11, exported build / Ubuntu 24.04, Godot 4.7.2 .NET
     validations:
       required: true
 
