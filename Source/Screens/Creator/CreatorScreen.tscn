@@ -5,13 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://gvqucvlox5kx" path="res://Source/Components/ShaderedBackground/ShaderedBackground.tscn" id="3_nfyey"]
 [ext_resource type="PackedScene" uid="uid://bidb0awkb3c2c" path="res://Source/Components/MusicPlayer/MusicPlayer.tscn" id="3_whnrv"]
 [ext_resource type="Script" uid="uid://bic87bo6givcp" path="res://Source/Components/Buttons/NextButton/NextButton.cs" id="4_kk2el"]
+[ext_resource type="PackedScene" uid="uid://cudre0s35dbta" path="res://Source/Components/QuestionFilter/QuestionFilterPanel.tscn" id="6_lhfdu"]
 [ext_resource type="PackedScene" uid="uid://2ii2i018wjeg" path="res://Source/Components/QuestionMetadata/QuestionMetadataPanel.tscn" id="6_nfyey"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ytik"]
 bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.73333335)
 border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 
-[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "VideoFileSelectButton", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree", "MetadataPanel", "ImageFileDialog", "AudioFileDialog", "VideoFileDialog", "MediaErrorDialog")]
+[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "VideoFileSelectButton", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree", "FilterPanel", "MetadataPanel", "ImageFileDialog", "AudioFileDialog", "VideoFileDialog", "MediaErrorDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +37,8 @@ PoolSpinBox = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBox
 SaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/SaveButton")
 NewButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer3/NewButton")
 MusicPlayerScene = ExtResource("3_whnrv")
-QuestionsExplorerTree = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ScrollContainer/MarginContainer/Tree")
+QuestionsExplorerTree = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox/ScrollContainer/MarginContainer/Tree")
+FilterPanel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox/FilterPanel")
 MetadataPanel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/QuestionMetadataPanel")
 ImageFileDialog = NodePath("ImageFileDialog")
 AudioFileDialog = NodePath("AudioFileDialog")
@@ -135,15 +137,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_kk2el")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel" unique_id=974534659]
-layout_mode = 1
-anchors_preset = 15
+[node name="ExplorerVBox" type="VBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel" unique_id=539786476]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+theme_override_constants/separation = 12
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ScrollContainer" unique_id=70109202]
+[node name="FilterPanel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox" unique_id=1719277574 instance=ExtResource("6_lhfdu")]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox" unique_id=974534659]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox/ScrollContainer" unique_id=70109202]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -152,7 +159,7 @@ theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 22
 theme_override_constants/margin_bottom = 22
 
-[node name="Tree" type="Tree" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ScrollContainer/MarginContainer" unique_id=316884215]
+[node name="Tree" type="Tree" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ExplorerVBox/ScrollContainer/MarginContainer" unique_id=316884215]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

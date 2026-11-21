@@ -124,6 +124,7 @@ Questions are separate data and are not part of the interface localization.
 - Edit existing questions.
 - Save questions after creating or updating them.
 - Modify existing question entries whenever needed.
+- Filter the question list by text, category, difficulty, type or game mode.
 - Bulk import questions from CSV or JSON.
 
 The first answer field is always the correct answer; the game shuffles the answers when it displays them. All four answers are required, and two answers with the same text are rejected, because the correct answer is matched by its text.
@@ -147,12 +148,21 @@ Questions can also carry a video (`VideoPath`). The creator copies it to `Assets
 
 The creator scene owns the dialogs: `ImageFileDialog`, `AudioFileDialog` and `VideoFileDialog` (`Access = Filesystem`, `UseNativeDialog = true`, `FileMode = Open File`, filters for PNG/JPG/WEBP, MP3/WAV/OGG and OGV) and `MediaErrorDialog` (`AcceptDialog`) for error messages. Assign them to the matching exports on `CreatorScreen` in the Inspector.
 
+## Question list filters
+
+The left side of the creator hosts the `QuestionFilterPanel` component (`Source/Components/QuestionFilter/`), instanced as `FilterPanel` inside the explorer column (`ExplorerVBox/FilterPanel`) and assigned to the `FilterPanel` export on `CreatorScreen`.
+
+- A search box matches the question text case-insensitively, and four selectors narrow the list by category, difficulty, question type and game mode. Every selector starts with an "all" entry, so an empty bar shows the whole pool.
+- All active conditions must match. When something is filtered, pools without a match disappear from the explorer, the remaining pools are expanded, and the question list shows a short preview of the question text next to the file name.
+- The selectors are rebuilt from `CategoriesManager`, `QuestionSettings` and `GameModeRegistry` whenever the metadata panel changes, so a difficulty level added while editing shows up immediately. `Clear filters` resets everything.
+- `CreatorScreen` caches the loaded `Question` resources, so typing in the search box does not re-parse the pool on every keystroke. A saved question replaces its cache entry.
+
 ## Question metadata
 
 Every question can carry a difficulty label and the game modes it is meant for. The `QuestionMetadataPanel` component (`Source/Components/QuestionMetadata/`) renders both and is instanced in the creator form as `QuestionMetadataPanel`.
 
 - Difficulty levels live in `user://settings.cfg` under `[questions] difficulty_levels`; the defaults are `Easy`, `Medium`, `Hard`. The creator adds a level with the `New level` field and `Add`, removes the selected one with `Remove`, and the list survives restarts. The first option is `—`, which stores no label.
-- Target modes are checkboxes built from `GameModeRegistry`, so a mode added to the registry appears without touching the scene. A question with no mode selected belongs to every mode.
+- Target modes are toggle buttons built from `GameModeRegistry`, so a mode added to the registry appears without touching the scene. A question with no mode selected belongs to every mode.
 - Saving keeps `IsBettingGameQuestion`, `IsSabotageGameQuestion` and `IsFraudGameQuestion` in sync with the selected modes, so older builds and hand-written `.tres` files still read the question the same way. Questions saved before the metadata existed have an empty mode list and load unchanged.
 - `QuestionsManager` only offers questions the active mode accepts, and the validator warns about an unknown difficulty label or an unknown mode id.
 

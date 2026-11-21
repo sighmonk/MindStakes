@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bm54k281ku6ew" path="res://Source/Components/QuestionMetadata/QuestionMetadataPanel.cs" id="1_bpj2f"]
 
 [node name="QuestionMetadataPanel" type="VBoxContainer" unique_id=1431749280 node_paths=PackedStringArray("TypeLabel", "TypeOption", "DifficultyLabel", "DifficultyOption", "NewLevelEdit", "AddLevelButton", "RemoveLevelButton", "ModesLabel", "ModesContainer")]
+theme_override_constants/separation = 10
 script = ExtResource("1_bpj2f")
 TypeLabel = NodePath("TypeRow/TypeLabel")
 TypeOption = NodePath("TypeRow/TypeOption")
@@ -11,13 +12,15 @@ DifficultyOption = NodePath("DifficultyRow/DifficultyOption")
 NewLevelEdit = NodePath("LevelsRow/NewLevelEdit")
 AddLevelButton = NodePath("LevelsRow/AddLevelButton")
 RemoveLevelButton = NodePath("LevelsRow/RemoveLevelButton")
-ModesLabel = NodePath("ModesRow/ModesLabel")
-ModesContainer = NodePath("ModesRow/ModesContainer")
+ModesLabel = NodePath("ModesBox/ModesLabel")
+ModesContainer = NodePath("ModesBox/ModesContainer")
 
 [node name="TypeRow" type="HBoxContainer" parent="." unique_id=1361261013]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="TypeLabel" type="Label" parent="TypeRow" unique_id=505624445]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Question type"
 
@@ -27,8 +30,10 @@ size_flags_horizontal = 3
 
 [node name="DifficultyRow" type="HBoxContainer" parent="." unique_id=1352787408]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="DifficultyLabel" type="Label" parent="DifficultyRow" unique_id=138449753]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Difficulty"
 
@@ -38,6 +43,7 @@ size_flags_horizontal = 3
 
 [node name="LevelsRow" type="HBoxContainer" parent="." unique_id=2108495683]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="NewLevelEdit" type="LineEdit" parent="LevelsRow" unique_id=69329896]
 layout_mode = 2
@@ -46,20 +52,24 @@ placeholder_text = "New level"
 
 [node name="AddLevelButton" type="Button" parent="LevelsRow" unique_id=1930222057]
 layout_mode = 2
+theme_override_font_sizes/font_size = 28
 text = "+"
 
 [node name="RemoveLevelButton" type="Button" parent="LevelsRow" unique_id=783106728]
 layout_mode = 2
+theme_override_font_sizes/font_size = 28
 text = "-"
 
-[node name="ModesRow" type="HBoxContainer" parent="." unique_id=229749071]
+[node name="ModesBox" type="VBoxContainer" parent="." unique_id=156967206]
 layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="ModesLabel" type="Label" parent="ModesRow" unique_id=124565003]
+[node name="ModesLabel" type="Label" parent="ModesBox" unique_id=124565003]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Modes"
 
-[node name="ModesContainer" type="HBoxContainer" parent="ModesRow" unique_id=373678784]
+[node name="ModesContainer" type="HFlowContainer" parent="ModesBox" unique_id=248636575]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 24
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8

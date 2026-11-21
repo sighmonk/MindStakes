@@ -18,10 +18,10 @@ public partial class QuestionMetadataPanel : VBoxContainer
     [Export] public Button AddLevelButton { get; set; }
     [Export] public Button RemoveLevelButton { get; set; }
     [Export] public Label ModesLabel { get; set; }
-    [Export] public HBoxContainer ModesContainer { get; set; }
+    [Export] public HFlowContainer ModesContainer { get; set; }
 
     private readonly List<string> levels = new();
-    private readonly Dictionary<string, CheckBox> modeChecks = new();
+    private readonly Dictionary<string, Button> modeToggles = new();
 
     public override void _Ready()
     {
@@ -59,14 +59,34 @@ public partial class QuestionMetadataPanel : VBoxContainer
     {
         foreach (var mode in GameModeRegistry.All)
         {
-            var check = new CheckBox
+            var toggle = new Button
             {
                 Text = Tr(mode.DisplayNameKey),
+                ToggleMode = true,
                 ButtonPressed = true
             };
-            check.Toggled += _ => EmitSignal(SignalName.MetadataChanged);
-            ModesContainer.AddChild(check);
-            modeChecks[mode.Id] = check;
+            toggle.AddThemeFontSizeOverride("font_size", 28);
+            toggle.Toggled += _ => EmitSignal(SignalName.MetadataChanged);
+            toggle.Toggled += pressed => ApplyModeToggleStyle(toggle, pressed);
+            ModesContainer.AddChild(toggle);
+            ApplyModeToggleStyle(toggle, true);
+            modeToggles[mode.Id] = toggle;
+        }
+    }
+
+    /// <summary>
+    /// Toggle buttons keep the normal style while pressed, so the selected modes are
+    /// painted with the theme's pressed stylebox instead of the default one.
+    /// </summary>
+    private static void ApplyModeToggleStyle(Button toggle, bool pressed)
+    {
+        if (pressed)
+        {
+            toggle.AddThemeStyleboxOverride("normal", toggle.GetThemeStylebox("pressed", "Button"));
+        }
+        else
+        {
+            toggle.RemoveThemeStyleboxOverride("normal");
         }
     }
 
@@ -151,9 +171,11 @@ public partial class QuestionMetadataPanel : VBoxContainer
 
         RefreshDifficultyOptions(difficulty);
 
-        foreach (var pair in modeChecks)
+        foreach (var pair in modeToggles)
         {
-            pair.Value.SetPressedNoSignal(question == null || question.IsTargetedAt(pair.Key));
+            var enabled = question == null || question.IsTargetedAt(pair.Key);
+            pair.Value.SetPressedNoSignal(enabled);
+            ApplyModeToggleStyle(pair.Value, enabled);
         }
     }
 
@@ -162,7 +184,7 @@ public partial class QuestionMetadataPanel : VBoxContainer
         question.Type = GetSelectedType();
         question.Difficulty = GetSelectedDifficulty();
 
-        foreach (var pair in modeChecks)
+        foreach (var pair in modeToggles)
         {
             question.SetTargetMode(pair.Key, pair.Value.ButtonPressed);
         }

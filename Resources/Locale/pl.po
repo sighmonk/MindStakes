@@ -256,3 +256,61 @@ msgstr "Nie udało się zaimportować konfiguracji."
 
 msgid "CONFIG_EXPORT_FAILED"
 msgstr "Nie udało się zapisać konfiguracji."
+
+# Question filters (creator)
+msgid "FILTER_SEARCH"
+msgstr "Szukaj w treści pytania"
+
+msgid "FILTER_RESET"
+msgstr "Wyczyść filtry"
+
+msgid "FILTER_ALL_CATEGORIES"
+msgstr "Wszystkie kategorie"
+
+msgid "FILTER_ALL_DIFFICULTIES"
+msgstr "Wszystkie poziomy"
+
+msgid "FILTER_ALL_TYPES"
+msgstr "Wszystkie typy"
+
+msgid "FILTER_ALL_MODES"
+msgstr "Wszystkie tryby"
+
+msgid "FILTER_CATEGORY"
+msgstr "Kategoria"
+
+msgid "FILTER_DIFFICULTY"
+msgstr "Poziom"
+
+msgid "FILTER_TYPE"
+msgstr "Typ"
+
+msgid "FILTER_MODE"
+msgstr "Tryb"
+
+# Creator media and dialogs
+msgid "Video"
+msgstr "Wideo"
+
+msgid "MEDIA"
+msgstr "Multimedia"
+
+# Question screen timer
+msgid "TIMER_RESET"
+msgstr "START / RESET"
+
+# Team screens
+msgid "[b]TEAM SCORES[/b]"
+msgstr "[b]PUNKTACJA DRUŻYN[/b]"
+
+msgid "TEAM EDIT"
+msgstr "EDYCJA DRUŻYN"
+
+msgid "TEAM 2"
+msgstr "DRUŻYNA 2"
+
+msgid "TEAM 3"
+msgstr "DRUŻYNA 3"
+
+msgid "TEAM 4"
+msgstr "DRUŻYNA 4"

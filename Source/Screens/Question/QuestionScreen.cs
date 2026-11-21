@@ -48,6 +48,7 @@ public partial class QuestionScreen : Control
         CheckButton.Pressed += OnCheckButtonPressed;
         ResetTimerButton.Pressed += OnResetTimerButtonPressed;
         CheckButton.Text = Tr("CHECK_BUTTON");
+        ResetTimerButton.Text = Tr("TIMER_RESET");
     }
 
     public override void _Process(double delta)
