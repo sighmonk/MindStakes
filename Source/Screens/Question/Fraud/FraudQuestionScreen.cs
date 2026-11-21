@@ -30,6 +30,12 @@ public partial class FraudQuestionScreen : QuestionScreen
         CycleTeamLeftButton.Pressed += OnCycleTeamLeftButtonPressed;
         CycleTeamRightButton.Pressed += OnCycleTeamRightButtonPressed;
         TeamIndexSpinBox.ValueChanged += OnTeamIndexSpinBoxValueChanged;
+        SignalManager.Instance.AnsweringTeamChanged += OnAnsweringTeamChanged;
+        UpdateTeamIndexSpinBox();
+    }
+    private void OnAnsweringTeamChanged()
+    {
+        UpdateTeamCard();
         UpdateTeamIndexSpinBox();
     }
     private void OnCycleTeamLeftButtonPressed()

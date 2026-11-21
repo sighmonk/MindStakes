@@ -89,6 +89,39 @@ public partial class QuestionsManager : Node
         }
     }
 
+    /// <summary>
+    /// Replaces the question shown on screen with another unused question from the same category
+    /// and marks the discarded one as used. Does not touch the round, bets or scores.
+    /// </summary>
+    /// <returns><c>false</c> when there is no question on screen or no replacement is left.</returns>
+    public bool RerollCurrentQuestion()
+    {
+        var currentQuestion = RandomQuestion;
+        if (currentQuestion == null)
+        {
+            return false;
+        }
+
+        var gameMode = GameManager.Instance.CurrentGameMode;
+        var alternatives = Questions
+            .Where(q =>
+                q.Category == currentQuestion.Category &&
+                q != currentQuestion &&
+                !IsQuestionUsed(q) &&
+                GameModeRegistry.IsQuestionAllowed(q, gameMode))
+            .ToList();
+
+        if (alternatives.Count == 0)
+        {
+            return false;
+        }
+
+        UsedQuestionIds.Add(currentQuestion.EnsureStableId());
+        Questions.Remove(currentQuestion);
+        RandomQuestion = alternatives[(int)(GD.Randi() % alternatives.Count)];
+        return true;
+    }
+
     public int GetMaxPoolNumber()
     {
         var dir = DirAccess.Open(QuestionStorage.RootPath);

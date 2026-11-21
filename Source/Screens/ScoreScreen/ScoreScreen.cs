@@ -10,6 +10,18 @@ public partial class ScoreScreen : Control
     {
         LoadTeamCards();
         CheckGameEnd();
+        SignalManager.Instance.AnsweringTeamChanged += OnAnsweringTeamChanged;
+    }
+
+    private void OnAnsweringTeamChanged()
+    {
+        foreach (var child in TeamCardsContainer.GetChildren())
+        {
+            if (child is ScoreTeamCard teamCard)
+            {
+                teamCard.UpdateButtonsAndText();
+            }
+        }
     }
 
     private void CheckGameEnd()

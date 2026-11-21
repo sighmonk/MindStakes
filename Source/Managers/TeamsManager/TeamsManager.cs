@@ -157,4 +157,25 @@ public partial class TeamsManager : Node
             CurrentTeam = Teams[index];
         }
     }
+
+    /// <summary>
+    /// Switches the team that answers the current question and refreshes the screens listening to
+    /// <see cref="SignalManager.AnsweringTeamChanged"/>. While the answering team is still the team
+    /// that picked the category, both move together so the pick also belongs to the new team.
+    /// </summary>
+    public void SetAnsweringTeam(int index)
+    {
+        if (index < 0 || index >= Teams.Count)
+        {
+            return;
+        }
+
+        if (CurrentTeam == InitialTeam)
+        {
+            InitialTeam = Teams[index];
+        }
+
+        CurrentTeam = Teams[index];
+        SignalManager.Instance.EmitSignal(SignalManager.SignalName.AnsweringTeamChanged);
+    }
 }
