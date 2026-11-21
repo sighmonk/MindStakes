@@ -215,3 +215,15 @@ msgstr "Remove"
 
 msgid "QUESTION_DIFFICULTY_NONE"
 msgstr "—"
+
+msgid "QUESTION_TYPE"
+msgstr "Question type"
+
+msgid "QUESTION_TYPE_MULTIPLE_CHOICE"
+msgstr "Multiple choice"
+
+msgid "QUESTION_TYPE_TRUE_FALSE"
+msgstr "True / false"
+
+msgid "QUESTION_TYPE_OPEN_ENDED"
+msgstr "Open-ended"

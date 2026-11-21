@@ -24,9 +24,38 @@ public static class QuestionValidator
         }
 
         var answers = question.AnswersText;
-        if (answers == null || answers.Count < RequiredAnswers)
+        if (answers == null)
         {
-            problems.Add($"needs {RequiredAnswers} answers, has {answers?.Count ?? 0}");
+            problems.Add("answers are missing");
+            ValidateMetadata(question, problems);
+            return problems;
+        }
+
+        ValidateMetadata(question, problems);
+
+        switch (question.Type)
+        {
+            case Question.QuestionType.TrueFalse:
+                ValidateAnswerCount(answers, 2, problems, "true/false questions need exactly 2 answers");
+                break;
+            case Question.QuestionType.OpenEnded:
+                if (answers.Count < 1 || string.IsNullOrWhiteSpace(answers[0]))
+                {
+                    problems.Add("open-ended questions need a reference answer (index 0)");
+                }
+                break;
+            default:
+                ValidateAnswerCount(answers, RequiredAnswers, problems, $"needs {RequiredAnswers} answers, has {answers.Count}");
+                break;
+        }
+
+        if (question.Type == Question.QuestionType.OpenEnded)
+        {
+            return problems;
+        }
+
+        if (answers.Count < 2)
+        {
             return problems;
         }
 
@@ -56,6 +85,11 @@ public static class QuestionValidator
             problems.Add($"duplicate answer text: {string.Join(", ", duplicates)}");
         }
 
+        return problems;
+    }
+
+    private static void ValidateMetadata(Question question, List<string> problems)
+    {
         if (!string.IsNullOrWhiteSpace(question.Difficulty)
             && !QuestionSettings.GetDifficultyLevels().Contains(question.Difficulty, StringComparer.OrdinalIgnoreCase))
         {
@@ -70,8 +104,18 @@ public static class QuestionValidator
         {
             problems.Add($"unknown game mode: {string.Join(", ", unknownModes)}");
         }
+    }
 
-        return problems;
+    private static void ValidateAnswerCount(
+        Godot.Collections.Array<string> answers,
+        int expected,
+        List<string> problems,
+        string message)
+    {
+        if (answers.Count != expected)
+        {
+            problems.Add(message);
+        }
     }
 
     public static bool ValidateQuestion(Question question, string source)

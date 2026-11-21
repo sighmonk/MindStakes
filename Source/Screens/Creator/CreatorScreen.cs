@@ -668,11 +668,12 @@ public partial class CreatorScreen : Control
 
         EnsurePoolDirectoryExists(poolPath);
 
+        var questionType = MetadataPanel != null ? MetadataPanel.GetSelectedType() : Question.QuestionType.MultipleChoice;
         var question = new Question
         {
             Id = _editingQuestionId ?? Question.CreateNewId(),
             QuestionText = QuestionLineEdit.Text.Trim(),
-            AnswersText = BuildAnswers(),
+            AnswersText = BuildAnswers(questionType),
             IsClosedQuestion = true,
             IsBettingGameQuestion = true,
             IsSabotageGameQuestion = true,
@@ -813,13 +814,22 @@ public partial class CreatorScreen : Control
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(CorrectAnswerLineEdit.Text)
-            || string.IsNullOrWhiteSpace(Answer2LineEdit.Text)
-            || string.IsNullOrWhiteSpace(Answer3LineEdit.Text)
-            || string.IsNullOrWhiteSpace(Answer4LineEdit.Text))
+        var questionType = MetadataPanel != null ? MetadataPanel.GetSelectedType() : Question.QuestionType.MultipleChoice;
+        var requiredAnswers = questionType switch
         {
-            GD.PushWarning("All answer fields are required.");
-            return false;
+            Question.QuestionType.TrueFalse => 2,
+            Question.QuestionType.OpenEnded => 1,
+            _ => 4
+        };
+
+        var answerFields = new[] { CorrectAnswerLineEdit, Answer2LineEdit, Answer3LineEdit, Answer4LineEdit };
+        for (var i = 0; i < requiredAnswers; i++)
+        {
+            if (string.IsNullOrWhiteSpace(answerFields[i].Text))
+            {
+                GD.PushWarning($"Answer {i + 1} is required for {questionType} questions.");
+                return false;
+            }
         }
 
         return true;
@@ -836,13 +846,18 @@ public partial class CreatorScreen : Control
         return _categories[selectedIndex];
     }
 
-    private Godot.Collections.Array<string> BuildAnswers()
+    private Godot.Collections.Array<string> BuildAnswers(Question.QuestionType questionType)
     {
         var answers = new Godot.Collections.Array<string>();
         AddIfNotEmpty(answers, CorrectAnswerLineEdit.Text);
         AddIfNotEmpty(answers, Answer2LineEdit.Text);
-        AddIfNotEmpty(answers, Answer3LineEdit.Text);
-        AddIfNotEmpty(answers, Answer4LineEdit.Text);
+
+        if (questionType != Question.QuestionType.TrueFalse)
+        {
+            AddIfNotEmpty(answers, Answer3LineEdit.Text);
+            AddIfNotEmpty(answers, Answer4LineEdit.Text);
+        }
+
         return answers;
     }
 

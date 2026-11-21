@@ -25,6 +25,7 @@ public static class QuestionImporter
     private static readonly string[] AudioAliases = { "audio", "audiopath", "sound", "dzwiek" };
     private static readonly string[] DifficultyAliases = { "difficulty", "level", "poziom", "trudnosc" };
     private static readonly string[] ModesAliases = { "modes", "gamemodes", "tryby" };
+    private static readonly string[] TypeAliases = { "type", "questiontype", "typ" };
 
     private sealed class ImportRow
     {
@@ -43,6 +44,7 @@ public static class QuestionImporter
         public string AudioPath;
         public string Difficulty;
         public string Modes;
+        public string Type;
     }
 
     public static bool TryRunFromCommandLine()
@@ -203,6 +205,7 @@ public static class QuestionImporter
         var question = new Question
         {
             Id = Question.CreateNewId(),
+            Type = ParseQuestionType(row.Type),
             QuestionText = row.QuestionText?.Trim(),
             AnswersText = answers,
             IsClosedQuestion = true,
@@ -223,6 +226,26 @@ public static class QuestionImporter
 
         GameModeRegistry.ApplyLegacyFlags(question);
         return question;
+    }
+
+    private static Question.QuestionType ParseQuestionType(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return Question.QuestionType.MultipleChoice;
+        }
+
+        var normalized = value.Trim().ToLowerInvariant()
+            .Replace(" ", string.Empty)
+            .Replace("_", string.Empty)
+            .Replace("-", string.Empty);
+
+        return normalized switch
+        {
+            "truefalse" or "trueorfalse" or "bool" => Question.QuestionType.TrueFalse,
+            "openended" or "open" or "openanswer" => Question.QuestionType.OpenEnded,
+            _ => Question.QuestionType.MultipleChoice
+        };
     }
 
     private static IEnumerable<string> ParseModeIds(string value)
@@ -373,6 +396,7 @@ public static class QuestionImporter
         var audioIndex = FindColumn(AudioAliases);
         var difficultyIndex = FindColumn(DifficultyAliases);
         var modesIndex = FindColumn(ModesAliases);
+        var typeIndex = FindColumn(TypeAliases);
 
         if (categoryIndex < 0 || questionIndex < 0 || correctIndex < 0
             || answer2Index < 0 || answer3Index < 0 || answer4Index < 0)
@@ -405,7 +429,8 @@ public static class QuestionImporter
                 ImagePath = GetCell(record, imageIndex),
                 AudioPath = GetCell(record, audioIndex),
                 Difficulty = GetCell(record, difficultyIndex),
-                Modes = GetCell(record, modesIndex)
+                Modes = GetCell(record, modesIndex),
+                Type = GetCell(record, typeIndex)
             });
         }
 
@@ -451,7 +476,8 @@ public static class QuestionImporter
                 ImagePath = GetDictionaryValue(dictionary, ImageAliases),
                 AudioPath = GetDictionaryValue(dictionary, AudioAliases),
                 Difficulty = GetDictionaryValue(dictionary, DifficultyAliases),
-                Modes = GetDictionaryValue(dictionary, ModesAliases)
+                Modes = GetDictionaryValue(dictionary, ModesAliases),
+                Type = GetDictionaryValue(dictionary, TypeAliases)
             });
         }
 

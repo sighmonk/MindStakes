@@ -6,8 +6,18 @@ using System.Text;
 [GlobalClass]
 public partial class Question : Resource
 {
+    public enum QuestionType
+    {
+        MultipleChoice = 0,
+        TrueFalse = 1,
+        OpenEnded = 2
+    }
+
     [Export]
     public string Id { get; set; }
+
+    [Export]
+    public QuestionType Type { get; set; } = QuestionType.MultipleChoice;
 
     [Export(PropertyHint.MultilineText)]
     public string QuestionText { get; set; }

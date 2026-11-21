@@ -135,11 +135,21 @@ public partial class QuestionScreen : Control
 
                 index++;
             }
+
+            if (AnswersContainer != null)
+            {
+                AnswersContainer.Visible = question.Type != Question.QuestionType.OpenEnded;
+            }
         }
     }
 
     public void RevealAnswer()
     {
+        if (AnswersContainer != null)
+        {
+            AnswersContainer.Visible = true;
+        }
+
         if (_correctAnswerBox != null)
         {
             _correctAnswerBox.MarkAsCorrect();
