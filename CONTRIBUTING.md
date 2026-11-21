@@ -10,7 +10,7 @@ Thanks for taking the time to contribute. This page covers everything you need t
 | .NET SDK | 8.0 |
 | Git LFS | any recent version |
 
-Assets (images, audio) are stored with Git LFS, so install LFS **before** cloning:
+Binary assets such as images and audio are routed through Git LFS by `.gitattributes`, so install LFS **before** adding such files:
 
 ```powershell
 git lfs install

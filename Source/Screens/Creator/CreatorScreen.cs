@@ -5,6 +5,9 @@ using System.Linq;
 
 public partial class CreatorScreen : Control
 {
+    private const string QuestionImagesPath = "res://Assets/Media/Questions/Images";
+    private const string QuestionAudioPath = "res://Assets/Media/Questions/Audio";
+
     [Export] public LineEdit QuestionLineEdit { get; set; }
     [Export] public OptionButton CategoryOptionButton { get; set; }
     [Export] public Button ImageFileSelectButton { get; set; }
@@ -554,7 +557,7 @@ public partial class CreatorScreen : Control
             return;
         }
 
-        _imageFileDialog.CurrentDir = "res://Assets/Images";
+        _imageFileDialog.CurrentDir = EnsureMediaFolder(QuestionImagesPath);
         _imageFileDialog.PopupCenteredRatio(0.65f);
     }
 
@@ -566,7 +569,7 @@ public partial class CreatorScreen : Control
             return;
         }
 
-        _audioFileDialog.CurrentDir = "res://Assets/Audio";
+        _audioFileDialog.CurrentDir = EnsureMediaFolder(QuestionAudioPath);
         _audioFileDialog.PopupCenteredRatio(0.65f);
     }
 
@@ -594,6 +597,16 @@ public partial class CreatorScreen : Control
 
         ShowAudioPreview(_selectedAudio);
         UpdateFileButtonsState();
+    }
+
+    private static string EnsureMediaFolder(string path)
+    {
+        if (!DirAccess.DirExistsAbsolute(path))
+        {
+            DirAccess.MakeDirRecursiveAbsolute(path);
+        }
+
+        return path;
     }
 
     private void ClearSelectedImage()

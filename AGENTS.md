@@ -10,6 +10,7 @@ Kontekst projektu: Godot + C#, logika w `Source/`, dane i zasoby w `Resources/`.
 - Logika gry i dane: `Source/`
 - Zasoby (pytania, kategorie): `Resources/`
 - Assety (audio, obrazy, motywy): `Assets/`
+- Media pytan (obrazy i audio): `Assets/Media/Questions/` (tylko lokalnie, ignorowane przez Git)
 
 ## Twarde Zasady
 1. **Modyfikacja plikow `.tscn` jest zabroniona.**
@@ -44,6 +45,7 @@ Przykladowa struktura:
 - Przykladowe kategorie sa przechowywane w `Resources/Examples/Categories/`.
 - Dane uzytkownika trafiaja do `user://questions` i `user://categories` albo do folderow wskazanych przez `--questions-dir` / `--categories-dir` lub `MINDSTAKES_QUESTIONS_DIR` / `MINDSTAKES_CATEGORIES_DIR`.
 - Nie commituj `Resources/Questions/`, `Resources/Categories/` ani skopiowanych mediow pytan.
+- Media pytan (obrazy, audio) trzymaj w `Assets/Media/Questions/`; katalog jest ignorowany przez Git.
 - Zachowuj konwencje plikow `.tres` uzywane w repozytorium.
 
 ## Walidacja
