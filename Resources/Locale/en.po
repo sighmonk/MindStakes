@@ -189,3 +189,7 @@ msgstr "Answering: {0}"
 # Question media
 msgid "MEDIA_ERROR"
 msgstr "Could not add the file: {0}"
+
+# Settings
+msgid "SETTINGS_ANIMATIONS"
+msgstr "Animations"

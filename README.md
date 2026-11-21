@@ -94,9 +94,6 @@ The script exports bind `PanelContent`, `TitleLabel`, `RerollQuestionButton`, `N
 
 To rebuild the scene by hand in the editor: create a `CanvasLayer` with the script attached, set `Layer` to `100`, add a full-rect `Control` named `PanelContent` with `Mouse Filter = Ignore` and `MainTheme.tres` as its theme, then add the `PanelContainer` → `MarginContainer` → `VBoxContainer` chain with the labels and buttons above, and assign the six exported nodes to the script in the Inspector.
 
-# Reroll animation
-The category reroll is meant to feel like a slot machine. Because that is scene and animation work, the repository documents it instead of shipping `.tscn` edits: [docs/RerollAnimation.md](./docs/RerollAnimation.md) describes the nodes to add, the `AnimationPlayer` tracks, the C# hooks, the optional reel blur shader and the fallback used when animations are disabled.
-
 # Language
 The interface ships in Polish (the default) and English. The `LanguageSwitcher` component ([Source/Components/LanguageSwitcher](./Source/Components/LanguageSwitcher/)) renders the **PL** / **EN** buttons and is instanced in the main menu. The choice is saved to `user://settings.cfg` and applied on the next start.
 
