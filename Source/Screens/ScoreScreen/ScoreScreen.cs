@@ -1,5 +1,6 @@
  using Godot;
 using System;
+using System.Linq;
 
 public partial class ScoreScreen : Control
 {
@@ -15,12 +16,9 @@ public partial class ScoreScreen : Control
 
     private void OnAnsweringTeamChanged()
     {
-        foreach (var child in TeamCardsContainer.GetChildren())
+        foreach (var teamCard in TeamCardsContainer.GetChildren().OfType<ScoreTeamCard>())
         {
-            if (child is ScoreTeamCard teamCard)
-            {
-                teamCard.UpdateButtonsAndText();
-            }
+            teamCard.UpdateButtonsAndText();
         }
     }
 
