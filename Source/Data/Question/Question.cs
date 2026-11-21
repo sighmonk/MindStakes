@@ -29,6 +29,10 @@ public partial class Question : Resource
     public Texture2D Photo { get; set; }
     [Export]
     public AudioStream Audio { get; set; }
+    [Export]
+    public string PhotoPath { get; set; }
+    [Export]
+    public string AudioPath { get; set; }
 
     public string EnsureStableId()
     {

@@ -5,9 +5,6 @@ using System.Linq;
 
 public partial class CreatorScreen : Control
 {
-    private const string QuestionImagesPath = "res://Assets/Media/Questions/Images";
-    private const string QuestionAudioPath = "res://Assets/Media/Questions/Audio";
-
     [Export] public LineEdit QuestionLineEdit { get; set; }
     [Export] public OptionButton CategoryOptionButton { get; set; }
     [Export] public Button ImageFileSelectButton { get; set; }
@@ -24,12 +21,15 @@ public partial class CreatorScreen : Control
     [Export] public Button NewButton { get; set; }
     [Export] public PackedScene MusicPlayerScene { get; set; }
     [Export] public Tree QuestionsExplorerTree { get; set; }
+    [Export] public FileDialog ImageFileDialog { get; set; }
+    [Export] public FileDialog AudioFileDialog { get; set; }
+    [Export] public AcceptDialog MediaErrorDialog { get; set; }
 
     private readonly List<Category> _categories = new();
-    private FileDialog _imageFileDialog;
-    private FileDialog _audioFileDialog;
     private Texture2D _selectedImage;
     private AudioStream _selectedAudio;
+    private string _selectedImagePath;
+    private string _selectedAudioPath;
     private string _editingQuestionPath;
     private string _editingQuestionId;
     private HSplitContainer _questionsExplorerSplit;
@@ -43,7 +43,7 @@ public partial class CreatorScreen : Control
     {
         LoadExistingCategories();
         ConfigurePoolSpinBox();
-        SetupFileDialogs();
+        BindFileDialogs();
         BindUiEvents();
         SetupQuestionsExplorer();
         RefreshQuestionsExplorer();
@@ -78,39 +78,16 @@ public partial class CreatorScreen : Control
         }
     }
 
-    private void SetupFileDialogs()
+    private void BindFileDialogs()
     {
-        _imageFileDialog = new FileDialog
+        if (ImageFileDialog == null || AudioFileDialog == null)
         {
-            Name = "ImageFileDialog",
-            Access = FileDialog.AccessEnum.Resources,
-            FileMode = FileDialog.FileModeEnum.OpenFile,
-            Title = Tr("SELECT_IMAGE"),
-            Filters = new string[]
-            {
-                "*.png ; PNG",
-                "*.jpg, *.jpeg ; JPG/JPEG",
-                "*.webp ; WEBP"
-            }
-        };
-        _imageFileDialog.FileSelected += OnImageFileSelected;
-        AddChild(_imageFileDialog);
+            GD.PushError("CreatorScreen requires ImageFileDialog and AudioFileDialog exports.");
+            return;
+        }
 
-        _audioFileDialog = new FileDialog
-        {
-            Name = "AudioFileDialog",
-            Access = FileDialog.AccessEnum.Resources,
-            FileMode = FileDialog.FileModeEnum.OpenFile,
-            Title = Tr("SELECT_AUDIO"),
-            Filters = new string[]
-            {
-                "*.mp3 ; MP3",
-                "*.wav ; WAV",
-                "*.ogg ; OGG"
-            }
-        };
-        _audioFileDialog.FileSelected += OnAudioFileSelected;
-        AddChild(_audioFileDialog);
+        ImageFileDialog.FileSelected += OnImageFileSelected;
+        AudioFileDialog.FileSelected += OnAudioFileSelected;
     }
 
     private void BindUiEvents()
@@ -500,10 +477,12 @@ public partial class CreatorScreen : Control
         SetCategorySelection(question.Category);
         SetPoolFromQuestionPath(questionPath);
 
-        _selectedImage = question.Photo;
+        _selectedImagePath = question.PhotoPath;
+        _selectedImage = QuestionMedia.LoadTexture(question.PhotoPath, question.Photo);
         SetImagePreviewTexture(_selectedImage);
 
-        _selectedAudio = question.Audio;
+        _selectedAudioPath = question.AudioPath;
+        _selectedAudio = QuestionMedia.LoadAudio(question.AudioPath, question.Audio);
         ShowAudioPreview(_selectedAudio);
 
         UpdateFileButtonsState();
@@ -557,8 +536,9 @@ public partial class CreatorScreen : Control
             return;
         }
 
-        _imageFileDialog.CurrentDir = EnsureMediaFolder(QuestionImagesPath);
-        _imageFileDialog.PopupCenteredRatio(0.65f);
+        ImageFileDialog.Title = Tr("SELECT_IMAGE");
+        ImageFileDialog.CurrentDir = GetDialogFolder(QuestionMediaKind.Image);
+        ImageFileDialog.PopupCenteredRatio(0.65f);
     }
 
     private void OnAudioSelectPressed()
@@ -569,49 +549,78 @@ public partial class CreatorScreen : Control
             return;
         }
 
-        _audioFileDialog.CurrentDir = EnsureMediaFolder(QuestionAudioPath);
-        _audioFileDialog.PopupCenteredRatio(0.65f);
+        AudioFileDialog.Title = Tr("SELECT_AUDIO");
+        AudioFileDialog.CurrentDir = GetDialogFolder(QuestionMediaKind.Audio);
+        AudioFileDialog.PopupCenteredRatio(0.65f);
+    }
+
+    private static string GetDialogFolder(QuestionMediaKind kind)
+    {
+        var folder = QuestionMedia.GetImportFolder(kind);
+        DirAccess.MakeDirRecursiveAbsolute(folder);
+        return ProjectSettings.GlobalizePath(folder);
     }
 
     private void OnImageFileSelected(string path)
     {
-        _selectedImage = GD.Load<Texture2D>(path);
-        if (_selectedImage == null)
+        var storedPath = QuestionMedia.Import(path, QuestionMediaKind.Image, out var error);
+        if (storedPath == null)
         {
-            GD.PushWarning($"Failed to load image from '{path}'.");
+            ShowMediaError(error);
             return;
         }
 
-        SetImagePreviewTexture(_selectedImage);
+        var texture = QuestionMedia.LoadTexture(storedPath);
+        if (texture == null)
+        {
+            ShowMediaError($"Failed to load image from '{path}'.");
+            return;
+        }
+
+        _selectedImagePath = storedPath;
+        _selectedImage = texture;
+        SetImagePreviewTexture(texture);
         UpdateFileButtonsState();
     }
 
     private void OnAudioFileSelected(string path)
     {
-        _selectedAudio = GD.Load<AudioStream>(path);
-        if (_selectedAudio == null)
+        var storedPath = QuestionMedia.Import(path, QuestionMediaKind.Audio, out var error);
+        if (storedPath == null)
         {
-            GD.PushWarning($"Failed to load audio from '{path}'.");
+            ShowMediaError(error);
             return;
         }
 
-        ShowAudioPreview(_selectedAudio);
+        var stream = QuestionMedia.LoadAudio(storedPath);
+        if (stream == null)
+        {
+            ShowMediaError($"Failed to load audio from '{path}'.");
+            return;
+        }
+
+        _selectedAudioPath = storedPath;
+        _selectedAudio = stream;
+        ShowAudioPreview(stream);
         UpdateFileButtonsState();
     }
 
-    private static string EnsureMediaFolder(string path)
+    private void ShowMediaError(string message)
     {
-        if (!DirAccess.DirExistsAbsolute(path))
+        GD.PushWarning(message);
+        if (MediaErrorDialog == null)
         {
-            DirAccess.MakeDirRecursiveAbsolute(path);
+            return;
         }
 
-        return path;
+        MediaErrorDialog.DialogText = string.Format(Tr("MEDIA_ERROR"), message);
+        MediaErrorDialog.PopupCentered();
     }
 
     private void ClearSelectedImage()
     {
         _selectedImage = null;
+        _selectedImagePath = null;
         SetImagePreviewTexture(null);
         UpdateFileButtonsState();
     }
@@ -619,6 +628,7 @@ public partial class CreatorScreen : Control
     private void ClearSelectedAudio()
     {
         _selectedAudio = null;
+        _selectedAudioPath = null;
         ShowAudioPreview(null);
         UpdateFileButtonsState();
     }
@@ -666,8 +676,10 @@ public partial class CreatorScreen : Control
             IsFraudGameQuestion = true,
             Category = selectedCategory,
             FunFact = FunFactLineEdit.Text.Trim(),
-            Photo = _selectedImage,
-            Audio = _selectedAudio
+            Photo = _selectedImagePath == null ? _selectedImage : null,
+            Audio = _selectedAudioPath == null ? _selectedAudio : null,
+            PhotoPath = _selectedImagePath,
+            AudioPath = _selectedAudioPath
         };
 
         var savePath = _editingQuestionPath;

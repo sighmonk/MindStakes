@@ -149,10 +149,11 @@ public partial class QuestionScreen : Control
     private void LoadQuestionImage()
     {
         var question = QuestionsManager.Instance.RandomQuestion;
-        if (question != null && question.Photo != null)
+        var photo = question == null ? null : QuestionMedia.LoadTexture(question.PhotoPath, question.Photo);
+        if (photo != null)
         {
             TextureRect textureRect = new TextureRect();
-            textureRect.Texture = question.Photo;
+            textureRect.Texture = photo;
             textureRect.ExpandMode = TextureRect.ExpandModeEnum.FitWidth;
             textureRect.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
             QuestionImageContainer.AddChild(textureRect);
@@ -171,10 +172,11 @@ public partial class QuestionScreen : Control
     private void LoadQuestionAudio()
     {
         var question = QuestionsManager.Instance.RandomQuestion;
-        if (question != null && question.Audio != null && MusicPlayerScene != null)
+        var audio = question == null ? null : QuestionMedia.LoadAudio(question.AudioPath, question.Audio);
+        if (audio != null && MusicPlayerScene != null)
         {
             var musicPlayer = MusicPlayerScene.Instantiate<MusicPlayer>();
-            musicPlayer.SetAudio(question.Audio);
+            musicPlayer.SetAudio(audio);
             QuestionPlayerContainer.AddChild(musicPlayer);
         }
         else

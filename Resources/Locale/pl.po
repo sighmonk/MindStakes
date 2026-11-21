@@ -185,3 +185,7 @@ msgstr "Brak innego pytania w tej kategorii."
 
 msgid "HOST_DEBUG_ANSWERING"
 msgstr "Odpowiada: {0}"
+
+# Question media
+msgid "MEDIA_ERROR"
+msgstr "Nie udało się dodać pliku: {0}"
