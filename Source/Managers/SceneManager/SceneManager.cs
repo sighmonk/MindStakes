@@ -13,7 +13,7 @@ public partial class SceneManager : Node
     private bool isFirstSceneRegistered = false;
     public void RegisterFirstScene()
     {
-        if (isFirstSceneRegistered)
+        if (isFirstSceneRegistered || SceneHistory.Count > 0)
         {
             return;
         }
@@ -26,28 +26,54 @@ public partial class SceneManager : Node
         isFirstSceneRegistered = true;
     }
 
+    public bool IsHistoryNavigationBlocked => IsGameplayScene(GetTree().CurrentScene?.SceneFilePath);
+
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("GoBack"))
         {
-            GoBack();
+            if (!IsHistoryNavigationBlocked)
+            {
+                GoBack();
+            }
+            GetViewport().SetInputAsHandled();
         }
         if (@event.IsActionPressed("GoForward"))
         {
-            GoForward();
+            if (!IsHistoryNavigationBlocked)
+            {
+                GoForward();
+            }
+            GetViewport().SetInputAsHandled();
         }
     }
 
     public void ReplaceWithNewScene(string newScenePath)
     {
-        CurrentSceneIndex += 1;
         if (CurrentSceneIndex < SceneHistory.Count - 1)
         {
             SceneHistory.RemoveRange(CurrentSceneIndex + 1, SceneHistory.Count - CurrentSceneIndex - 1);
         }
+
         SceneHistory.Add(newScenePath);
-        
+        CurrentSceneIndex = SceneHistory.Count - 1;
+
         ChangeScene(newScenePath);
+    }
+
+    private static bool IsGameplayScene(string scenePath)
+    {
+        if (string.IsNullOrEmpty(scenePath))
+        {
+            return false;
+        }
+
+        return scenePath.Contains("/Screens/GameModePick/", StringComparison.Ordinal)
+            || scenePath.Contains("/Screens/CategoryPick/", StringComparison.Ordinal)
+            || scenePath.Contains("/Screens/Betting/", StringComparison.Ordinal)
+            || scenePath.Contains("/Screens/Question/", StringComparison.Ordinal)
+            || scenePath.Contains("/Screens/ScoreScreen/", StringComparison.Ordinal)
+            || scenePath.Contains("/Screens/Summary/", StringComparison.Ordinal);
     }
 
     public void ChangeScene(string newScenePath)
@@ -66,6 +92,11 @@ public partial class SceneManager : Node
 
     public void GoBack()
     {
+        if (IsHistoryNavigationBlocked)
+        {
+            return;
+        }
+
         if (SceneHistory.Count > 0 && CurrentSceneIndex > 0)
         {
             CurrentSceneIndex -= 1;
@@ -76,6 +107,11 @@ public partial class SceneManager : Node
 
     public void GoForward()
     {
+        if (IsHistoryNavigationBlocked)
+        {
+            return;
+        }
+
         if (SceneHistory.Count > 0 && CurrentSceneIndex < SceneHistory.Count - 1)
         {
             CurrentSceneIndex += 1;
