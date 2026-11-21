@@ -68,7 +68,7 @@ Question sets are **not** part of this repository. Only the examples under `Reso
 - `Resources/Examples/Questions/Pool1/` - four example questions.
 - `Resources/Examples/Categories/` - four example categories.
 
-On first run the examples are copied into the user data folder (`user://questions` and `user://categories`). After that, the game and the Question Creator work on the user copies, not on the repository files.
+On first run the examples are copied into the user data folder (`user://questions` and `user://categories`). If the legacy local folders `Resources/Questions` or `Resources/Categories` still exist, their contents are migrated instead, so existing local quiz data is preserved. After that, the game and the Question Creator work on the user copies, not on the repository files.
 
 The question folder is resolved at startup, in this order:
 

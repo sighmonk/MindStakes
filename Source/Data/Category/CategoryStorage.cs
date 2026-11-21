@@ -8,6 +8,7 @@ using FileAccess = Godot.FileAccess;
 public static class CategoryStorage
 {
     public const string ExamplesPath = "res://Resources/Examples/Categories";
+    public const string LegacyPath = "res://Resources/Categories";
     public const string UserPath = "user://categories";
     public const string DirectoryArgumentPrefix = "--categories-dir=";
     public const string EnvironmentVariableName = "MINDSTAKES_CATEGORIES_DIR";
@@ -121,9 +122,10 @@ public static class CategoryStorage
             return;
         }
 
-        if (!DirAccess.DirExistsAbsolute(ExamplesPath))
+        var sourcePath = HasCategoryFiles(LegacyPath) ? LegacyPath : ExamplesPath;
+        if (!DirAccess.DirExistsAbsolute(sourcePath))
         {
-            GD.PushWarning($"No example categories found at '{ExamplesPath}'.");
+            GD.PushWarning($"No categories found at '{sourcePath}'.");
             return;
         }
 
@@ -134,19 +136,19 @@ public static class CategoryStorage
             return;
         }
 
-        var exampleFiles = DirAccess.GetFilesAt(ExamplesPath) ?? Array.Empty<string>();
+        var sourceFiles = DirAccess.GetFilesAt(sourcePath) ?? Array.Empty<string>();
         var seededCount = 0;
-        foreach (var fileName in exampleFiles)
+        foreach (var fileName in sourceFiles)
         {
             if (!fileName.EndsWith(".tres", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
-            var category = GD.Load<Category>($"{ExamplesPath}/{fileName}");
+            var category = GD.Load<Category>($"{sourcePath}/{fileName}");
             if (category == null)
             {
-                GD.PushWarning($"Failed to load example category '{ExamplesPath}/{fileName}'.");
+                GD.PushWarning($"Failed to load category '{sourcePath}/{fileName}'.");
                 continue;
             }
 
@@ -161,7 +163,9 @@ public static class CategoryStorage
             WriteMarker(markerPath);
         }
 
-        GD.Print($"Seeded {seededCount} example categor{(seededCount == 1 ? "y" : "ies")} into '{targetPath}'.");
+        GD.Print(
+            $"Seeded {seededCount} categor{(seededCount == 1 ? "y" : "ies")} " +
+            $"from '{sourcePath}' into '{targetPath}'.");
     }
 
     private static bool HasCategoryFiles(string path)

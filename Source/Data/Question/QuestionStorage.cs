@@ -9,6 +9,7 @@ public static class QuestionStorage
 {
     public const string DefaultRootPath = "res://Resources/Examples/Questions";
     public const string ExamplesPath = "res://Resources/Examples/Questions";
+    public const string LegacyPath = "res://Resources/Questions";
     public const string UserPath = "user://questions";
     public const string DirectoryArgumentPrefix = "--questions-dir=";
     public const string EnvironmentVariableName = "MINDSTAKES_QUESTIONS_DIR";
@@ -100,9 +101,10 @@ public static class QuestionStorage
             return;
         }
 
-        if (!DirAccess.DirExistsAbsolute(ExamplesPath))
+        var sourcePath = HasQuestionFiles(LegacyPath) ? LegacyPath : ExamplesPath;
+        if (!DirAccess.DirExistsAbsolute(sourcePath))
         {
-            GD.PushWarning($"No example questions found at '{ExamplesPath}'.");
+            GD.PushWarning($"No questions found at '{sourcePath}'.");
             return;
         }
 
@@ -124,11 +126,11 @@ public static class QuestionStorage
             return;
         }
 
-        var poolDirectories = DirAccess.GetDirectoriesAt(ExamplesPath) ?? Array.Empty<string>();
+        var poolDirectories = DirAccess.GetDirectoriesAt(sourcePath) ?? Array.Empty<string>();
         var seededCount = 0;
         foreach (var poolDirectory in poolDirectories)
         {
-            var examplePoolPath = $"{ExamplesPath}/{poolDirectory}";
+            var examplePoolPath = $"{sourcePath}/{poolDirectory}";
             var targetPoolPath = $"{targetPath}/{poolDirectory}";
             DirAccess.MakeDirRecursiveAbsolute(targetPoolPath);
 
@@ -171,7 +173,7 @@ public static class QuestionStorage
             WriteMarker(markerPath);
         }
 
-        GD.Print($"Seeded {seededCount} example question(s) into '{targetPath}'.");
+        GD.Print($"Seeded {seededCount} question(s) from '{sourcePath}' into '{targetPath}'.");
     }
 
     private static bool HasQuestionFiles(string path)
