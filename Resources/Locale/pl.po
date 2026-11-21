@@ -227,3 +227,16 @@ msgstr "Prawda / fałsz"
 
 msgid "QUESTION_TYPE_OPEN_ENDED"
 msgstr "Otwarte"
+
+# Saves
+msgid "SAVE_LOAD"
+msgstr "Wczytaj zapis"
+
+msgid "SAVE_EXPORT"
+msgstr "Eksportuj zapis"
+
+msgid "SAVE_LOAD_FAILED"
+msgstr "Nie udało się wczytać zapisu."
+
+msgid "SAVE_EXPORT_FAILED"
+msgstr "Nie udało się zapisać archiwum."
