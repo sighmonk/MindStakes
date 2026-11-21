@@ -23,6 +23,8 @@ public static class QuestionImporter
     private static readonly string[] FunFactAliases = { "funfact", "funfacttext", "ciekawostka" };
     private static readonly string[] ImageAliases = { "image", "photo", "imagepath", "obraz" };
     private static readonly string[] AudioAliases = { "audio", "audiopath", "sound", "dzwiek" };
+    private static readonly string[] DifficultyAliases = { "difficulty", "level", "poziom", "trudnosc" };
+    private static readonly string[] ModesAliases = { "modes", "gamemodes", "tryby" };
 
     private sealed class ImportRow
     {
@@ -39,6 +41,8 @@ public static class QuestionImporter
         public string FunFact;
         public string ImagePath;
         public string AudioPath;
+        public string Difficulty;
+        public string Modes;
     }
 
     public static bool TryRunFromCommandLine()
@@ -196,7 +200,7 @@ public static class QuestionImporter
         AddAnswer(answers, row.Answer3);
         AddAnswer(answers, row.Answer4);
 
-        return new Question
+        var question = new Question
         {
             Id = Question.CreateNewId(),
             QuestionText = row.QuestionText?.Trim(),
@@ -207,9 +211,32 @@ public static class QuestionImporter
             IsFraudGameQuestion = true,
             Category = LoadCategory(row, errors),
             FunFact = string.IsNullOrWhiteSpace(row.FunFact) ? null : row.FunFact.Trim(),
+            Difficulty = string.IsNullOrWhiteSpace(row.Difficulty) ? null : row.Difficulty.Trim(),
             Photo = LoadAsset<Texture2D>(row.ImagePath, "image", row, errors),
             Audio = LoadAsset<AudioStream>(row.AudioPath, "audio", row, errors)
         };
+
+        foreach (var modeId in ParseModeIds(row.Modes))
+        {
+            question.SetTargetMode(modeId, true);
+        }
+
+        GameModeRegistry.ApplyLegacyFlags(question);
+        return question;
+    }
+
+    private static IEnumerable<string> ParseModeIds(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return Array.Empty<string>();
+        }
+
+        return value
+            .Split(new[] { '|', ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(part => part.Trim().ToLowerInvariant())
+            .Where(modeId => GameModeRegistry.All.Any(mode => mode.Id == modeId))
+            .ToList();
     }
 
     private static void AddAnswer(Godot.Collections.Array<string> answers, string value)
@@ -344,6 +371,8 @@ public static class QuestionImporter
         var funFactIndex = FindColumn(FunFactAliases);
         var imageIndex = FindColumn(ImageAliases);
         var audioIndex = FindColumn(AudioAliases);
+        var difficultyIndex = FindColumn(DifficultyAliases);
+        var modesIndex = FindColumn(ModesAliases);
 
         if (categoryIndex < 0 || questionIndex < 0 || correctIndex < 0
             || answer2Index < 0 || answer3Index < 0 || answer4Index < 0)
@@ -374,7 +403,9 @@ public static class QuestionImporter
                 Answer4 = GetCell(record, answer4Index),
                 FunFact = GetCell(record, funFactIndex),
                 ImagePath = GetCell(record, imageIndex),
-                AudioPath = GetCell(record, audioIndex)
+                AudioPath = GetCell(record, audioIndex),
+                Difficulty = GetCell(record, difficultyIndex),
+                Modes = GetCell(record, modesIndex)
             });
         }
 
@@ -418,7 +449,9 @@ public static class QuestionImporter
                 Answer4 = GetDictionaryValue(dictionary, Answer4Aliases),
                 FunFact = GetDictionaryValue(dictionary, FunFactAliases),
                 ImagePath = GetDictionaryValue(dictionary, ImageAliases),
-                AudioPath = GetDictionaryValue(dictionary, AudioAliases)
+                AudioPath = GetDictionaryValue(dictionary, AudioAliases),
+                Difficulty = GetDictionaryValue(dictionary, DifficultyAliases),
+                Modes = GetDictionaryValue(dictionary, ModesAliases)
             });
         }
 

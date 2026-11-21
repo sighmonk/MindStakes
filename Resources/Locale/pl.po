@@ -196,3 +196,22 @@ msgstr "Animacje: WŁ."
 
 msgid "SETTINGS_ANIMATIONS_OFF"
 msgstr "Animacje: WYŁ."
+
+# Question metadata
+msgid "QUESTION_DIFFICULTY"
+msgstr "Poziom trudności"
+
+msgid "QUESTION_MODES"
+msgstr "Tryby"
+
+msgid "QUESTION_NEW_LEVEL"
+msgstr "Nowy poziom"
+
+msgid "QUESTION_ADD_LEVEL"
+msgstr "Dodaj"
+
+msgid "QUESTION_REMOVE_LEVEL"
+msgstr "Usuń"
+
+msgid "QUESTION_DIFFICULTY_NONE"
+msgstr "—"

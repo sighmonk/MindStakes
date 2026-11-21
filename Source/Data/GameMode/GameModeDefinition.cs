@@ -11,7 +11,8 @@ public sealed class GameModeDefinition
         string id,
         string displayNameKey,
         string scenePath,
-        Func<Question, bool> questionFilter)
+        Func<Question, bool> questionFilter,
+        Action<Question, bool> legacyFlagSetter = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentException.ThrowIfNullOrWhiteSpace(displayNameKey);
@@ -22,6 +23,7 @@ public sealed class GameModeDefinition
         DisplayNameKey = displayNameKey;
         ScenePath = scenePath;
         QuestionFilter = questionFilter;
+        LegacyFlagSetter = legacyFlagSetter;
     }
 
     /// <summary>
@@ -38,6 +40,12 @@ public sealed class GameModeDefinition
 
     /// <summary>Question filter; <c>null</c> means the mode accepts every question.</summary>
     public Func<Question, bool> QuestionFilter { get; }
+
+    /// <summary>
+    /// Writes the legacy per-mode flag kept for questions saved before
+    /// <see cref="Question.AllowedGameModeIds"/> existed.
+    /// </summary>
+    public Action<Question, bool> LegacyFlagSetter { get; }
 
     public bool Allows(Question question)
     {

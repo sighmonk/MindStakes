@@ -56,6 +56,21 @@ public static class QuestionValidator
             problems.Add($"duplicate answer text: {string.Join(", ", duplicates)}");
         }
 
+        if (!string.IsNullOrWhiteSpace(question.Difficulty)
+            && !QuestionSettings.GetDifficultyLevels().Contains(question.Difficulty, StringComparer.OrdinalIgnoreCase))
+        {
+            problems.Add($"unknown difficulty level '{question.Difficulty}'");
+        }
+
+        var unknownModes = (question.AllowedGameModeIds ?? new Godot.Collections.Array<string>())
+            .Where(modeId => GameModeRegistry.All.All(mode => mode.Id != modeId))
+            .ToList();
+
+        if (unknownModes.Count > 0)
+        {
+            problems.Add($"unknown game mode: {string.Join(", ", unknownModes)}");
+        }
+
         return problems;
     }
 
