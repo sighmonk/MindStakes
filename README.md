@@ -136,7 +136,9 @@ The Question Creator uses the operating system file picker, so a picture or a cl
 
 A question stores the copied media in `PhotoPath` and `AudioPath`. The game loads those paths from `res://`, `user://` or an absolute path, and falls back to the embedded `Photo`/`Audio` of older questions, so nothing has to be migrated.
 
-The creator scene owns the dialogs: `ImageFileDialog` and `AudioFileDialog` (`Access = Filesystem`, `UseNativeDialog = true`, `FileMode = Open File`, filters for PNG/JPG/WEBP and MP3/WAV/OGG) and `MediaErrorDialog` (`AcceptDialog`) for error messages. Assign them to the matching exports on `CreatorScreen` in the Inspector.
+Questions can also carry a video (`VideoPath`). The creator copies it to `Assets/Media/Questions/Video` (or `user://question_media/Video`) and the question screen plays it in place of the picture. Godot plays Ogg Theora natively, so the picker only accepts `.ogv` files; other containers need a codec extension.
+
+The creator scene owns the dialogs: `ImageFileDialog`, `AudioFileDialog` and `VideoFileDialog` (`Access = Filesystem`, `UseNativeDialog = true`, `FileMode = Open File`, filters for PNG/JPG/WEBP, MP3/WAV/OGG and OGV) and `MediaErrorDialog` (`AcceptDialog`) for error messages. Assign them to the matching exports on `CreatorScreen` in the Inspector.
 
 ## Question metadata
 
@@ -245,7 +247,7 @@ JSON is an array of objects with the same field names (camelCase works too):
 ]
 ```
 
-`category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths; keep those files under `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` so they stay out of Git. `fun_fact`, `image` and `audio` are optional.
+`category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths; keep those files under `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` so they stay out of Git. `fun_fact`, `image`, `audio` and `video` (an `.ogv` path) are optional.
 
 `difficulty` and `modes` are optional too. `modes` is a pipe-separated list of mode ids (`betting|sabotage|fraud`); an empty value means the question belongs to every mode, and the importer keeps the legacy per-mode flags in sync. `type` accepts `multiple`, `truefalse` or `openended` and defaults to multiple choice.
 

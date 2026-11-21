@@ -77,6 +77,8 @@ public partial class Question : Resource
     public string PhotoPath { get; set; }
     [Export]
     public string AudioPath { get; set; }
+    [Export]
+    public string VideoPath { get; set; }
 
     public string EnsureStableId()
     {

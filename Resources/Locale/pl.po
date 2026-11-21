@@ -240,3 +240,6 @@ msgstr "Nie udało się wczytać zapisu."
 
 msgid "SAVE_EXPORT_FAILED"
 msgstr "Nie udało się zapisać archiwum."
+
+msgid "SELECT_VIDEO"
+msgstr "Wybierz wideo"

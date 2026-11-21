@@ -11,7 +11,7 @@
 bg_color = Color(0.043137256, 0.0627451, 0.14901961, 0.73333335)
 border_color = Color(0.105882354, 0.13333334, 0.2509804, 1)
 
-[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree", "MetadataPanel", "ImageFileDialog", "AudioFileDialog", "MediaErrorDialog")]
+[node name="CreatorScreen" type="Control" unique_id=2136104962 node_paths=PackedStringArray("QuestionLineEdit", "CategoryOptionButton", "ImageFileSelectButton", "ImageFilePreviewContainer", "AudioFileSelectButton", "AudioFilePreviewContainer", "VideoFileSelectButton", "CorrectAnswerLineEdit", "Answer2LineEdit", "Answer3LineEdit", "Answer4LineEdit", "FunFactLineEdit", "PoolSpinBox", "SaveButton", "NewButton", "QuestionsExplorerTree", "MetadataPanel", "ImageFileDialog", "AudioFileDialog", "VideoFileDialog", "MediaErrorDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,6 +26,7 @@ ImageFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContai
 ImageFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2/PreviewPanelContainer")
 AudioFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3/MarginContainer/Button")
 AudioFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3/PreviewPanelContainer")
+VideoFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer/VideoFileSelectButton")
 CorrectAnswerLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CorrectHBoxContainer2/LineEdit")
 Answer2LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer3/LineEdit")
 Answer3LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer4/LineEdit")
@@ -39,6 +40,7 @@ QuestionsExplorerTree = NodePath("Panel/PanelContainer/VBoxContainer/PanelContai
 MetadataPanel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/QuestionMetadataPanel")
 ImageFileDialog = NodePath("ImageFileDialog")
 AudioFileDialog = NodePath("AudioFileDialog")
+VideoFileDialog = NodePath("VideoFileDialog")
 MediaErrorDialog = NodePath("MediaErrorDialog")
 
 [node name="Panel2" parent="." unique_id=1689220254 instance=ExtResource("3_nfyey")]
@@ -346,6 +348,17 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="VideoFileHBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=875189818]
+layout_mode = 2
+
+[node name="VideoLabel" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer" unique_id=2091710250]
+layout_mode = 2
+text = "Video"
+
+[node name="VideoFileSelectButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer" unique_id=1201606215]
+layout_mode = 2
+text = "SELECT"
+
 [node name="ButtonsContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer" unique_id=35664149]
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
@@ -416,3 +429,10 @@ use_native_dialog = true
 
 [node name="MediaErrorDialog" type="AcceptDialog" parent="." unique_id=2144034010]
 title = "Media"
+
+[node name="VideoFileDialog" type="FileDialog" parent="." unique_id=60584660]
+title = "Select video"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.ogv ; OGG Video")
+use_native_dialog = true
