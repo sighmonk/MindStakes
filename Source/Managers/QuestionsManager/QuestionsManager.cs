@@ -60,12 +60,9 @@ public partial class QuestionsManager : Node
             return;
         }
 
-        foreach (var id in questionIds)
+        foreach (var id in questionIds.Where(id => !string.IsNullOrEmpty(id)))
         {
-            if (!string.IsNullOrEmpty(id))
-            {
-                UsedQuestionIds.Add(id);
-            }
+            UsedQuestionIds.Add(id);
         }
     }
 

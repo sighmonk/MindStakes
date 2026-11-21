@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using FileAccess = Godot.FileAccess;
 
 /// <summary>
@@ -22,18 +23,50 @@ public partial class SaveManager : Node
     private const string ManifestName = "manifest.json";
     private const string TeamsFolder = "teams";
 
+    private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
+
     public static SaveManager Instance => ((SceneTree)Engine.GetMainLoop()).Root.GetNode<SaveManager>("SaveManager");
+
+    public sealed class Manifest
+    {
+        public int Version { get; set; } = FormatVersion;
+        public string SavedAt { get; set; } = string.Empty;
+        public GameState Game { get; set; }
+        public List<TeamState> Teams { get; set; } = new();
+        public List<string> ConsumedQuestionIds { get; set; } = new();
+    }
+
+    public sealed class GameState
+    {
+        public int RoundCount { get; set; }
+        public int MaxRounds { get; set; }
+        public int InitialRerollCount { get; set; }
+        public int RerollCount { get; set; }
+        public int QuestionTime { get; set; }
+        public int SelectedPoolNumber { get; set; }
+        public int GameModeIndex { get; set; }
+        public int CurrentTeamId { get; set; } = -1;
+        public int InitialTeamId { get; set; } = -1;
+    }
+
+    public sealed class TeamState
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Color { get; set; } = "#ffffff";
+        public float Score { get; set; }
+        public int Bet { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
+        public string ImageFile { get; set; } = string.Empty;
+    }
 
     public override void _Ready()
     {
         DirAccess.MakeDirRecursiveAbsolute(SavesFolder);
     }
 
-    public bool SaveCurrentGame(string path = null)
-    {
-        var targetPath = string.IsNullOrEmpty(path) ? AutosavePath : path;
-        return ExportCurrentGame(targetPath);
-    }
+    public bool SaveCurrentGame(string path = null) =>
+        ExportCurrentGame(string.IsNullOrEmpty(path) ? AutosavePath : path);
 
     public bool ExportCurrentGame(string zipPath)
     {
@@ -50,7 +83,7 @@ public partial class SaveManager : Node
         DirAccess.MakeDirRecursiveAbsolute(zipPath.GetBaseDir());
 
         var manifest = BuildManifest();
-        var json = Json.Stringify(manifest, "  ");
+        var json = JsonSerializer.Serialize(manifest, JsonOptions);
         var images = CollectTeamImages(manifest);
 
         using var packer = new ZipPacker();
@@ -83,7 +116,7 @@ public partial class SaveManager : Node
         }
 
         Dictionary<string, byte[]> images = null;
-        var manifest = IsArchive(path) ? ReadArchive(path, out images) : ReadSaveFile(path);
+        var manifest = IsArchive(path) ? ReadArchive(path, out images) : ReadJsonFile(path);
         if (manifest == null)
         {
             return false;
@@ -100,93 +133,67 @@ public partial class SaveManager : Node
 
     public bool HasAutosave() => FileAccess.FileExists(AutosavePath);
 
-    private Godot.Collections.Dictionary BuildManifest()
+    private static Manifest BuildManifest()
     {
-        var game = new Godot.Collections.Dictionary
+        return new Manifest
         {
-            ["roundCount"] = GameManager.Instance.RoundCount,
-            ["maxRounds"] = GameManager.Instance.MaxRounds,
-            ["initialRerollCount"] = GameManager.Instance.InitialRerollCount,
-            ["rerollCount"] = GameManager.Instance.RerollCount,
-            ["questionTime"] = GameManager.Instance.QuestionTime,
-            ["selectedPoolNumber"] = GameManager.Instance.SelectedPoolNumber,
-            ["gameModeIndex"] = GameManager.Instance.CurrentGameModeIndex,
-            ["currentTeamId"] = TeamsManager.Instance.CurrentTeam?.Id ?? -1,
-            ["initialTeamId"] = TeamsManager.Instance.InitialTeam?.Id ?? -1
-        };
-
-        var teams = new Godot.Collections.Array();
-        foreach (var team in TeamsManager.Instance.Teams)
-        {
-            teams.Add(new Godot.Collections.Dictionary
+            SavedAt = Time.GetDatetimeStringFromSystem(),
+            Game = new GameState
             {
-                ["id"] = team.Id,
-                ["name"] = team.TeamName ?? string.Empty,
-                ["color"] = team.Color.ToHtml(true),
-                ["score"] = team.Score,
-                ["bet"] = team.CurrentBet,
-                ["imagePath"] = team.ImagePath ?? string.Empty,
-                ["imageFile"] = GetTeamImageName(team) ?? string.Empty
-            });
-        }
-
-        var consumed = new Godot.Collections.Array();
-        foreach (var id in QuestionsManager.Instance.UsedQuestionIds)
-        {
-            consumed.Add(id);
-        }
-
-        return new Godot.Collections.Dictionary
-        {
-            ["version"] = FormatVersion,
-            ["savedAt"] = Time.GetDatetimeStringFromSystem(),
-            ["game"] = game,
-            ["teams"] = teams,
-            ["consumedQuestionIds"] = consumed
+                RoundCount = GameManager.Instance.RoundCount,
+                MaxRounds = GameManager.Instance.MaxRounds,
+                InitialRerollCount = GameManager.Instance.InitialRerollCount,
+                RerollCount = GameManager.Instance.RerollCount,
+                QuestionTime = GameManager.Instance.QuestionTime,
+                SelectedPoolNumber = GameManager.Instance.SelectedPoolNumber,
+                GameModeIndex = GameManager.Instance.CurrentGameModeIndex,
+                CurrentTeamId = TeamsManager.Instance.CurrentTeam?.Id ?? -1,
+                InitialTeamId = TeamsManager.Instance.InitialTeam?.Id ?? -1
+            },
+            Teams = TeamsManager.Instance.Teams.Select(team => new TeamState
+            {
+                Id = team.Id,
+                Name = team.TeamName ?? string.Empty,
+                Color = team.Color.ToHtml(true),
+                Score = team.Score,
+                Bet = team.CurrentBet,
+                ImagePath = team.ImagePath ?? string.Empty,
+                ImageFile = GetTeamImageName(team) ?? string.Empty
+            }).ToList(),
+            ConsumedQuestionIds = QuestionsManager.Instance.UsedQuestionIds.ToList()
         };
     }
 
-    private static Dictionary<string, byte[]> CollectTeamImages(Godot.Collections.Dictionary manifest)
+    private static Dictionary<string, byte[]> CollectTeamImages(Manifest manifest)
     {
         var images = new Dictionary<string, byte[]>();
-        foreach (var entry in manifest["teams"].AsGodotArray())
+        foreach (var team in manifest.Teams.Where(team => !string.IsNullOrEmpty(team.ImageFile)))
         {
-            var team = entry.AsGodotDictionary();
-            var imageFile = team["imageFile"].AsString();
-            var imagePath = team["imagePath"].AsString();
-
-            if (string.IsNullOrEmpty(imageFile) || string.IsNullOrEmpty(imagePath))
-            {
-                continue;
-            }
-
-            var bytes = ReadBytes(imagePath);
+            var bytes = ReadBytes(team.ImagePath);
             if (bytes != null)
             {
-                images[imageFile] = bytes;
+                images[team.ImageFile] = bytes;
             }
         }
 
         return images;
     }
 
-    private static void RestoreTeamImages(Godot.Collections.Dictionary manifest, Dictionary<string, byte[]> images)
+    private static void RestoreTeamImages(Manifest manifest, Dictionary<string, byte[]> images)
     {
         DirAccess.MakeDirRecursiveAbsolute(TeamImagesFolder);
 
-        foreach (var entry in manifest["teams"].AsGodotArray())
+        foreach (var team in manifest.Teams.Where(team => !string.IsNullOrEmpty(team.ImageFile)))
         {
-            var team = entry.AsGodotDictionary();
-            var imageFile = team["imageFile"].AsString();
-            if (string.IsNullOrEmpty(imageFile) || !images.TryGetValue(imageFile, out var bytes))
+            if (!images.TryGetValue(team.ImageFile, out var bytes))
             {
                 continue;
             }
 
-            var targetPath = $"{TeamImagesFolder}/{imageFile}";
+            var targetPath = $"{TeamImagesFolder}/{team.ImageFile}";
             if (WriteBytes(targetPath, bytes))
             {
-                team["imagePath"] = targetPath;
+                team.ImagePath = targetPath;
             }
         }
     }
@@ -199,15 +206,10 @@ public partial class SaveManager : Node
         }
 
         var extension = Path.GetExtension(team.ImagePath).ToLowerInvariant();
-        if (string.IsNullOrEmpty(extension))
-        {
-            extension = ".png";
-        }
-
-        return $"team_{team.Id}{extension}";
+        return $"team_{team.Id}{(string.IsNullOrEmpty(extension) ? ".png" : extension)}";
     }
 
-    private static Godot.Collections.Dictionary ReadSaveFile(string path)
+    private static Manifest ReadJsonFile(string path)
     {
         var bytes = ReadBytes(path);
         return bytes == null ? null : ParseManifest(Encoding.UTF8.GetString(bytes));
@@ -216,7 +218,7 @@ public partial class SaveManager : Node
     private static bool IsArchive(string path) =>
         path.EndsWith(SaveExtension, StringComparison.OrdinalIgnoreCase);
 
-    private static Godot.Collections.Dictionary ReadArchive(string path, out Dictionary<string, byte[]> images)
+    private static Manifest ReadArchive(string path, out Dictionary<string, byte[]> images)
     {
         images = new Dictionary<string, byte[]>();
 
@@ -227,7 +229,7 @@ public partial class SaveManager : Node
             return null;
         }
 
-        Godot.Collections.Dictionary manifest = null;
+        Manifest manifest = null;
         foreach (var entry in reader.GetFiles())
         {
             var bytes = reader.ReadFile(entry);
@@ -250,58 +252,58 @@ public partial class SaveManager : Node
         return manifest;
     }
 
-    private static Godot.Collections.Dictionary ParseManifest(string json)
+    private static Manifest ParseManifest(string json)
     {
-        var parsed = Json.ParseString(json);
-        if (parsed.VariantType != Variant.Type.Dictionary)
+        try
         {
-            GD.PushWarning("Save file does not contain a JSON object.");
+            var manifest = JsonSerializer.Deserialize<Manifest>(json, JsonOptions);
+            if (manifest == null || manifest.Version != FormatVersion)
+            {
+                GD.PushWarning("Unsupported or empty save file.");
+                return null;
+            }
+
+            return manifest;
+        }
+        catch (JsonException exception)
+        {
+            GD.PushWarning($"Save file is not valid JSON: {exception.Message}");
             return null;
         }
-
-        var manifest = parsed.AsGodotDictionary();
-        if (!manifest.ContainsKey("version") || manifest["version"].AsInt32() != FormatVersion)
-        {
-            GD.PushWarning("Unsupported save version.");
-            return null;
-        }
-
-        return manifest;
     }
 
-    private static void ApplyManifest(Godot.Collections.Dictionary manifest)
+    private static void ApplyManifest(Manifest manifest)
     {
-        var game = manifest["game"].AsGodotDictionary();
-        GameManager.Instance.RoundCount = game["roundCount"].AsInt32();
-        GameManager.Instance.MaxRounds = game["maxRounds"].AsInt32();
-        GameManager.Instance.InitialRerollCount = game["initialRerollCount"].AsInt32();
-        GameManager.Instance.RerollCount = game["rerollCount"].AsInt32();
-        GameManager.Instance.QuestionTime = game["questionTime"].AsInt32();
-        GameManager.Instance.SelectedPoolNumber = game["selectedPoolNumber"].AsInt32();
-        GameManager.Instance.CurrentGameModeIndex = game["gameModeIndex"].AsInt32();
-
-        var teams = new List<Team>();
-        foreach (var entry in manifest["teams"].AsGodotArray())
+        var game = manifest.Game;
+        if (game == null || manifest.Teams.Count == 0)
         {
-            var data = entry.AsGodotDictionary();
-            teams.Add(new Team
-            {
-                Id = data["id"].AsInt32(),
-                TeamName = data["name"].AsString(),
-                Color = Color.FromHtml(data["color"].AsString()),
-                Score = (float)data["score"].AsDouble(),
-                CurrentBet = data["bet"].AsInt32(),
-                ImagePath = data["imagePath"].AsString()
-            });
+            GD.PushWarning("Save file has no game state or teams.");
+            return;
         }
 
+        GameManager.Instance.RoundCount = game.RoundCount;
+        GameManager.Instance.MaxRounds = game.MaxRounds;
+        GameManager.Instance.InitialRerollCount = game.InitialRerollCount;
+        GameManager.Instance.RerollCount = game.RerollCount;
+        GameManager.Instance.QuestionTime = game.QuestionTime;
+        GameManager.Instance.SelectedPoolNumber = game.SelectedPoolNumber;
+        GameManager.Instance.CurrentGameModeIndex = game.GameModeIndex;
+
+        var teams = manifest.Teams.Select(team => new Team
+        {
+            Id = team.Id,
+            TeamName = team.Name,
+            Color = Color.FromHtml(team.Color),
+            Score = team.Score,
+            CurrentBet = team.Bet,
+            ImagePath = team.ImagePath
+        }).ToList();
+
         TeamsManager.Instance.Teams = teams;
-        TeamsManager.Instance.CurrentTeam = teams.FirstOrDefault(team => team.Id == game["currentTeamId"].AsInt32());
-        TeamsManager.Instance.InitialTeam = teams.FirstOrDefault(team => team.Id == game["initialTeamId"].AsInt32());
+        TeamsManager.Instance.CurrentTeam = teams.FirstOrDefault(team => team.Id == game.CurrentTeamId);
+        TeamsManager.Instance.InitialTeam = teams.FirstOrDefault(team => team.Id == game.InitialTeamId);
 
-        var consumed = manifest["consumedQuestionIds"].AsGodotArray().Select(id => id.AsString());
-        QuestionsManager.Instance.RestoreUsedQuestions(consumed);
-
+        QuestionsManager.Instance.RestoreUsedQuestions(manifest.ConsumedQuestionIds);
         QuestionsManager.Instance.LoadQuestionsFromPool(GameManager.Instance.SelectedPoolNumber);
         CategoriesManager.Instance.SetUpCategories();
         QuestionsManager.Instance.SetRandomQuestion();
