@@ -39,6 +39,10 @@ public partial class QuestionsManager : Node
         return question != null && UsedQuestionIds.Contains(question.EnsureStableId());
     }
 
+    public int GetAvailableQuestionCount() => Questions.Count;
+
+    public int GetUsedQuestionCount() => UsedQuestionIds.Count;
+
     public void ResetUsedQuestions()
     {
         UsedQuestionIds.Clear();
