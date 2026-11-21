@@ -180,7 +180,9 @@ What I want to add:
 
 # Download
 
-Every tagged release ships prebuilt Windows, Linux and macOS builds. Each push to `main` also produces downloadable build artifacts for all three platforms in the [Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml) workflow.
+Every push to `main` builds Windows, Linux and macOS and publishes them as a pre-release named after an auto-bumped patch version (`v0.1.1`, `v0.1.2`, ...). Pushing a `v*` tag publishes the same three builds as a full (non pre-release) release. Both are produced by the [Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml) workflow, which also keeps the builds as downloadable artifacts for 14 days.
+
+The version is taken from the latest `v*` tag. A merge to `main` bumps the patch number only, so a breaking or feature release still needs a `v*` tag with the intended minor or major version.
 
 # Building from source
 
