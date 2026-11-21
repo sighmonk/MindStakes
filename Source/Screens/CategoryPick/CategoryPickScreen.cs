@@ -96,24 +96,38 @@ public partial class CategoryPickScreen : Control
     private void FillReelSlots(string previousCategoryName)
     {
         var slots = ReelStrip.GetChildren();
+        if (slots.Count < 3)
+        {
+            return;
+        }
+
         var categories = CategoriesManager.Instance.Categories;
         var finalName = CategoriesManager.Instance.RandomCategory?.CategoryName ?? string.Empty;
-        var avoidName = string.IsNullOrEmpty(previousCategoryName) ? finalName : previousCategoryName;
+        var previousName = string.IsNullOrEmpty(previousCategoryName) ? finalName : previousCategoryName;
 
-        if (slots.Count > 0 && slots[0] is Label firstSlot)
+        if (slots[0] is Label finalSlot)
         {
-            firstSlot.Text = string.IsNullOrEmpty(previousCategoryName) ? finalName : previousCategoryName;
+            finalSlot.Text = finalName;
         }
 
-        for (var i = 1; i < slots.Count - 1 && slots[i] is Label slot; i++)
+        var avoidName = finalName;
+        for (var i = 1; i < slots.Count - 2; i++)
         {
-            slot.Text = PickReelName(categories, finalName, avoidName);
-            avoidName = slot.Text;
+            if (slots[i] is Label slot)
+            {
+                slot.Text = PickReelName(categories, finalName, avoidName);
+                avoidName = slot.Text;
+            }
         }
 
-        if (slots.Count > 0 && slots[^1] is Label lastSlot)
+        if (slots[^2] is Label currentSlot)
         {
-            lastSlot.Text = finalName;
+            currentSlot.Text = previousName;
+        }
+
+        if (slots[^1] is Label paddingSlot)
+        {
+            paddingSlot.Text = PickReelName(categories, finalName, previousName);
         }
     }
 
