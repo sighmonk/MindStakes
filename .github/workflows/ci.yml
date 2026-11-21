@@ -51,3 +51,33 @@ jobs:
             exit 1
           fi
           echo "Only the sample pool is tracked."
+
+  version-guard:
+    name: Godot version guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Keep project, SDK and workflow versions in sync
+        run: |
+          sdk_version="$(sed -n 's|.*Godot.NET.Sdk/\([0-9.]*\).*|\1|p' MindStakes.csproj)"
+          feature_version="$(sed -n 's/.*config\/features=PackedStringArray("\([0-9.]*\)".*/\1/p' project.godot)"
+          workflow_version="$(sed -n 's/.*GODOT_VERSION: \([0-9.]*\)-stable.*/\1/p' .github/workflows/godot-export.yml | head -n1)"
+
+          echo "SDK: ${sdk_version:-<missing>}"
+          echo "project.godot feature: ${feature_version:-<missing>}"
+          echo "export workflow: ${workflow_version:-<missing>}"
+
+          if [ -z "$sdk_version" ] || [ -z "$feature_version" ] || [ -z "$workflow_version" ]; then
+            echo "::error::Could not read all Godot versions."
+            exit 1
+          fi
+          if [ "$sdk_version" != "$workflow_version" ]; then
+            echo "::error::MindStakes.csproj ($sdk_version) and godot-export.yml ($workflow_version) differ."
+            exit 1
+          fi
+          if [ "${sdk_version%.*}" != "$feature_version" ]; then
+            echo "::error::project.godot features ($feature_version) do not match the SDK major.minor ($sdk_version)."
+            exit 1
+          fi

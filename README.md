@@ -159,7 +159,7 @@ What I want to add:
 
 # Download
 
-Every tagged release ships prebuilt Windows and Linux builds. Each push to `main` also produces downloadable build artifacts in the [Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml) workflow.
+Every tagged release ships prebuilt Windows, Linux and macOS builds. Each push to `main` also produces downloadable build artifacts for all three platforms in the [Godot export](https://github.com/sighmonk/MindStakes/actions/workflows/godot-export.yml) workflow.
 
 # Building from source
 
