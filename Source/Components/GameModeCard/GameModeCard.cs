@@ -7,8 +7,10 @@ public partial class GameModeCard : MarginContainer
     [Export] public SpinBox RoundCountSpinBox;
     [Export] public Button StartButton;
     [Export] public GameManager.GameModeEnum GameModeType;
+    private GameModeDefinition gameMode;
     public override void _Ready()
     {
+        gameMode = GameModeRegistry.GetByIndex((int)GameModeType);
         RoundCountSpinBox.Value = GameManager.Instance.MaxRounds;
         RoundCountSpinBox.ValueChanged += OnRoundCountChanged;
         UpdateGameModeLabel();
@@ -20,14 +22,7 @@ public partial class GameModeCard : MarginContainer
     }
     private void UpdateGameModeLabel()
     {
-        string modeText = GameModeType switch
-        {
-            GameManager.GameModeEnum.Betting => Tr("GAME_MODE_BETTING"),
-            GameManager.GameModeEnum.Sabotage => Tr("GAME_MODE_SABOTAGE"),
-            GameManager.GameModeEnum.Fraud => Tr("GAME_MODE_FRAUD"),
-            _ => Tr("GAME_MODE_UNKNOWN")
-        };
-        GameModeLabel.Text = modeText;
+        GameModeLabel.Text = Tr(gameMode is null ? GameModeRegistry.UnknownDisplayNameKey : gameMode.DisplayNameKey);
     }
     private void OnStartButtonPressed()
     {

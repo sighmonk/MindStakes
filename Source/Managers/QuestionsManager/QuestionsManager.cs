@@ -31,7 +31,11 @@ public partial class QuestionsManager : Node
 
     public bool HasQuestionsForCategory(Category category)
     {
-        return Questions.Any(q => q.Category == category && !IsQuestionUsed(q));
+        var gameMode = GameManager.Instance.CurrentGameMode;
+        return Questions.Any(q =>
+            q.Category == category &&
+            !IsQuestionUsed(q) &&
+            GameModeRegistry.IsQuestionAllowed(q, gameMode));
     }
 
     public bool IsQuestionUsed(Question question)
@@ -57,8 +61,12 @@ public partial class QuestionsManager : Node
             return;
         }
 
+        var gameMode = GameManager.Instance.CurrentGameMode;
         var availableQuestions = Questions
-            .Where(q => q.Category == currentCategory && !IsQuestionUsed(q))
+            .Where(q =>
+                q.Category == currentCategory &&
+                !IsQuestionUsed(q) &&
+                GameModeRegistry.IsQuestionAllowed(q, gameMode))
             .ToList();
 
         if (availableQuestions.Count == 0)

@@ -14,6 +14,8 @@ public partial class GameManager : Node
 
     public int CurrentGameModeIndex { get; set; } = 0;
 
+    public GameModeDefinition CurrentGameMode => GameModeRegistry.GetByIndex(CurrentGameModeIndex);
+
     public int RoundCount { get; set; } = 0;
     [Export] public int MaxRounds { get; set; } = 10;
 

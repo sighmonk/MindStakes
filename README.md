@@ -44,6 +44,28 @@ MindStakes is a tool for quiz show hosts, made in Godot.
 - If they give the question to another player, the selected player gains or loses 20 points based on their answer.
 - If the selected player answers correctly, the current player loses 10 points. If the answer is incorrect, the current player gains 10 points.
 
+## Game mode registry
+Every mode is registered once in [Source/Data/GameMode/GameModeRegistry.cs](./Source/Data/GameMode/GameModeRegistry.cs). A `GameModeDefinition` carries the mode id, the localization key of the name shown in the mode pick screen, the scene opened after a category is picked and the filter deciding which questions the mode may use.
+
+| Mode | Id | Scene |
+|------|----|-------|
+| Betting | `betting` | `Source/Screens/Betting/BettingScreen.tscn` |
+| Sabotage | `sabotage` | `Source/Screens/Question/Sabotage/SabotageQuestionScreen.tscn` |
+| Fraud | `fraud` | `Source/Screens/Question/Fraud/FraudQuestionScreen.tscn` |
+
+[GameModeCard](./Source/Components/GameModeCard/GameModeCard.cs) shows the translated name and starts the mode, [CategoryButton](./Source/Components/Buttons/CategoryButton/CategoryButton.cs) opens the scene of the active mode, and [QuestionsManager](./Source/Managers/QuestionsManager/QuestionsManager.cs) only draws questions the active mode accepts.
+
+The `GameModeType` export on `GameModeCard` and the `*ScenePath` exports on `CategoryButton` are the values already stored in the scenes. They win over the registry when set, so existing scenes keep working; `QuestionScenePath` on `CategoryButton` is legacy data that is no longer read. An index without a registration keeps the previous behaviour: the card shows `GAME_MODE_UNKNOWN`, nothing is opened after a category is picked and every question is accepted.
+
+### Adding a mode
+A new mode (for example Jeopardy) needs:
+
+1. A question flag in [Question.cs](./Source/Data/Question/Question.cs) (for example `IsJeopardyGameQuestion`), set to `true` where the Question Creator and the importer build a question.
+2. An entry in `GameModeRegistry`: a `GameModeDefinition` with the next free `Index`, the new id, a `GAME_MODE_JEOPARDY` entry in both `Resources/Locale/pl.po` and `en.po`, the scene path and the question filter.
+3. A card in the editor — open `Source/Screens/GameModePick/GameModePickScreen.tscn`, select `Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer`, duplicate one of the `GameModeCard` instances in it, set `GameModeType` in the Inspector to the new index and assign `GameModeLabel`, `RoundCountSpinBox` and `StartButton`. Save the scene.
+
+No C# switch has to change: the name and the scene path come from the registry and the question filter comes from the definition.
+
 # Language
 The interface ships in Polish (the default) and English. The `LanguageSwitcher` component ([Source/Components/LanguageSwitcher](./Source/Components/LanguageSwitcher/)) renders the **PL** / **EN** buttons and is instanced in the main menu. The choice is saved to `user://settings.cfg` and applied on the next start.
 
