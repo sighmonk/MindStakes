@@ -243,3 +243,16 @@ msgstr "Could not write the save archive."
 
 msgid "SELECT_VIDEO"
 msgstr "Select video"
+
+# Configuration archive
+msgid "CONFIG_IMPORT"
+msgstr "Import configuration"
+
+msgid "CONFIG_EXPORT"
+msgstr "Export configuration"
+
+msgid "CONFIG_IMPORT_FAILED"
+msgstr "Could not import the configuration."
+
+msgid "CONFIG_EXPORT_FAILED"
+msgstr "Could not write the configuration archive."
