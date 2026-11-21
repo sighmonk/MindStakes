@@ -25,12 +25,15 @@ dotnet build MindStakes.sln
 
 Then open `project.godot` in the Godot .NET editor and press <kbd>F5</kbd>.
 
-To produce the same builds CI produces, use the export presets (`Windows Desktop`, `Linux`) or run the export from the command line:
+To produce the same builds CI produces, use the export presets (`Windows Desktop`, `Linux`, `macOS`) or run the export from the command line:
 
 ```powershell
 godot --headless --export-release "Windows Desktop" build/windows/MindStakes.exe
 godot --headless --export-release "Linux" build/linux/MindStakes.x86_64
+godot --headless --export-release "macOS" build/macos/MindStakes.zip
 ```
+
+The macOS build is produced on a macOS runner in CI. Building from Linux or Windows is possible, but the resulting `.app` needs the executable permission fixed on macOS.
 
 ## Workflow
 
