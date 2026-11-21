@@ -32,13 +32,14 @@ public partial class GameModePickScreen : Control
 	{
 		GD.Print($"Registered game modes: {string.Join(", ", GameModeRegistry.All.Select(mode => mode.Id))}.");
 
-		foreach (var node in FindChildren("*", "", true, false))
+		var unregisteredCards = FindChildren("*", "", true, false)
+			.OfType<GameModeCard>()
+			.Where(card => !GameModeRegistry.IsRegistered(card.GameModeType));
+
+		foreach (var card in unregisteredCards)
 		{
-			if (node is GameModeCard card && !GameModeRegistry.IsRegistered(card.GameModeType))
-			{
-				GD.PushWarning(
-					$"Game mode card '{card.GetPath()}' uses unregistered mode index '{(int)card.GameModeType}'.");
-			}
+			GD.PushWarning(
+				$"Game mode card '{card.GetPath()}' uses unregistered mode index '{(int)card.GameModeType}'.");
 		}
 	}
 
