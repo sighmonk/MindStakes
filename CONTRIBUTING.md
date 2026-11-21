@@ -40,8 +40,17 @@ The macOS build is produced on a macOS runner in CI. Building from Linux or Wind
 1. Open an issue (or pick an existing one) describing the change. Bug reports should include the Godot version, the OS, and steps to reproduce.
 2. Create a branch from `main` named `<type>/<short-description>`, for example `fix/score-reset` or `feature/category-importer`.
 3. Make the change, keep commits focused, and reference the issue in the pull request body (`Closes #12`).
-4. Open the pull request. CI must pass before it can be merged: the solution has to build and the Windows, Linux and macOS exports have to succeed.
+4. Open the pull request. CI must pass before it can be merged: the solution has to build, and the Windows, Linux and macOS exports have to succeed.
 5. Do not push directly to `main`.
+
+## Releases
+
+`main` is released automatically: every merged pull request builds Windows, Linux and macOS and publishes them as a pre-release with the patch version bumped from the latest `v*` tag. To publish a full release (for example `v0.2.0`), push a tag:
+
+```powershell
+git tag v0.2.0
+git push origin v0.2.0
+```
 
 ## Question data
 

@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
 
 concurrency:
+  # Every push to main publishes its own release, so runs must not cancel each other.
   group: godot-export-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -164,11 +165,19 @@ jobs:
   release:
     name: Publish release
     needs: export
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Tags publish a full release; every push to main publishes a pre-release with an auto-bumped patch version.
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          # Tags are needed to compute the next version.
+          fetch-depth: 0
+          fetch-tags: true
+
       - name: Download builds
         uses: actions/download-artifact@v8
         with:
@@ -176,11 +185,57 @@ jobs:
           path: dist
           merge-multiple: true
 
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            tag="$GITHUB_REF_NAME"
+            prerelease=false
+          else
+            # Reuse the tag when this commit was already published, so a re-run does not bump again.
+            tag="$(git tag --list 'v[0-9]*' --points-at "$GITHUB_SHA" | sort -V | tail -n1)"
+            if [ -z "$tag" ]; then
+              latest="$(git tag --list 'v[0-9]*' | sort -V | tail -n1)"
+              version="${latest#v}"
+              major="$(cut -d. -f1 <<< "$version")"
+              minor="$(cut -d. -f2 <<< "$version")"
+              patch="$(cut -d. -f3 <<< "$version")"
+              tag="v${major:-0}.${minor:-0}.$(( ${patch:-0} + 1 ))"
+            fi
+            prerelease=true
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Release"
+            echo ""
+            echo "- Tag: \`$tag\`"
+            echo "- Pre-release: \`$prerelease\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/*.zip \
-            --repo "$GITHUB_REPOSITORY" \
-            --title "MindStakes $GITHUB_REF_NAME" \
-            --generate-notes
+          set -euo pipefail
+          assets=(dist/*.zip)
+          ls -lh "${assets[@]}"
+
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            # Never change the pre-release flag of an existing release, only refresh the builds.
+            gh release upload "$TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+            echo "Updated the existing release $TAG." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          args=(--repo "$GITHUB_REPOSITORY" --title "MindStakes $TAG" --generate-notes)
+          if [ "$PRERELEASE" = "true" ]; then
+            args+=(--prerelease --target "$GITHUB_SHA")
+          fi
+
+          gh release create "$TAG" "${assets[@]}" "${args[@]}"
+          echo "Published $TAG." >> "$GITHUB_STEP_SUMMARY"
