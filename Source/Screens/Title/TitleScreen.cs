@@ -10,6 +10,10 @@ public partial class TitleScreen : Control
     [Export] public FileDialog LoadSaveDialog { get; set; }
     [Export] public FileDialog ExportSaveDialog { get; set; }
     [Export] public AcceptDialog SaveErrorDialog { get; set; }
+    [Export] public Button ImportConfigButton { get; set; }
+    [Export] public Button ExportConfigButton { get; set; }
+    [Export] public FileDialog ImportConfigDialog { get; set; }
+    [Export] public FileDialog ExportConfigDialog { get; set; }
 
     public override void _Ready()
     {
@@ -41,6 +45,59 @@ public partial class TitleScreen : Control
         if (ExportSaveDialog != null)
         {
             ExportSaveDialog.FileSelected += OnExportSaveSelected;
+        }
+
+        if (ImportConfigButton != null)
+        {
+            ImportConfigButton.Text = Tr("CONFIG_IMPORT");
+            ImportConfigButton.Pressed += OnImportConfigPressed;
+        }
+
+        if (ExportConfigButton != null)
+        {
+            ExportConfigButton.Text = Tr("CONFIG_EXPORT");
+            ExportConfigButton.Pressed += OnExportConfigPressed;
+        }
+
+        if (ImportConfigDialog != null)
+        {
+            ImportConfigDialog.FileSelected += OnImportConfigSelected;
+        }
+
+        if (ExportConfigDialog != null)
+        {
+            ExportConfigDialog.FileSelected += OnExportConfigSelected;
+        }
+    }
+
+    private void OnImportConfigPressed()
+    {
+        ImportConfigDialog.Title = Tr("CONFIG_IMPORT");
+        ImportConfigDialog.CurrentDir = ProjectSettings.GlobalizePath(ConfigArchive.ConfigsFolder);
+        ImportConfigDialog.PopupCenteredRatio(0.8f);
+    }
+
+    private void OnExportConfigPressed()
+    {
+        ExportConfigDialog.Title = Tr("CONFIG_EXPORT");
+        ExportConfigDialog.CurrentDir = ProjectSettings.GlobalizePath(ConfigArchive.ConfigsFolder);
+        ExportConfigDialog.CurrentFile = "mindstakes-config" + ConfigArchive.ArchiveExtension;
+        ExportConfigDialog.PopupCenteredRatio(0.8f);
+    }
+
+    private void OnImportConfigSelected(string path)
+    {
+        if (!ConfigArchive.Import(path))
+        {
+            ShowSaveError("CONFIG_IMPORT_FAILED");
+        }
+    }
+
+    private void OnExportConfigSelected(string path)
+    {
+        if (!ConfigArchive.Export(path))
+        {
+            ShowSaveError("CONFIG_EXPORT_FAILED");
         }
     }
 

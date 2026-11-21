@@ -103,6 +103,13 @@ To rebuild the scene by hand in the editor: create a `CanvasLayer` with the scri
 - New Game is the title screen itself: entering it starts a fresh session, so scores and the consumed-question list reset.
 - The manifest carries a `version`. A save with an unknown version is rejected with a translated error instead of being loaded partially.
 
+# Configuration archive
+
+- `Export configuration` on the title screen writes a `.mstakes` ZIP with `manifest.json`, the category list, every question from every pool (text, answers, type, difficulty, target modes, fun fact and the media files), the difficulty levels and the teams with their pictures.
+- `Import configuration` validates the archive first: version, a manifest with categories and questions, and every referenced media file. Only then it writes anything, so a broken file changes nothing and reports a translated error.
+- Questions are written by their stable id, so importing the same archive twice replaces the questions instead of duplicating them; categories are matched by name and overwritten.
+- Imported media lands in `Assets/Media/Questions/...` (or `user://question_media/...`) and team pictures in `user://team_images`.
+
 # Language
 The interface ships in Polish (the default) and English. The `LanguageSwitcher` component ([Source/Components/LanguageSwitcher](./Source/Components/LanguageSwitcher/)) renders the **PL** / **EN** buttons and is instanced in the main menu. The choice is saved to `user://settings.cfg` and applied on the next start.
 

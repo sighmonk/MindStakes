@@ -23,7 +23,7 @@ shader_parameter/mouse_pos = Vector2(0.5, 0.5)
 shader_parameter/is_hovered = false
 shader_parameter/time = 0.0
 
-[node name="TitleScreen" type="Control" unique_id=596475220 node_paths=PackedStringArray("TitleLabel", "AnimationsButton", "LoadSaveButton", "ExportSaveButton", "LoadSaveDialog", "ExportSaveDialog", "SaveErrorDialog")]
+[node name="TitleScreen" type="Control" unique_id=596475220 node_paths=PackedStringArray("TitleLabel", "AnimationsButton", "LoadSaveButton", "ExportSaveButton", "LoadSaveDialog", "ExportSaveDialog", "SaveErrorDialog", "ImportConfigButton", "ExportConfigButton", "ImportConfigDialog", "ExportConfigDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,6 +41,10 @@ ExportSaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer
 LoadSaveDialog = NodePath("LoadSaveDialog")
 ExportSaveDialog = NodePath("ExportSaveDialog")
 SaveErrorDialog = NodePath("SaveErrorDialog")
+ImportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ImportConfigButton")
+ExportConfigButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2/ExportConfigButton")
+ImportConfigDialog = NodePath("ImportConfigDialog")
+ExportConfigDialog = NodePath("ExportConfigDialog")
 
 [node name="Panel2" parent="." unique_id=945064536 instance=ExtResource("3_3jf3j")]
 layout_mode = 1
@@ -186,13 +190,21 @@ text = "LOAD SAVE"
 layout_mode = 2
 text = "EXPORT SAVE"
 
+[node name="ImportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=644945836]
+layout_mode = 2
+text = "IMPORT CONFIG"
+
+[node name="ExportConfigButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/VBoxContainer2" unique_id=788687019]
+layout_mode = 2
+text = "EXPORT CONFIG"
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer" unique_id=1722594413]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_3h2fp")
 
 [node name="LoadSaveDialog" type="FileDialog" parent="." unique_id=477202479]
-title = "Load save"
+title = "Open a File"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.mssave ; MindStakes save", "*.json ; JSON")
@@ -205,3 +217,16 @@ use_native_dialog = true
 
 [node name="SaveErrorDialog" type="AcceptDialog" parent="." unique_id=1324030515]
 title = "Save"
+
+[node name="ImportConfigDialog" type="FileDialog" parent="." unique_id=747767482]
+title = "Import configuration"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mstakes ; MindStakes configuration")
+use_native_dialog = true
+
+[node name="ExportConfigDialog" type="FileDialog" parent="." unique_id=792110758]
+title = "Export configuration"
+access = 2
+filters = PackedStringArray("*.mstakes ; MindStakes configuration")
+use_native_dialog = true

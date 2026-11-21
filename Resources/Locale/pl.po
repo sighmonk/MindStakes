@@ -243,3 +243,16 @@ msgstr "Nie udało się zapisać archiwum."
 
 msgid "SELECT_VIDEO"
 msgstr "Wybierz wideo"
+
+# Configuration archive
+msgid "CONFIG_IMPORT"
+msgstr "Importuj konfigurację"
+
+msgid "CONFIG_EXPORT"
+msgstr "Eksportuj konfigurację"
+
+msgid "CONFIG_IMPORT_FAILED"
+msgstr "Nie udało się zaimportować konfiguracji."
+
+msgid "CONFIG_EXPORT_FAILED"
+msgstr "Nie udało się zapisać konfiguracji."
