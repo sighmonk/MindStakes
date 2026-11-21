@@ -6,7 +6,7 @@ Thanks for taking the time to contribute. This page covers everything you need t
 
 | Tool | Version |
 | --- | --- |
-| Godot | 4.6.1 **.NET** build (not the standard build) |
+| Godot | 4.7.2 **.NET** build (not the standard build) |
 | .NET SDK | 8.0 |
 | Git LFS | any recent version |
 
