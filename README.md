@@ -129,6 +129,15 @@ A question stores the copied media in `PhotoPath` and `AudioPath`. The game load
 
 The creator scene owns the dialogs: `ImageFileDialog` and `AudioFileDialog` (`Access = Filesystem`, `UseNativeDialog = true`, `FileMode = Open File`, filters for PNG/JPG/WEBP and MP3/WAV/OGG) and `MediaErrorDialog` (`AcceptDialog`) for error messages. Assign them to the matching exports on `CreatorScreen` in the Inspector.
 
+## Question metadata
+
+Every question can carry a difficulty label and the game modes it is meant for. The `QuestionMetadataPanel` component (`Source/Components/QuestionMetadata/`) renders both and is instanced in the creator form as `QuestionMetadataPanel`.
+
+- Difficulty levels live in `user://settings.cfg` under `[questions] difficulty_levels`; the defaults are `Easy`, `Medium`, `Hard`. The creator adds a level with the `New level` field and `Add`, removes the selected one with `Remove`, and the list survives restarts. The first option is `—`, which stores no label.
+- Target modes are checkboxes built from `GameModeRegistry`, so a mode added to the registry appears without touching the scene. A question with no mode selected belongs to every mode.
+- Saving keeps `IsBettingGameQuestion`, `IsSabotageGameQuestion` and `IsFraudGameQuestion` in sync with the selected modes, so older builds and hand-written `.tres` files still read the question the same way. Questions saved before the metadata existed have an empty mode list and load unchanged.
+- `QuestionsManager` only offers questions the active mode accepts, and the validator warns about an unknown difficulty label or an unknown mode id.
+
 # Question data
 Question sets are **not** part of this repository. Only the examples under `Resources/Examples/` are tracked:
 
@@ -216,6 +225,8 @@ JSON is an array of objects with the same field names (camelCase works too):
 ```
 
 `category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths; keep those files under `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` so they stay out of Git. `fun_fact`, `image` and `audio` are optional.
+
+`difficulty` and `modes` are optional too. `modes` is a pipe-separated list of mode ids (`betting|sabotage|fraud`); an empty value means the question belongs to every mode, and the importer keeps the legacy per-mode flags in sync.
 
 ## Validating pools
 

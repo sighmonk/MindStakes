@@ -22,6 +22,40 @@ public partial class Question : Resource
     [Export]
     public bool IsFraudGameQuestion { get; set; } = true;
     [Export]
+    public string Difficulty { get; set; }
+    [Export]
+    public Godot.Collections.Array<string> AllowedGameModeIds { get; set; } = new();
+
+    /// <summary>
+    /// A question with no target modes belongs to every mode; questions saved before the metadata
+    /// existed therefore behave as before.
+    /// </summary>
+    public bool IsTargetedAt(string modeId)
+    {
+        if (AllowedGameModeIds == null || AllowedGameModeIds.Count == 0)
+        {
+            return true;
+        }
+
+        return AllowedGameModeIds.Contains(modeId);
+    }
+
+    public void SetTargetMode(string modeId, bool enabled)
+    {
+        AllowedGameModeIds ??= new Godot.Collections.Array<string>();
+        if (enabled)
+        {
+            if (!AllowedGameModeIds.Contains(modeId))
+            {
+                AllowedGameModeIds.Add(modeId);
+            }
+        }
+        else
+        {
+            AllowedGameModeIds.Remove(modeId);
+        }
+    }
+    [Export]
     public Category Category { get; set; }
     [Export(PropertyHint.MultilineText)]
     public string FunFact { get; set; }

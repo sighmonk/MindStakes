@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://2ii2i018wjeg"]
+
+[ext_resource type="Script" uid="uid://bm54k281ku6ew" path="res://Source/Components/QuestionMetadata/QuestionMetadataPanel.cs" id="1_bpj2f"]
+
+[node name="QuestionMetadataPanel" type="VBoxContainer" unique_id=1431749280 node_paths=PackedStringArray("DifficultyLabel", "DifficultyOption", "NewLevelEdit", "AddLevelButton", "RemoveLevelButton", "ModesLabel", "ModesContainer")]
+script = ExtResource("1_bpj2f")
+DifficultyLabel = NodePath("DifficultyRow/DifficultyLabel")
+DifficultyOption = NodePath("DifficultyRow/DifficultyOption")
+NewLevelEdit = NodePath("LevelsRow/NewLevelEdit")
+AddLevelButton = NodePath("LevelsRow/AddLevelButton")
+RemoveLevelButton = NodePath("LevelsRow/RemoveLevelButton")
+ModesLabel = NodePath("ModesRow/ModesLabel")
+ModesContainer = NodePath("ModesRow/ModesContainer")
+
+[node name="DifficultyRow" type="HBoxContainer" parent="." unique_id=1352787408]
+layout_mode = 2
+
+[node name="DifficultyLabel" type="Label" parent="DifficultyRow" unique_id=138449753]
+layout_mode = 2
+text = "Difficulty"
+
+[node name="DifficultyOption" type="OptionButton" parent="DifficultyRow" unique_id=489550072]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LevelsRow" type="HBoxContainer" parent="." unique_id=2108495683]
+layout_mode = 2
+
+[node name="NewLevelEdit" type="LineEdit" parent="LevelsRow" unique_id=69329896]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "New level"
+
+[node name="AddLevelButton" type="Button" parent="LevelsRow" unique_id=1930222057]
+layout_mode = 2
+text = "+"
+
+[node name="RemoveLevelButton" type="Button" parent="LevelsRow" unique_id=783106728]
+layout_mode = 2
+text = "-"
+
+[node name="ModesRow" type="HBoxContainer" parent="." unique_id=229749071]
+layout_mode = 2
+
+[node name="ModesLabel" type="Label" parent="ModesRow" unique_id=124565003]
+layout_mode = 2
+text = "Modes"
+
+[node name="ModesContainer" type="HBoxContainer" parent="ModesRow" unique_id=373678784]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24

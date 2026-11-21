@@ -21,6 +21,7 @@ public partial class CreatorScreen : Control
     [Export] public Button NewButton { get; set; }
     [Export] public PackedScene MusicPlayerScene { get; set; }
     [Export] public Tree QuestionsExplorerTree { get; set; }
+    [Export] public QuestionMetadataPanel MetadataPanel { get; set; }
     [Export] public FileDialog ImageFileDialog { get; set; }
     [Export] public FileDialog AudioFileDialog { get; set; }
     [Export] public AcceptDialog MediaErrorDialog { get; set; }
@@ -485,6 +486,8 @@ public partial class CreatorScreen : Control
         _selectedAudio = QuestionMedia.LoadAudio(question.AudioPath, question.Audio);
         ShowAudioPreview(_selectedAudio);
 
+        MetadataPanel?.LoadQuestion(question);
+
         UpdateFileButtonsState();
     }
 
@@ -682,6 +685,8 @@ public partial class CreatorScreen : Control
             AudioPath = _selectedAudioPath
         };
 
+        MetadataPanel?.ApplyTo(question);
+
         var savePath = _editingQuestionPath;
         if (string.IsNullOrEmpty(savePath))
         {
@@ -861,6 +866,8 @@ public partial class CreatorScreen : Control
         _editingQuestionPath = null;
         _editingQuestionId = null;
         SaveButton.Text = Tr("SAVE");
+
+        MetadataPanel?.LoadQuestion(null);
 
         _selectedImage = null;
         _selectedAudio = null;
