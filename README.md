@@ -62,6 +62,19 @@ Questions are separate data and are not part of the interface localization.
 
 The first answer field is always the correct answer; the game shuffles the answers when it displays them. All four answers are required, and two answers with the same text are rejected, because the correct answer is matched by its text.
 
+# Assets
+Application assets are tracked in the repository:
+
+- `Assets/Fonts/`, `Assets/Icons/` and `Assets/Themes/` - fonts, UI icons and theme resources used by the scenes.
+
+Media used by questions and the default team picture stay local, because they are quiz content rather than interface assets:
+
+- `Assets/Media/Questions/Images/` - images attached to questions.
+- `Assets/Media/Questions/Audio/` - audio attached to questions.
+- `Assets/Images/` - local default team picture (`kawal.jpg`) referenced by the team card scene.
+
+The Question Creator opens its file pickers in `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio`, so media picked there never lands in Git. Both folders are ignored. Question media still has to be a `res://` path so Godot can import it, which means it is packed into an exported build when it is present on the machine that exports the game.
+
 # Question data
 Question sets are **not** part of this repository. Only the examples under `Resources/Examples/` are tracked:
 
@@ -127,7 +140,7 @@ CSV accepts comma, semicolon or tab delimiters and requires a header row:
 
 ```csv
 pool,category,question,correct,answer2,answer3,answer4,fun_fact,image,audio
-1,Minecraft,"Jaki jest obecnie rekord świata w Minecraft (RSG)?",6m 50s,7m 01s,8m 18s,9m 33s,Rekord ustanowiono w 2024.,res://Assets/Images/foo.png,
+1,Minecraft,"Jaki jest obecnie rekord świata w Minecraft (RSG)?",6m 50s,7m 01s,8m 18s,9m 33s,Rekord ustanowiono w 2024.,res://Assets/Media/Questions/Images/foo.png,
 2,Anime,Kim jest Muhammad Avdol?,Postacią z JoJo,Nie wiem,Postacią z One Piece,Postacią z Naruto,,,
 ```
 
@@ -148,7 +161,7 @@ JSON is an array of objects with the same field names (camelCase works too):
 ]
 ```
 
-`category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths. `fun_fact`, `image` and `audio` are optional.
+`category` is either a name from the active categories folder or a `res://` / `user://` path. `image` and `audio` must currently be `res://` paths; keep those files under `Assets/Media/Questions/Images` and `Assets/Media/Questions/Audio` so they stay out of Git. `fun_fact`, `image` and `audio` are optional.
 
 ## Validating pools
 
@@ -175,7 +188,7 @@ Requirements:
 
 - [Godot 4.7.2 **.NET**](https://godotengine.org/download) (the standard build cannot run C#),
 - [.NET 8 SDK](https://dotnet.microsoft.com/download),
-- Git LFS, because images and audio are stored with LFS.
+- Git LFS, because any binary assets you add (images, audio) are committed through LFS.
 
 ```powershell
 git lfs install

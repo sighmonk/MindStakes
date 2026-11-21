@@ -17,15 +17,15 @@ dist/
 out/
 Exports/
 
-# Image assets are local-only.
+# App images are local-only (the default team picture referenced by the team card scene).
 Assets/Images/*
 
 # Question and category data are user data, not repository content.
 Resources/Questions/
 Resources/Categories/
 
-# Media copied from the system file picker for questions.
-Assets/Media/Questions/
+# Question media picked through the Question Creator (images and audio) is local-only.
+Assets/Media/
 
 # IDE/Editor
 .vs/
