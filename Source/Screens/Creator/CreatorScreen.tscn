@@ -20,24 +20,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_kk2el")
 script = ExtResource("2_dmflg")
-QuestionLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/QuestionHBoxContainer/LineEdit")
-CategoryOptionButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CategorytHBoxContainer3/OptionButton")
-ImageFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2/MarginContainer/Button")
-ImageFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2/PreviewPanelContainer")
-AudioFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3/MarginContainer/Button")
-AudioFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3/PreviewPanelContainer")
-VideoFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer/VideoFileSelectButton")
-CorrectAnswerLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CorrectHBoxContainer2/LineEdit")
-Answer2LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer3/LineEdit")
-Answer3LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer4/LineEdit")
-Answer4LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer5/LineEdit")
-FunFactLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/FunfactHBoxContainer6/LineEdit")
+QuestionLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/QuestionHBoxContainer/LineEdit")
+CategoryOptionButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CategorytHBoxContainer3/OptionButton")
+ImageFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2/MarginContainer/Button")
+ImageFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2/PreviewPanelContainer")
+AudioFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3/MarginContainer/Button")
+AudioFilePreviewContainer = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3/PreviewPanelContainer")
+VideoFileSelectButton = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/VideoFileHBoxContainer/VideoFileSelectButton")
+CorrectAnswerLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CorrectHBoxContainer2/LineEdit")
+Answer2LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer3/LineEdit")
+Answer3LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer4/LineEdit")
+Answer4LineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer5/LineEdit")
+FunFactLineEdit = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/FunfactHBoxContainer6/LineEdit")
 PoolSpinBox = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer/PanelContainer/HBoxContainer/SpinBox")
 SaveButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer2/SaveButton")
 NewButton = NodePath("Panel/PanelContainer/VBoxContainer/ButtonsContainer/HBoxContainer/MarginContainer3/NewButton")
 MusicPlayerScene = ExtResource("3_whnrv")
 QuestionsExplorerTree = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel/ScrollContainer/MarginContainer/Tree")
-MetadataPanel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/QuestionMetadataPanel")
+MetadataPanel = NodePath("Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/QuestionMetadataPanel")
 ImageFileDialog = NodePath("ImageFileDialog")
 AudioFileDialog = NodePath("AudioFileDialog")
 VideoFileDialog = NodePath("VideoFileDialog")
@@ -176,55 +176,62 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer" unique_id=823903636]
+[node name="FormScroll" type="ScrollContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer" unique_id=1888632235]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="QuestionHBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1153863362]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll" unique_id=823903636]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="QuestionHBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1153863362]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/QuestionHBoxContainer" unique_id=1880608890]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/QuestionHBoxContainer" unique_id=1880608890]
 layout_mode = 2
 size_flags_vertical = 1
 text = "QUESTION:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/QuestionHBoxContainer" unique_id=1701015734]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/QuestionHBoxContainer" unique_id=1701015734]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CategorytHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1011239013]
+[node name="CategorytHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1011239013]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CategorytHBoxContainer3" unique_id=203647120]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CategorytHBoxContainer3" unique_id=203647120]
 layout_mode = 2
 size_flags_vertical = 1
 text = "CATEGORY:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CategorytHBoxContainer3" unique_id=177464819]
+[node name="OptionButton" type="OptionButton" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CategorytHBoxContainer3" unique_id=177464819]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="QuestionMetadataPanel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1431749280 instance=ExtResource("6_nfyey")]
+[node name="QuestionMetadataPanel" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1431749280 instance=ExtResource("6_nfyey")]
 layout_mode = 2
 
-[node name="ImageFileHBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=395807925]
+[node name="ImageFileHBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=395807925]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2" unique_id=1752251496]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2" unique_id=1752251496]
 layout_mode = 2
 size_flags_vertical = 1
 text = "IMAGE:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2" unique_id=782726016]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2" unique_id=782726016]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 16
@@ -232,31 +239,31 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Button" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2/MarginContainer" unique_id=1869978410]
+[node name="Button" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2/MarginContainer" unique_id=1869978410]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SELECT"
 
-[node name="PreviewPanelContainer" type="PanelContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2" unique_id=1998207278]
+[node name="PreviewPanelContainer" type="PanelContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2" unique_id=1998207278]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/ImageFileHBoxContainer2/PreviewPanelContainer" unique_id=397010349]
+[node name="TextureRect" type="TextureRect" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/ImageFileHBoxContainer2/PreviewPanelContainer" unique_id=397010349]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AudioFileHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1230886902]
+[node name="AudioFileHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1230886902]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3" unique_id=890357217]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3" unique_id=890357217]
 layout_mode = 2
 size_flags_vertical = 1
 text = "AUDIO:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3" unique_id=1075544620]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3" unique_id=1075544620]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 16
@@ -264,98 +271,98 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Button" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3/MarginContainer" unique_id=1252555264]
+[node name="Button" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3/MarginContainer" unique_id=1252555264]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SELECT"
 
-[node name="PreviewPanelContainer" type="PanelContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AudioFileHBoxContainer3" unique_id=1922413135]
+[node name="PreviewPanelContainer" type="PanelContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AudioFileHBoxContainer3" unique_id=1922413135]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CorrectHBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=623824143]
+[node name="CorrectHBoxContainer2" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=623824143]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CorrectHBoxContainer2" unique_id=864711596]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CorrectHBoxContainer2" unique_id=864711596]
 layout_mode = 2
 size_flags_vertical = 1
 text = "CORRECT ANSWER:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/CorrectHBoxContainer2" unique_id=1630412006]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/CorrectHBoxContainer2" unique_id=1630412006]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AnswerHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1496558963]
+[node name="AnswerHBoxContainer3" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1496558963]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer3" unique_id=1948301503]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer3" unique_id=1948301503]
 layout_mode = 2
 size_flags_vertical = 1
 text = "ANSWER:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer3" unique_id=934702079]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer3" unique_id=934702079]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AnswerHBoxContainer4" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1134034212]
+[node name="AnswerHBoxContainer4" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=1134034212]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer4" unique_id=1605433143]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer4" unique_id=1605433143]
 layout_mode = 2
 size_flags_vertical = 1
 text = "ANSWER:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer4" unique_id=1408584559]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer4" unique_id=1408584559]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AnswerHBoxContainer5" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=990072213]
+[node name="AnswerHBoxContainer5" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=990072213]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer5" unique_id=1357463722]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer5" unique_id=1357463722]
 layout_mode = 2
 size_flags_vertical = 1
 text = "ANSWER:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/AnswerHBoxContainer5" unique_id=223231835]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/AnswerHBoxContainer5" unique_id=223231835]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FunfactHBoxContainer6" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=2020900163]
+[node name="FunfactHBoxContainer6" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=2020900163]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/FunfactHBoxContainer6" unique_id=356370601]
+[node name="Label" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/FunfactHBoxContainer6" unique_id=356370601]
 layout_mode = 2
 size_flags_vertical = 1
 text = "FUNFACT:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/FunfactHBoxContainer6" unique_id=2088001336]
+[node name="LineEdit" type="LineEdit" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/FunfactHBoxContainer6" unique_id=2088001336]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VideoFileHBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=875189818]
+[node name="VideoFileHBoxContainer" type="HBoxContainer" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer" unique_id=875189818]
 layout_mode = 2
 
-[node name="VideoLabel" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer" unique_id=2091710250]
+[node name="VideoLabel" type="Label" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/VideoFileHBoxContainer" unique_id=2091710250]
 layout_mode = 2
 text = "Video"
 
-[node name="VideoFileSelectButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/VideoFileHBoxContainer" unique_id=1201606215]
+[node name="VideoFileSelectButton" type="Button" parent="Panel/PanelContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/Panel2/MarginContainer/FormScroll/VBoxContainer/VideoFileHBoxContainer" unique_id=1201606215]
 layout_mode = 2
 text = "SELECT"
 
@@ -431,7 +438,7 @@ use_native_dialog = true
 title = "Media"
 
 [node name="VideoFileDialog" type="FileDialog" parent="." unique_id=60584660]
-title = "Select video"
+title = "Open a File"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.ogv ; OGG Video")
