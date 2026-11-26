@@ -20,6 +20,21 @@ MindStakes is a tool for quiz show hosts, made in Godot.
 - use question pools
 - switch between a Polish and an English interface
 
+# Preview
+
+![MindStakes preview](./docs/preview.gif)
+
+The screenshots below are captured at 1920x1080 with the example questions from [Resources/Examples](./Resources/Examples) and placeholder team pictures.
+
+| | |
+|:--:|:--:|
+| ![Title screen](./docs/screenshots/01-title.png) | ![Team editor](./docs/screenshots/02-team-editor.png) |
+| ![Game mode picker](./docs/screenshots/03-game-modes.png) | ![Category picker](./docs/screenshots/04-category-pick.png) |
+| ![Betting screen](./docs/screenshots/05-betting.png) | ![Sabotage question](./docs/screenshots/06-sabotage-question.png) |
+| ![Sabotage answer revealed](./docs/screenshots/07-sabotage-answer.png) | ![Fraud question](./docs/screenshots/08-fraud-question.png) |
+| ![Scoreboard](./docs/screenshots/09-scoreboard.png) | ![Summary](./docs/screenshots/10-summary.png) |
+| ![Question creator](./docs/screenshots/11-question-creator.png) | |
+
 #  Game modes
 ## Betting
 - The current player selects a category. They can either keep it or reroll it.
