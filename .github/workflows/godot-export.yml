@@ -226,9 +226,17 @@ jobs:
           ls -lh "${assets[@]}"
 
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            # Never change the pre-release flag of an existing release, only refresh the builds.
             gh release upload "$TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
-            echo "Updated the existing release $TAG." >> "$GITHUB_STEP_SUMMARY"
+            # A run on main publishes the tag of the commit it builds, so pushing a tag right after a merge
+            # can leave the tagged release marked as a pre-release. A tag run promotes it; a run on main
+            # never changes the flag.
+            existing_prerelease="$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isPrerelease --jq .isPrerelease)"
+            if [ "$PRERELEASE" = "false" ] && [ "$existing_prerelease" = "true" ]; then
+              gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease=false
+              echo "Promoted $TAG to a full release." >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "Updated the existing release $TAG." >> "$GITHUB_STEP_SUMMARY"
+            fi
             exit 0
           fi
 

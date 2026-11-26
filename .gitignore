@@ -37,3 +37,5 @@ Assets/Media/
 *.user
 
 *.zip
+# Godot import sidecars for documentation images are editor artifacts.
+docs/**/*.import
