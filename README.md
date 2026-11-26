@@ -304,6 +304,8 @@ Every push to `main` builds Windows, Linux and macOS and publishes them as a pre
 
 The version is taken from the latest `v*` tag. A merge to `main` bumps the patch number only, so a breaking or feature release still needs a `v*` tag with the intended minor or major version.
 
+Tagged releases are also uploaded to itch.io. See [CONTRIBUTING.md](./CONTRIBUTING.md#releases) for the `BUTLER_API_KEY` secret and the `ITCH_PROJECT` variable that enable it.
+
 # Building from source
 
 Requirements:

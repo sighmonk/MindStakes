@@ -239,3 +239,42 @@ jobs:
 
           gh release create "$TAG" "${assets[@]}" "${args[@]}"
           echo "Published $TAG." >> "$GITHUB_STEP_SUMMARY"
+
+      # Publishes the same three archives to itch.io with butler. Needs the BUTLER_API_KEY
+      # secret (itch.io API key) and the ITCH_PROJECT repository variable (user/game).
+      - name: Upload builds to itch.io
+        shell: bash
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_PROJECT: ${{ vars.ITCH_PROJECT }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ -z "${BUTLER_API_KEY:-}" ]; then
+            echo "::notice::BUTLER_API_KEY is not set, skipping the itch.io upload."
+            exit 0
+          fi
+          if [ -z "${ITCH_PROJECT:-}" ]; then
+            echo "::notice::The ITCH_PROJECT repository variable is not set (expected user/game), skipping the itch.io upload."
+            exit 0
+          fi
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            echo "::notice::Only tag pushes are uploaded to itch.io, skipping $TAG."
+            exit 0
+          fi
+
+          curl -sSL -o "$RUNNER_TEMP/butler.zip" \
+            https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q "$RUNNER_TEMP/butler.zip" -d "$RUNNER_TEMP/butler"
+          chmod +x "$RUNNER_TEMP/butler/butler"
+          "$RUNNER_TEMP/butler/butler" -V
+
+          for pair in \
+            "windows:mindstakes-windows-x86_64.zip" \
+            "linux:mindstakes-linux-x86_64.zip" \
+            "macos:mindstakes-macos-universal.zip"; do
+            channel="${pair%%:*}"
+            archive="dist/${pair#*:}"
+            "$RUNNER_TEMP/butler/butler" push "$archive" "$ITCH_PROJECT:$channel" --userversion "${TAG#v}"
+            echo "- itch.io \`$channel\` channel <- \`$archive\` ($TAG)" >> "$GITHUB_STEP_SUMMARY"
+          done

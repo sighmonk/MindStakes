@@ -52,6 +52,13 @@ git tag v0.2.0
 git push origin v0.2.0
 ```
 
+Tagged releases are also uploaded to itch.io with [butler](https://itch.io/docs/butler/). The upload runs only for tags and needs two repository settings:
+
+- the `BUTLER_API_KEY` secret — an [itch.io API key](https://itch.io/user/settings/api-keys) of the account owning the project,
+- the `ITCH_PROJECT` variable — the project in `user/game` form, for example `6ajmon/mindstakes` (the itch.io project page has to exist already).
+
+The workflow pushes the three archives to the `windows`, `linux` and `macos` channels and uses the tag without the `v` prefix as the build version. Merges to `main` only publish GitHub pre-releases, so an unstable build never reaches itch.io. Without those two settings the step prints a notice and is skipped.
+
 ## Question data
 
 Questions and categories are **not** part of the repository. Only the examples under `Resources/Examples/` are tracked, and CI fails if anything under `Resources/Questions/` or `Resources/Categories/` is committed. At runtime the game seeds those examples into `user://questions` and `user://categories`, or uses the folders from `--questions-dir` / `--categories-dir` and `MINDSTAKES_QUESTIONS_DIR` / `MINDSTAKES_CATEGORIES_DIR`. See [README.md](./README.md) for details.
